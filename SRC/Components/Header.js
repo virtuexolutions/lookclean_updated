@@ -2,17 +2,13 @@ import React, {useState} from 'react';
 import {Icon} from 'native-base';
 import {View, Platform, Dimensions, TouchableOpacity} from 'react-native';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {moderateScale, ScaledSheet} from 'react-native-size-matters';
 import Color from '../Assets/Utilities/Color';
 import {windowHeight, windowWidth} from '../Utillity/utils';
 import CustomText from './CustomText';
 import CustomImage from './CustomImage';
 const {height, width} = Dimensions.get('window');
-import Foundation from 'react-native-vector-icons/Foundation';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
 import Modal from 'react-native-modal';
 
 import {useDispatch, useSelector} from 'react-redux';

@@ -112,7 +112,7 @@ const ServiceComponent = ({setService, service, item, serviceArray}) => {
 
       <TextInput
         style={styles.inputText}
-        placeholderTextColor={'black'}
+        placeholderTextColor={Color.black}
         placeholder={`${item?.price != '' ? item?.price : 'price'}`}
         onChangeText={text => {
           setService(prev => [...prev], (item.price = text));
@@ -175,6 +175,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: 15,
     // textAlign:'center',
     paddingTop: 10,
+    color:Color.black
   },
   dropDownRow: {
     backgroundColor: Color.white,

@@ -4,6 +4,8 @@
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
+#-keep class com.facebook.react.fabric.** { *; }
+
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 

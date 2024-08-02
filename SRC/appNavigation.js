@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import navigationService from './navigationService';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import LoginScreen from './Screens/LoginScreen';
 import Color from './Assets/Utilities/Color';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Icon} from 'native-base';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Icon } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {moderateScale} from 'react-native-size-matters';
-import {MaskedViewIOS, View} from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
+import { MaskedViewIOS, View } from 'react-native';
 import Signup from './Screens/Signup';
 import Homescreen from './Screens/Homescreen';
 import Wishlist from './Screens/Wishlist';
@@ -65,12 +65,12 @@ const AppNavigator = () => {
       token == null
         ? 'LoginScreen'
         : userData?.services?.length == 0
-        ? 'AddService'
-        : userData?.complete_questions?.toLowerCase() == 'no'
-        ? 'QuestionAnswerScreen'
-        : 'TabNavigation';
+          ? 'AddService'
+          : userData?.complete_questions?.toLowerCase() == 'no'
+            ? 'QuestionAnswerScreen'
+            : 'TabNavigation';
 
-  
+
 
     return (
       <NavigationContainer ref={navigationService.navigationRef}>
@@ -78,7 +78,7 @@ const AppNavigator = () => {
           initialRouteName={
             userData?.role == 'customer' ? customerFirstScreen : secondScreen
           }
-          screenOptions={{headerShown: false}}>
+          screenOptions={{ headerShown: false }}>
           {/* <RootNav.Screen name="Walkthrough" component={Walkthrough} /> */}
           <RootNav.Screen
             name="QuestionAnswerScreen"
@@ -135,13 +135,13 @@ const AppNavigator = () => {
             name="ConsulationVideoScreen"
             component={ConsulationVideoScreen}
           /><RootNav.Screen
-          name="VideoReplyScreen"
-          component={VideoReplyScreen}
-        />
-        <RootNav.Screen
-          name="CustomerVideoPlayer"
-          component={CustomerVideoPlayer}
-        />
+            name="VideoReplyScreen"
+            component={VideoReplyScreen}
+          />
+          <RootNav.Screen
+            name="CustomerVideoPlayer"
+            component={CustomerVideoPlayer}
+          />
         </RootNav.Navigator>
       </NavigationContainer>
     );
@@ -156,12 +156,12 @@ export const TabNavigation = props => {
 
   return (
     <Tabs.Navigator
-      screenOptions={({route}) => ({
+      screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: {
           backgroundColor: 'rgba(34,36,40,1)',
         },
-        tabBarIcon: ({focused}) => {
+        tabBarIcon: ({ focused }) => {
           let iconName;
           let color = Color.themeColor;
           let size = moderateScale(20, 0.3);
@@ -181,22 +181,21 @@ export const TabNavigation = props => {
             color = focused ? Color.themeColor : Color.themeLightGray;
             size = focused ? moderateScale(30, 0.3) : moderateScale(20, 0.3);
             type = Ionicons;
-          } 
+          }
           else if (route.name === 'Store') {
             iconName = focused ? 'briefcase' : 'briefcase-outline';
             color = focused ? Color.themeColor : Color.themeLightGray;
             size = focused ? moderateScale(30, 0.3) : moderateScale(20, 0.3);
           }
-           else if (route.name === 'Settings') {
+          else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
-
             color = focused ? Color.themeColor : Color.themeLightGray;
             size = focused ? moderateScale(30, 0.3) : moderateScale(20, 0.3);
           }
 
           return (
             <MaskedView
-              style={{flexDirection: 'row', height: size}}
+              style={{ flexDirection: 'row', height: size }}
               maskElement={
                 <View
                   style={{
@@ -209,7 +208,7 @@ export const TabNavigation = props => {
               }>
               <LinearGradient
                 colors={['#C49948', '#EBDBBD', '#E3C488']}
-                style={{flex: 1}}
+                style={{ flex: 1 }}
               />
             </MaskedView>
           );

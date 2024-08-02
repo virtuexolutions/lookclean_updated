@@ -97,11 +97,12 @@ const DropDownSingleSelect = ({
             width: width,
           }),
         }}
+        
         buttonTextStyle={{
           ...styles.dropDownBtnText,
-          ...(item !== '' && {color: Colors ? Colors : Color.themeBlack}),
+          ...(item !== '' && {color: Colors ? Colors : Color.red}),
           ...(Color && {
-            color:Color ? Color : `${Color.white}`,
+            color:Color ? 'black' : `${Color.white}`,
             fontSize:fontSize ? fontSize :moderateScale(18, 0.3),
           }),
         }}
@@ -165,6 +166,7 @@ const styles = ScaledSheet.create({
   main: {
     position: 'relative',
     backgroundColor: Color.themeInputText,
+    
     height: height * 0.06,
     // borderBottomWidth: moderateScale(1, 0.3),
     borderColor: 'lightgrey',
@@ -179,7 +181,7 @@ const styles = ScaledSheet.create({
     width: width * 0.75,
     // marginLeft: 38,
     fontSize: moderateScale(15, 0.3),
-    color: Color.themeColor1,
+    color: 'red',
     textAlign: 'left',
     textTransform: 'capitalize',
   },
@@ -207,3 +209,4 @@ const styles = ScaledSheet.create({
 });
 
 export default DropDownSingleSelect;
+

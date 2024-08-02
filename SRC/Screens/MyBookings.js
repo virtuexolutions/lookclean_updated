@@ -89,9 +89,12 @@ const MyBookings = () => {
                 ]
            
           }
-          backgroundColor={Color.white}
+          backgroundColor={Color.lightGray}
           item={item}
           setItem={setItem}
+          buttonTextStyle={{
+            Color:'black'
+          }}
           placeholder={'Choose any category'}
           width={windowWidth * 0.95}
           dropdownStyle={{

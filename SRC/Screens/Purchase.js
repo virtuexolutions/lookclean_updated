@@ -4,12 +4,13 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  KeyboardAvoidingView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
-import {ScaledSheet, moderateScale} from 'react-native-size-matters';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
+import { ScaledSheet, moderateScale } from 'react-native-size-matters';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 import CustomText from '../Components/CustomText';
 import Modal from 'react-native-modal';
 import CustomButton from '../Components/CustomButton';
@@ -18,11 +19,11 @@ import BookingHistoryModal from '../Components/BookingHistoryModal';
 import TextInputWithTitle from '../Components/TextInputWithTitle';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CustomImage from '../Components/CustomImage';
-import {CardField, createToken} from '@stripe/stripe-react-native';
-import {Post} from '../Axios/AxiosInterceptorFunction';
-import {useDispatch, useSelector} from 'react-redux';
-import {setUserData, setUserWallet} from '../Store/slices/common';
-import {useNavigation} from '@react-navigation/native';
+import { CardField, createToken } from '@stripe/stripe-react-native';
+import { Post } from '../Axios/AxiosInterceptorFunction';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData, setUserWallet } from '../Store/slices/common';
+import { useNavigation } from '@react-navigation/native';
 
 const Purchase = () => {
   const dispatch = useDispatch();
@@ -38,11 +39,11 @@ const Purchase = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const coinsConfig = [
-    {id: '1', coin: 10},
-    {id: '2', coin: 20},
-    {id: '3', coin: 30},
-    {id: '4', coin: 40},
-    {id: '5', coin: 50},
+    { id: '1', coin: 10 },
+    { id: '2', coin: 20 },
+    { id: '3', coin: 30 },
+    { id: '4', coin: 40 },
+    { id: '5', coin: 50 },
     {
       id: '6',
       coin: 'Other...',
@@ -69,7 +70,7 @@ const Purchase = () => {
       const response = await Post(url, body, apiHeader(token));
       setIsLoading(false);
       if (response != undefined) {
-        
+
         // dispatch(setUserData(response?.data?.user_info));
         dispatch(setUserWallet(response?.data?.user_info?.wallet));
         setIsVisible(false);
@@ -90,209 +91,221 @@ const Purchase = () => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.1, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.1, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: windowHeight * 0.155,
-            justifyContent: 'center',
-            // paddingTop : moderateScale(20,0.3),
-            alignItems: 'center',
-          }}
-          style={{
-            width: windowWidth,
-          }}>
-          <View
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingBottom: windowHeight * 0.35,
+              justifyContent: 'center',
+              // paddingTop : moderateScale(20,0.3),
+              alignItems: 'center',
+            }}
             style={{
-              justifyContent: 'space-between',
-              height: windowHeight * 0.8,
+              width: windowWidth,
+
             }}>
-            <View>
-              <CustomText isBold style={styles.text1}>
-                Buy Coins
-              </CustomText>
-            </View>
             <View
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
                 justifyContent: 'space-between',
-                //
+                height: windowHeight * 0.8,
               }}>
+              <View>
+                <CustomText isBold style={styles.text1}>
+                  Buy Coins
+                </CustomText>
+              </View>
               <View
                 style={{
-                  //   backgroundColor:'red',
-                  height: windowHeight * 0.3,
-                  width: windowWidth * 0.6,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  //
                 }}>
-                <CustomImage
+                <View
                   style={{
-                    height: '100%',
-                    width: '100%',
-                  }}
-                  source={require('../Assets/Images/Coins-main.png')}
+                    //   backgroundColor:'red',
+                    height: windowHeight * 0.3,
+                    width: windowWidth * 0.6,
+                  }}>
+                  <CustomImage
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                    }}
+                    source={require('../Assets/Images/Coins-main.png')}
                   // resizeMode={'cover'}
-                />
-              </View>
-              <CustomText
-                style={{
-                  marginHorizontal: moderateScale(40, 0.6),
-                  fontSize: moderateScale(60, 0.6),
-                  color: Color.themeColor,
-                  position: 'absolute',
-                  bottom: 0,
-                  right: 10,
+                  />
+                </View>
+                <CustomText
+                  style={{
+                    marginHorizontal: moderateScale(40, 0.6),
+                    fontSize: moderateScale(60, 0.6),
+                    color: Color.themeColor,
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 10,
                     // backgroundColor: 'red',
-                }}>
-                {/* hfsdhfg */}
+                  }}>
+                  {/* hfsdhfg */}
 
-                {selectedCoins != 'Other...' && selectedCoins}
-              </CustomText>
-            </View>
+                  {selectedCoins != 'Other...' && selectedCoins}
+                </CustomText>
+              </View>
 
-            <View style={styles.buttons}>
-              <FlatList
-                scrollEnabled={false}
-                numColumns={2}
-                data={coinsConfig}
-                keyExtractor={item => item.id}
-                renderItem={({item}) => (
-                  <CustomButton
-                    textColor={Color.black}
-                    onPress={() => {
+              <View style={styles.buttons}>
+                <FlatList
+                  scrollEnabled={false}
+                  numColumns={2}
+                  data={coinsConfig}
+                  keyExtractor={item => item.id}
+                  renderItem={({ item }) => (
+                    <CustomButton
+                      textColor={Color.black}
+                      onPress={() => {
                         //  if (selectedCoins =='Other...') {
                         // setIsVisible(true)
                         //  } else {
-                      setSelectedCoins(item?.coin);
+                        setSelectedCoins(item?.coin);
                         //  }
+                      }}
+                      // elevation={true}
+                      width={windowWidth * 0.4}
+                      marginTop={moderateScale(37, 0.7)}
+                      margin={moderateScale(13, 0.6)}
+                      height={windowHeight * 0.05}
+                      borderRadius={moderateScale(25, 0.6)}
+                      text={`${item.coin} Coins`}
+                      fontSize={moderateScale(14, 0.3)}
+                      textTransform={'uppercase'}
+                      isGradient={true}
+                      gradientColor={
+                        item?.coin == selectedCoins
+                          ? Color.btnColor
+                          : ['white', 'white']
+                      }
+                      isBold
+                    />
+                  )}
+                />
+              </View>
+
+              {isVisible &&
+
+                <View style={styles.modal}>
+                  <View style={styles.header}>
+                    <CustomText
+                      isBold
+                      style={{
+                        color: Color.white,
+                        fontSize: moderateScale(15, 0.6),
+                      }}>
+                      Add Card Details
+                    </CustomText>
+                  </View>
+                  {/* <TextInputWithTitle/> */}
+                  {selectedCoins == 'Other...' && (
+                    <TextInputWithTitle
+                      titleText={'Enter Your Coins'}
+                      placeholder={'Enter Your Coins'}
+                      setText={setOtherCoins}
+                      value={otherCoins}
+                      viewHeight={0.06}
+                      viewWidth={0.74}
+                      inputWidth={0.74}
+                      backgroundColor={Color.lightGray}
+                      marginTop={moderateScale(20, 0.3)}
+                      marginBottom={moderateScale(20, 0.7)}
+                      color={Color.themeColor}
+                      placeholderColor={Color.darkGray}
+                      borderRadius={moderateScale(30, 0.4)}
+                      keyboardType={'numeric'}
+                    />
+                  )}
+
+                  <CardField
+                    postalCodeEnabled={false}
+                    placeholders={{
+                      number: '4242 4242 4242 4242',
                     }}
-                    // elevation={true}
-                    width={windowWidth * 0.4}
-                    marginTop={moderateScale(37, 0.7)}
-                    margin={moderateScale(13, 0.6)}
+                    cardStyle={{
+                      backgroundColor: Color.lightGray,
+                      borderRadius: moderateScale(15, 0.6),
+                      width: windowWidth * 0.4,
+                      borderRadius: moderateScale(35, 0.6),
+                      textColor: 'black',
+                      placeholderColor:Color.darkGray,
+                      
+                    }}
+                    style={{
+                      width: '85%',
+                      height: windowHeight * 0.07,
+                      marginVertical: moderateScale(10, 0.3),
+                    }}
+                    onCardChange={cardDetails => {
+
+                    }}
+                    onFocus={focusedField => {
+                    }}
+                  />
+                  {/* </View> */}
+                  <CustomButton
+                    textColor={Color.black}
+                    text={
+                      isLoading ? (
+                        <ActivityIndicator color={'black'} size={'small'} />
+                      ) : (
+                        'Purchase'
+                      )
+                    }
+                    onPress={() => {
+                      addTransaction();
+                    }}
+                    width={windowWidth * 0.35}
                     height={windowHeight * 0.05}
                     borderRadius={moderateScale(25, 0.6)}
-                    text={`${item.coin} Coins`}
                     fontSize={moderateScale(14, 0.3)}
                     textTransform={'uppercase'}
                     isGradient={true}
-                    gradientColor={
-                      item?.coin == selectedCoins
-                        ? Color.btnColor
-                        : ['white', 'white']
-                    }
                     isBold
+                    disabled={isLoading}
                   />
-                )}
-              />
+                </View>
+              }
+
+              {(selectedCoins > 0 || selectedCoins == 'Other...') && (
+                <CustomButton
+                  textColor={Color.black}
+                  onPress={() => {
+                    setIsVisible(true);
+                  }}
+                  width={windowWidth * 0.35}
+                  height={windowHeight * 0.05}
+                  borderRadius={moderateScale(25, 0.6)}
+                  text={'Proceed'}
+                  marginTop={moderateScale(19, 0.6)}
+                  fontSize={moderateScale(14, 0.3)}
+                  textTransform={'uppercase'}
+                  isGradient={true}
+                  isBold
+                />
+              )}
             </View>
 
-            {(selectedCoins > 0|| selectedCoins == 'Other...') && (
-              <CustomButton
-                textColor={Color.black}
-                onPress={() => {
-                  setIsVisible(true);
-                }}
-                width={windowWidth * 0.35}
-                height={windowHeight * 0.05}
-                borderRadius={moderateScale(25, 0.6)}
-                text={'Proceed'}
-                marginTop={moderateScale(19, 0.6)}
-                fontSize={moderateScale(14, 0.3)}
-                textTransform={'uppercase'}
-                isGradient={true}
-                isBold
-              />
-            )}
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </LinearGradient>
-      <Modal
+      {/* <Modal
         isVisible={isVisible}
         onBackdropPress={() => {
           setIsVisible(false);
-        }}>
-        <View style={styles.modal}>
-          <View style={styles.header}>
-            <CustomText
-              isBold
-              style={{
-                color: Color.white,
-                fontSize: moderateScale(15, 0.6),
-              }}>
-              Add Card Details
-            </CustomText>
-          </View>
-          {/* <TextInputWithTitle/> */}
-          {selectedCoins == 'Other...' && (
-            <TextInputWithTitle
-              titleText={'Enter Your Coins'}
-              placeholder={'Enter Your Coins'}
-              setText={setOtherCoins}
-              value={otherCoins}
-              viewHeight={0.06}
-              viewWidth={0.74}
-              inputWidth={0.74}
-              backgroundColor={'#FFFFFF'}
-              marginTop={moderateScale(20, 0.3)}
-              marginBottom={moderateScale(20, 0.7)}
-              color={Color.themeColor}
-              placeholderColor={Color.themeLightGray}
-              borderRadius={moderateScale(30, 0.4)}
-              keyboardType={'numeric'}
-            />
-          )}
-
-          <CardField
-            postalCodeEnabled={false}
-            placeholders={{
-              number: '4242 4242 4242 4242',
-            }}
-            cardStyle={{
-              backgroundColor: Color.white,
-              borderRadius: moderateScale(15, 0.6),
-              width: windowWidth * 0.4,
-              borderRadius: moderateScale(35, 0.6),
-              textColor:'black'
-            }}
-            style={{
-              width: '85%',
-              height: windowHeight * 0.07,
-              marginVertical: moderateScale(10, 0.3),
-            }}
-            onCardChange={cardDetails => {
-            
-            }}
-            onFocus={focusedField => {
-            }}
-          />
-          {/* </View> */}
-          <CustomButton
-            textColor={Color.black}
-            text={
-              isLoading ? (
-                <ActivityIndicator color={'black'} size={'small'} />
-              ) : (
-                'Purchase'
-              )
-            }
-            onPress={() => {
-              addTransaction();
-            }}
-            width={windowWidth * 0.35}
-            height={windowHeight * 0.05}
-            borderRadius={moderateScale(25, 0.6)}
-            fontSize={moderateScale(14, 0.3)}
-            textTransform={'uppercase'}
-            isGradient={true}
-            isBold
-            disabled={isLoading}
-          />
-        </View>
-      </Modal>
+        }}> */}
+      {/* </Modal> */}
     </ScreenBoiler>
   );
 };
@@ -369,6 +382,8 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     // paddingTop: windowHeight * 0.03,
     gap: 12,
+    marginTop: moderateScale(20, .6),
+    marginHorizontal: moderateScale(20, .3),
     overflow: 'hidden',
   },
 });

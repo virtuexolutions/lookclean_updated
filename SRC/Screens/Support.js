@@ -52,17 +52,16 @@ const Support = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-
   const GetSupportData = async () => {
     const url = 'auth/admin/info';
     setLoading(true);
     const response = await Get(url, token);
     setLoading(false);
     if (response != undefined) {
-
       setSupportData(response?.data?.data);
     }
   };
+  
   useEffect(() => {
     GetSupportData();
     // setFullName('');
@@ -80,7 +79,7 @@ const Support = () => {
       email: email,
       subject: subject,
       description: message,
-      job_id : selectedItem?.id
+      job_id: selectedItem?.id,
     };
 
     for (let key in body) {
@@ -106,7 +105,6 @@ const Support = () => {
     const response = await Post(url, body, apiHeader(token));
     setSubmitLoading(false);
     if (response != undefined) {
-     
       Platform.OS == 'android'
         ? ToastAndroid.show('Sent Successfully', ToastAndroid.SHORT)
         : alert('Sent Successfully');
@@ -115,11 +113,6 @@ const Support = () => {
   };
 
   return (
-    
-    
-
-
-
     <ScreenBoiler
       showHeader={true}
       showBack={true}
@@ -130,266 +123,261 @@ const Support = () => {
         end={{x: 0.5, y: 1.0}}
         colors={Color.themeGradient}
         style={styles.container}>
-<KeyboardAvoidingView    
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: windowHeight * 0.19,
-            // paddingTop : moderateScale(20,0.3),π
-            alignItems: 'center',
-          }}
-          style={{
-            width: windowWidth,
-          }}>
-          <CustomText isBold style={styles.text1}>
-            Support and Help
-          </CustomText>
-          <TouchableOpacity
-            style={[
-              styles?.ContactInfoContainer,
-              {marginTop: moderateScale(20, 0.3)},
-            ]}
-            activeOpacity={0.85}
-            onPress={() => {
-              Linking.openURL(`tel:${supportData?.phone}`);
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingBottom: windowHeight * 0.19,
+              // paddingTop : moderateScale(20,0.3),π
+              alignItems: 'center',
+            }}
+            style={{
+              width: windowWidth,
             }}>
-            <FontAwesome
-              name="phone"
-              color={Color.themeColor}
-              style={styles.icon1}
-              size={moderateScale(22, 0.6)}
-            />
-            <CustomText style={[styles.contactInfoText]} isRegular>
-              {loading
-                ? 'loading...'
-                : supportData?.phone
-                ? supportData?.phone
-                : 'no contact added yet'}
+            <CustomText isBold style={styles.text1}>
+              Support and Help
             </CustomText>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles?.ContactInfoContainer,
-              {marginBottom: moderateScale(20, 0.3)},
-            ]}
-            activeOpacity={0.85}
-            onPress={() => {
-              Linking.openURL(`mailto: ${supportData?.official_email}`);
-            }}>
-            <Entypo
-              name="mail"
-              color={Color.themeColor}
-              style={styles.icon1}
-              size={moderateScale(22, 0.6)}
-            />
-            <CustomText style={[styles.contactInfoText]} isRegular>
-              {loading
-                ? 'loading...'
-                : supportData?.official_email
-                ? supportData?.official_email
-                : 'not added yet'}
-            </CustomText>
-          </TouchableOpacity>
-
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <TextInputWithTitle
-              titleText={'Your Name'}
-              secureText={false}
-              placeholder={'Your Name'}
-              setText={setFullName}
-              value={fullName}
-              viewHeight={0.06}
-              viewWidth={0.85}
-              inputWidth={0.84}
-              // border={1}
-              // borderColor={'#1B5CFB45'}
-              backgroundColor={'#FFFFFF'}
-              marginTop={moderateScale(12, 0.3)}
-              color={Color.themeColor}
-              placeholderColor={Color.themeLightGray}
-              borderRadius={moderateScale(30, 0.4)}
-            />
-            <TextInputWithTitle
-              titleText={'Phone'}
-              secureText={false}
-              placeholder={'Phone'}
-              keyboardType={'numeric'}
-              setText={setPhone}
-              value={phone}
-              viewHeight={0.06}
-              viewWidth={0.85}
-              inputWidth={0.84}
-              // border={1}
-              // borderColor={'#1B5CFB45'}
-              backgroundColor={'#FFFFFF'}
-              marginTop={moderateScale(12, 0.3)}
-              color={Color.themeColor}
-              placeholderColor={Color.themeLightGray}
-              borderRadius={moderateScale(30, 0.4)}
-            />
-
-            <TextInputWithTitle
-              titleText={'Email'}
-              secureText={false}
-              placeholder={'Email'}
-              setText={setEmail}
-              value={email}
-              viewHeight={0.06}
-              viewWidth={0.85}
-              inputWidth={0.84}
-              // border={1}
-              // borderColor={'#1B5CFB45'}
-              backgroundColor={'#FFFFFF'}
-              marginTop={moderateScale(12, 0.3)}
-              color={Color.themeColor}
-              placeholderColor={Color.themeLightGray}
-              borderRadius={moderateScale(30, 0.4)}
-            />
-            <TextInputWithTitle
-              titleText={'Subject'}
-              secureText={false}
-              placeholder={'Subject'}
-              setText={setSubject}
-              value={subject}
-              viewHeight={0.06}
-              viewWidth={0.85}
-              inputWidth={0.84}
-              // border={1}
-              // borderColor={'#1B5CFB45'}
-              backgroundColor={'#FFFFFF'}
-              marginTop={moderateScale(12, 0.3)}
-              color={Color.themeColor}
-              placeholderColor={Color.themeLightGray}
-              borderRadius={moderateScale(30, 0.4)}
-            />
-
-            <TextInputWithTitle
-              titleText={'Enter Description'}
-              secureText={false}
-              placeholder={'Enter Description'}
-              setText={setMessage}
-              value={message}
-              viewHeight={0.2}
-              viewWidth={0.85}
-              inputWidth={0.75}
-             backgroundColor={'#FFFFFF'}
-              marginTop={moderateScale(12, 0.3)}
-              color={Color.themeColor}
-              placeholderColor={Color.themeLightGray}
-              borderRadius={moderateScale(30, 0.4)}
-              multiline={true}
-            />
-
-            <View
-              style={{
-                // backgroundColor: 'red',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: windowWidth * 0.8,
-                marginVertical: moderateScale(20, 0.3),
+            <TouchableOpacity
+              style={[
+                styles?.ContactInfoContainer,
+                {marginTop: moderateScale(20, 0.3)},
+              ]}
+              activeOpacity={0.85}
+              onPress={() => {
+                Linking.openURL(`tel:${supportData?.phone}`);
               }}>
-              <CustomText
-                isBold
-                style={{
-                  fontSize: moderateScale(14, 0.6),
-                  color: Color.white,
-                  width: windowWidth * 0.65,
-                  // backgroundColor: Color.red,
-                }}>
-                select booking you want to dispute on
+              <FontAwesome
+                name="phone"
+                color={Color.themeColor}
+                style={styles.icon1}
+                size={moderateScale(22, 0.6)}
+              />
+              <CustomText style={[styles.contactInfoText]} isRegular>
+                {loading
+                  ? 'loading...'
+                  : supportData?.phone
+                  ? supportData?.phone
+                  : 'no contact added yet'}
               </CustomText>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles?.ContactInfoContainer,
+                {marginBottom: moderateScale(20, 0.3)},
+              ]}
+              activeOpacity={0.85}
+              onPress={() => {
+                Linking.openURL(`mailto: ${supportData?.official_email}`);
+              }}>
+              <Entypo
+                name="mail"
+                color={Color.themeColor}
+                style={styles.icon1}
+                size={moderateScale(22, 0.6)}
+              />
+              <CustomText style={[styles.contactInfoText]} isRegular>
+                {loading
+                  ? 'loading...'
+                  : supportData?.official_email
+                  ? supportData?.official_email
+                  : 'not added yet'}
+              </CustomText>
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => {
-                  setIsVisible(true);
-                }}
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <TextInputWithTitle
+                titleText={'Your Name'}
+                secureText={false}
+                placeholder={'Your Name'}
+                setText={setFullName}
+                value={fullName}
+                viewHeight={0.06}
+                viewWidth={0.85}
+                inputWidth={0.84}
+                // border={1}
+                // borderColor={'#1B5CFB45'}
+                backgroundColor={'#FFFFFF'}
+                marginTop={moderateScale(12, 0.3)}
+                color={Color.themeColor}
+                placeholderColor={Color.themeLightGray}
+                borderRadius={moderateScale(30, 0.4)}
+              />
+              <TextInputWithTitle
+                titleText={'Phone'}
+                secureText={false}
+                placeholder={'Phone'}
+                keyboardType={'numeric'}
+                setText={setPhone}
+                value={phone}
+                viewHeight={0.06}
+                viewWidth={0.85}
+                inputWidth={0.84}
+                // border={1}
+                // borderColor={'#1B5CFB45'}
+                backgroundColor={'#FFFFFF'}
+                marginTop={moderateScale(12, 0.3)}
+                color={Color.themeColor}
+                placeholderColor={Color.themeLightGray}
+                borderRadius={moderateScale(30, 0.4)}
+              />
+
+              <TextInputWithTitle
+                titleText={'Email'}
+                secureText={false}
+                placeholder={'Email'}
+                setText={setEmail}
+                value={email}
+                viewHeight={0.06}
+                viewWidth={0.85}
+                inputWidth={0.84}
+                // border={1}
+                // borderColor={'#1B5CFB45'}
+                backgroundColor={'#FFFFFF'}
+                marginTop={moderateScale(12, 0.3)}
+                color={Color.themeColor}
+                placeholderColor={Color.themeLightGray}
+                borderRadius={moderateScale(30, 0.4)}
+              />
+              <TextInputWithTitle
+                titleText={'Subject'}
+                secureText={false}
+                placeholder={'Subject'}
+                setText={setSubject}
+                value={subject}
+                viewHeight={0.06}
+                viewWidth={0.85}
+                inputWidth={0.84}
+                // border={1}
+                // borderColor={'#1B5CFB45'}
+                backgroundColor={'#FFFFFF'}
+                marginTop={moderateScale(12, 0.3)}
+                color={Color.themeColor}
+                placeholderColor={Color.themeLightGray}
+                borderRadius={moderateScale(30, 0.4)}
+              />
+
+              <TextInputWithTitle
+                titleText={'Enter Description'}
+                secureText={false}
+                placeholder={'Enter Description'}
+                setText={setMessage}
+                value={message}
+                viewHeight={0.2}
+                viewWidth={0.85}
+                inputWidth={0.75}
+                backgroundColor={'#FFFFFF'}
+                marginTop={moderateScale(12, 0.3)}
+                color={Color.themeColor}
+                placeholderColor={Color.themeLightGray}
+                borderRadius={moderateScale(30, 0.4)}
+                multiline={true}
+              />
+
+              <View
                 style={{
-                  height: windowHeight * 0.03,
-                  width: windowHeight * 0.03,
-                  borderRadius: (windowHeight * 0.03) / 2,
-                  backgroundColor: Colors.white,
-                  overflow: 'hidden',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  // backgroundColor: 'red',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  width: windowWidth * 0.8,
+                  marginVertical: moderateScale(20, 0.3),
                 }}>
-                <Icon
+                <CustomText
+                  isBold
+                  style={{
+                    fontSize: moderateScale(14, 0.6),
+                    color: Color.white,
+                    width: windowWidth * 0.65,
+                    // backgroundColor: Color.red,
+                  }}>
+                  select booking you want to dispute on
+                </CustomText>
+
+                <TouchableOpacity
                   onPress={() => {
                     setIsVisible(true);
                   }}
-                  name={'plus'}
-                  as={Entypo}
-                  size={22}
-                  color={Colors.black}
-                />
-              </TouchableOpacity>
-            </View>
-
-            {selectedItem != null && (
-              <View
-                style={{
-                  // backgroundColor:'red',
-                  width: windowWidth * 0.88,
-                }}>
-                <CompletedOrderCard
-                  item={selectedItem}
-                  fromSupportScreen={true}
-                />
-                <Icon
                   style={{
-                    position: 'absolute',
-                    right: 2,
-                  }}
-                  onPress={() => {
-                    setSelectedItem(null);
-                  }}
-                  name="circle-with-cross"
-                  as={Entypo}
-                  size={17}
-                  color={Color.lightGrey}
-                />
+                    height: windowHeight * 0.03,
+                    width: windowHeight * 0.03,
+                    borderRadius: (windowHeight * 0.03) / 2,
+                    backgroundColor: Colors.white,
+                    overflow: 'hidden',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Icon
+                    onPress={() => {
+                      setIsVisible(true);
+                    }}
+                    name={'plus'}
+                    as={Entypo}
+                    size={22}
+                    color={Colors.black}
+                  />
+                </TouchableOpacity>
               </View>
-            )}
-            <CustomButton
-              bgColor={Color.themeColor}
-              borderColor={'white'}
-              borderWidth={1}
-              textColor={Color.black}
-              onPress={() => {
-                Support();
-              }}
-              borderRadius={moderateScale(30, 0.4)}
-              width={windowWidth * 0.85}
-              height={windowHeight * 0.06}
-              text={
-                submitLoading ? (
-                  <ActivityIndicator color={Color.white} size={'small'} />
-                ) : (
-                  'make dispute'
-                )
-              }
-              fontSize={moderateScale(14, 0.3)}
-              textTransform={'uppercase'}
-              isGradient={true}
-              isBold
-              // marginTop={moderateScale(1s0, 0.3)}
+
+              {selectedItem != null && (
+                <View
+                  style={{
+                    // backgroundColor:'red',
+                    width: windowWidth * 0.88,
+                  }}>
+                  <CompletedOrderCard
+                    item={selectedItem}
+                    fromSupportScreen={true}
+                  />
+                  <Icon
+                    style={{
+                      position: 'absolute',
+                      right: 2,
+                    }}
+                    onPress={() => {
+                      setSelectedItem(null);
+                    }}
+                    name="circle-with-cross"
+                    as={Entypo}
+                    size={17}
+                    color={Color.lightGrey}
+                  />
+                </View>
+              )}
+              <CustomButton
+                bgColor={Color.themeColor}
+                borderColor={'white'}
+                borderWidth={1}
+                textColor={Color.black}
+                onPress={() => {
+                  Support();
+                }}
+                borderRadius={moderateScale(30, 0.4)}
+                width={windowWidth * 0.85}
+                height={windowHeight * 0.06}
+                text={
+                  submitLoading ? (
+                    <ActivityIndicator color={Color.white} size={'small'} />
+                  ) : (
+                    'make dispute'
+                  )
+                }
+                fontSize={moderateScale(14, 0.3)}
+                textTransform={'uppercase'}
+                isGradient={true}
+                isBold
+                // marginTop={moderateScale(1s0, 0.3)}
+              />
+            </View>
+            <BookingHistoryModal
+              setSelectedItem={setSelectedItem}
+              selectedItem={selectedItem}
+              setIsVisible={setIsVisible}
+              isVisible={isVisible}
             />
-          </View>
-          <BookingHistoryModal
-            setSelectedItem={setSelectedItem}
-            selectedItem={selectedItem}
-            setIsVisible={setIsVisible}
-            isVisible={isVisible}
-          />
-        </ScrollView>
-    </KeyboardAvoidingView>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </LinearGradient>
     </ScreenBoiler>
-
-
-
-
   );
 };
 

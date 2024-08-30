@@ -1,5 +1,5 @@
-export const baseUrl = "https://frank-mombe.ad-wize.net";
-// export const baseUrl = "https://373d-103-125-71-7.ngrok-free.app";
+// export const baseUrl = "https://frank-mombe.ad-wize.net";
+export const baseUrl = "https://zen-mendel.23-106-85-134.plesk.page";
 export const imageUrl = `${baseUrl}/api/images/`;
 export const profilePicUrl = `${baseUrl}/uploads`
 

@@ -18,7 +18,8 @@ import { PersistGate } from 'redux-persist/integration/react'
 const App = () => {
   return (
     <StripeProvider
-    publishableKey={"pk_test_51McSueJ0WRwehn2Uuf4rm6WNHPQvaJY9NGU235gUEqPA3AJuc9Mq1x98Y8B8uE5eMfivo5l2xK4Vau21zau7ZBDp00g7qWfkx3"}
+    // publishableKey={"pk_test_51McSueJ0WRwehn2Uuf4rm6WNHPQvaJY9NGU235gUEqPA3AJuc9Mq1x98Y8B8uE5eMfivo5l2xK4Vau21zau7ZBDp00g7qWfkx3"}
+    publishableKey={"pk_live_51P9XFVE0duL4FerOlgZZZu31QkZerkL5IFURa8jAmOVVPidjMLZ5CIGjto5cG0Fs5tXdh33mBvAZYkxGZXYGLfjr00vWU9iqMA"}
     // merchantIdentifier="merchant.identifier" // required for Apple Pay
     // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
   >
@@ -58,6 +59,7 @@ const MainContainer =()=>{
     return <SplashScreen />;
   }
   // return <Purchase/>
+  // return <SplashScreen/>;
   return <AppNavigator/>;
 
 }

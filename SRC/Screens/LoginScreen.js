@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
-import {ImageBackground, View, ScrollView,KeyboardAvoidingView} from 'react-native';
+import {
+  ImageBackground,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
@@ -30,7 +35,7 @@ const LoginScreen = () => {
 
   const login = async () => {
     const url = 'login';
-    const body = {email: email, password: password };
+    const body = {email: email, password: password};
 
     for (let key in body) {
       if (body[key] == '') {
@@ -39,13 +44,10 @@ const LoginScreen = () => {
           : Alert.alert(`${key} is required`);
       }
     }
-
     setLoading(true);
     const response = await Post(url, body, apiHeader(token));
     setLoading(false);
     if (response != undefined) {
-     
-
       dispatch(setUserToken({token: response?.data?.token}));
       dispatch(setUserData(response?.data?.user_info));
       dispatch(setUserWallet(response?.data?.user_info?.wallet));
@@ -54,20 +56,18 @@ const LoginScreen = () => {
 
   // const backgroundImage = require('../Assets/Images/appLogo.png');
   return (
-    
     <ScreenBoiler
       // showBack={true}
       showHeader={true}
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
-
-<KeyboardAvoidingView    
-    style={{
-      zIndex:1,
-      // paddingBottom:moderateScale(50,.6)
-    }}
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-           <ScrollView
+      <KeyboardAvoidingView
+        style={{
+          zIndex: 1,
+          // paddingBottom:moderateScale(50,.6)
+        }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             // paddingBottom: windowHeight * 0.15,
@@ -78,129 +78,120 @@ const LoginScreen = () => {
             width: windowWidth,
             zIndex: 1,
           }}>
-            
-      <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
-        colors={Color.themeGradient}
-        style={styles.container}>
-          
-     
-     
-          <CustomText isBold style={styles.text1}>
-            Sign in
-          </CustomText>
-          <TextInputWithTitle
-            titleText={'Your Email'}
-            placeholder={'Enter Your Email'}
-            setText={setEmail}
-            value={email}
-            viewHeight={0.06}
-            viewWidth={0.75}
-            inputWidth={0.74}
-            // border={1}
-            // borderColor={'#1B5CFB45'}
-            backgroundColor={'#FFFFFF'}
-            marginTop={moderateScale(12, 0.3)}
-            color={Color.themeColor}
-            placeholderColor={Color.themeLightGray}
-            borderRadius={moderateScale(30, 0.4)}
-          />
-          <TextInputWithTitle
-            secureText
-            titleText={'Your Password'}
-            placeholder={'Enter Your Password'}
-            setText={setPassword}
-            value={password}
-            viewHeight={0.06}
-            viewWidth={0.75}
-            inputWidth={0.74}
-            // border={1}
-            // borderColor={'#1B5CFB45'}
-            backgroundColor={'#FFFFFF'}
-            marginTop={moderateScale(12, 0.3)}
-            color={Color.themeColor}
-            placeholderColor={Color.themeLightGray}
-            borderRadius={moderateScale(30, 0.4)}
-          />
-      
-          <CustomButton
-            bgColor={Color.themePink}
-            borderColor={'white'}
-            borderWidth={1}
-            textColor={Color.black}
-            onPress={() => {
-              login();
-
-              // dispatch(setUserToken({token: 'skjfhkjhfdjjsdfjlkjlkfj;kdf;l'}));
-            }}
-            width={windowWidth * 0.75}
-            height={windowHeight * 0.06}
-            borderRadius={moderateScale(25, 0.6)}
-            text={
-              loading ? (
-                <ActivityIndicator size={'small'} color={'black'} />
-              ) : (
-                'Sign In'
-              )
-            }
-            fontSize={moderateScale(14, 0.3)}
-            textTransform={'uppercase'}
-            isGradient={true}
-            isBold
-            marginTop={moderateScale(30, 0.3)}
-          />
-
-          <CustomText
-            isBold
-            onPress={() => {
-
-              navigationService.navigate('Signup');
-            }}
-            style={{
-              color: 'rgb(227,196,136)',
-              fontSize: moderateScale(13, 0.3),
-              textTransform: 'uppercase',
-              marginTop: moderateScale(10, 0.3),
-              zIndex: 1,
-            }}>
-            Sign Up
-          </CustomText>
-          <CustomText
-            onPress={() => {
-
-              navigationService.navigate('EnterPhone');
-            }}
-            isBold
-            style={{
-              zIndex: 1,
-              color: 'rgb(227,196,136)',
-              fontSize: moderateScale(10, 0.3),
-              textTransform: 'uppercase',
-              marginTop: moderateScale(5, 0.3),
-            }}>
-            forgot password?
-          </CustomText>
-       
-
-
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            right: 0,
-            // backgroundColor: 'red',
-          }}>
-          <CustomImage
-            source={require('../Assets/Images/backgroundLogo.png')}
-            // resizeMode={'stretch'}
-            style={{}}
+          <LinearGradient
+            start={{x: 0.0, y: 0.25}}
+            end={{x: 0.5, y: 1.0}}
+            colors={Color.themeGradient}
+            style={styles.container}>
+            <CustomText isBold style={styles.text1}>
+              Sign in
+            </CustomText>
+            <TextInputWithTitle
+              titleText={'Your Email'}
+              placeholder={'Enter Your Email'}
+              setText={setEmail}
+              value={email}
+              viewHeight={0.06}
+              viewWidth={0.75}
+              inputWidth={0.74}
+              // border={1}
+              // borderColor={'#1B5CFB45'}
+              backgroundColor={'#FFFFFF'}
+              marginTop={moderateScale(12, 0.3)}
+              color={Color.themeColor}
+              placeholderColor={Color.themeLightGray}
+              borderRadius={moderateScale(30, 0.4)}
             />
-        </View>
-      </LinearGradient>
-      
-</ScrollView>
-            </KeyboardAvoidingView>
+            <TextInputWithTitle
+              secureText
+              titleText={'Your Password'}
+              placeholder={'Enter Your Password'}
+              setText={setPassword}
+              value={password}
+              viewHeight={0.06}
+              viewWidth={0.75}
+              inputWidth={0.74}
+              // border={1}
+              // borderColor={'#1B5CFB45'}
+              backgroundColor={'#FFFFFF'}
+              marginTop={moderateScale(12, 0.3)}
+              color={Color.themeColor}
+              placeholderColor={Color.themeLightGray}
+              borderRadius={moderateScale(30, 0.4)}
+            />
+
+            <CustomButton
+              bgColor={Color.themePink}
+              borderColor={'white'}
+              borderWidth={1}
+              textColor={Color.black}
+              onPress={() => {
+                login();
+
+                // dispatch(setUserToken({token: 'skjfhkjhfdjjsdfjlkjlkfj;kdf;l'}));
+              }}
+              width={windowWidth * 0.75}
+              height={windowHeight * 0.06}
+              borderRadius={moderateScale(25, 0.6)}
+              text={
+                loading ? (
+                  <ActivityIndicator size={'small'} color={'black'} />
+                ) : (
+                  'Sign In'
+                )
+              }
+              fontSize={moderateScale(14, 0.3)}
+              textTransform={'uppercase'}
+              isGradient={true}
+              isBold
+              marginTop={moderateScale(30, 0.3)}
+            />
+
+            <CustomText
+              isBold
+              onPress={() => {
+                navigationService.navigate('Signup');
+              }}
+              style={{
+                color: 'rgb(227,196,136)',
+                fontSize: moderateScale(13, 0.3),
+                textTransform: 'uppercase',
+                marginTop: moderateScale(10, 0.3),
+                zIndex: 1,
+              }}>
+              Sign Up
+            </CustomText>
+            <CustomText
+              onPress={() => {
+                navigationService.navigate('EnterPhone');
+              }}
+              isBold
+              style={{
+                zIndex: 1,
+                color: 'rgb(227,196,136)',
+                fontSize: moderateScale(10, 0.3),
+                textTransform: 'uppercase',
+                marginTop: moderateScale(5, 0.3),
+              }}>
+              forgot password?
+            </CustomText>
+
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                // backgroundColor: 'red',
+              }}>
+              <CustomImage
+                source={require('../Assets/Images/backgroundLogo.png')}
+                // resizeMode={'stretch'}
+                style={{}}
+              />
+            </View>
+          </LinearGradient>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </ScreenBoiler>
   );
 };

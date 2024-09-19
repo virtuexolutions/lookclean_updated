@@ -51,7 +51,7 @@ const ChangePassword = props => {
     const response = await Post(url, params, apiHeader(token));
     setIsLoading(false);
     if (response != undefined) {
-     return console.log('response is here ',JSON.stringify(response?.data))
+      console.log('response is here ',JSON.stringify(response?.data))
       if (currentPassword != currentPassword) {
         Platform.OS == 'android'
           ? ToastAndroid.show('Current password is incorrect ', ToastAndroid.SHORT)

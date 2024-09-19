@@ -25,6 +25,7 @@ import ReviewCard from '../Components/ReviewCard';
 
 const OrderDetails = props => {
   const item = props?.route?.params?.item;
+  console.log("🚀 ~ OrderDetails ~ item:", item?.booking_date)
 
   const user = useSelector(state => state.commonReducer.userData);
 
@@ -89,6 +90,8 @@ const OrderDetails = props => {
 
     }
   };
+ const date = dateDiff()
+ console.log("🚀 ~ OrderDetails ~ date:", date)
 
   return (
     <ScreenBoiler

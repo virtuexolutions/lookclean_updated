@@ -106,7 +106,7 @@ const BookingDateModal = ({
             : alert('Required field is empty');
         }
       }
-      return console.log("Body =======> ", moment(startTime))
+       console.log("Body =======> ", moment(startTime))
 
       setIsLoading(true);
       const response = await RNCalendarEvents.saveEvent(eventName, {

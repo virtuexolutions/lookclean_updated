@@ -42,6 +42,7 @@ const LoginScreen = () => {
 
     setLoading(true);
     const response = await Post(url, body, apiHeader(token));
+    console.log('aaaaaaafhafgadfghjagdhfgjagdfgad' ,response?.data)
     setLoading(false);
     if (response != undefined) {
      

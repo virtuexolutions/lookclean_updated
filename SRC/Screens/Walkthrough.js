@@ -24,22 +24,41 @@ import LinearGradient from 'react-native-linear-gradient';
 const Walkthrough = props => {
   const dispatch = useDispatch();
 
+  // const slides = [
+  //   {
+  //     key: '1',
+  //     title: 'Buy or Sell Residential',
+  //     text:
+  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the ',
+  //     logo: require('../Assets/Images/walkthrough1.png'),
+  //   },
+  //   {
+  //     key: '2',
+  //     title: 'Buy or Sell Residential',
+  //     text:
+  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the ',
+  //     logo: require('../Assets/Images/walkthrough2.png'),
+  //   },
+  // ];
+
   const slides = [
     {
       key: '1',
-      title: 'Buy or Sell Residential',
+      title: 'Book a Professional Barber',
       text:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the ',
+        'Easily discover and book top-rated barbers near you. Choose the perfect stylist based on reviews, services, and availability.',
       logo: require('../Assets/Images/walkthrough1.png'),
     },
     {
       key: '2',
-      title: 'Buy or Sell Residential',
+      title: 'Look Sharp, Feel Confident',
       text:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the ',
+        'Enjoy a seamless grooming experience. From trims to transformations, Look_Clean helps you stay fresh and stylish with just a few taps.',
       logo: require('../Assets/Images/walkthrough2.png'),
     },
   ];
+  
+
 
   const RenderSlider = ({item}) => {
     return (

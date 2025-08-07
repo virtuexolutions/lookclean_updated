@@ -47,14 +47,14 @@ const Walkthrough = props => {
       title: 'Book a Professional Barber',
       text:
         'Easily discover and book top-rated barbers near you. Choose the perfect stylist based on reviews, services, and availability.',
-      logo: require('../Assets/Images/walkthrough1.png'),
+      logo: require('../Assets/Images/walkthrough1.jpg'),
     },
     {
       key: '2',
       title: 'Look Sharp, Feel Confident',
       text:
         'Enjoy a seamless grooming experience. From trims to transformations, Look_Clean helps you stay fresh and stylish with just a few taps.',
-      logo: require('../Assets/Images/walkthrough2.png'),
+      logo: require('../Assets/Images/walkthrough1.jpg'),
     },
   ];
   
@@ -63,11 +63,12 @@ const Walkthrough = props => {
   const RenderSlider = ({item}) => {
     return (
       <View style={styles.SliderContainer}>
+{/*         
         <Image
           source={item.logo}
           resizeMode={'contain'}
-          style={{height: windowHeight * 0.5}}
-        />
+          style={{height: windowHeight * 0.9}}
+        /> */}
         <LinearGradient
           start={{x: 0.0, y: 0.25}}
           end={{x: 0.5, y: 1.0}}
@@ -174,6 +175,7 @@ const Walkthrough = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:Color.themeBlack
   },
   bgImage: {
     flex: 1,
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color.white,
+    backgroundColor: Color.black,
   },
   title: {
     color: Color.white,

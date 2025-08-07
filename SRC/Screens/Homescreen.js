@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ImageBackground,
   View,
@@ -10,23 +10,23 @@ import {
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
 import CustomImage from '../Components/CustomImage';
-import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
-import { moderateScale, ScaledSheet } from 'react-native-size-matters';
+import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
+import {moderateScale, ScaledSheet} from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import navigationService from '../navigationService';
 import moment from 'moment/moment';
 import CustomTextWithMask from '../Components/CustomTextWithMask';
 import BarberCard from '../Components/BarberCard';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import OrderCard from '../Components/OrderCard';
-import { Get, Post } from '../Axios/AxiosInterceptorFunction';
+import {Get, Post} from '../Axios/AxiosInterceptorFunction';
 import NoData from '../Components/NoData';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import CompletedOrderCard from '../Components/CompletedOrderCard';
 import FilteringModal from '../Components/FilteringModal';
 import ShowReview from '../Components/ShowReview';
-import { Icon } from 'native-base';
+import {Icon} from 'native-base';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -40,8 +40,6 @@ const Homescreen = () => {
   const [selectedItem, setSelectedItem] = useState([]);
   const [isHolidayMode, setIsHolidayMode] = useState(false);
   const focused = useIsFocused();
-
-
 
   const token = useSelector(state => state.authReducer.token);
 
@@ -72,7 +70,6 @@ const Homescreen = () => {
     const response = await Post(url, body, apiHeader(token));
     setIsLoading(false);
     if (response != undefined) {
-
       setBarberData(response?.data?.users);
     }
   };
@@ -116,12 +113,13 @@ const Homescreen = () => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{ x: 0.0, y: 0.25 }}
-        end={{ x: 0.5, y: 1.0 }}
+        start={{x: 0.0, y: 0.25}}
+        end={{x: 0.5, y: 1.0}}
         colors={Color.themeGradient}
         style={styles.container}>
         {user?.role == 'customer' ? (
           <ScrollView
+          // scrollEnabled={false}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               paddingBottom: windowHeight * 0.155,
@@ -239,7 +237,7 @@ const Homescreen = () => {
               data={bannerArray}
               horizontal
               pagingEnabled
-              renderItem={({ item, index }) => {
+              renderItem={({item, index}) => {
                 return (
                   <View
                     style={{
@@ -256,15 +254,15 @@ const Homescreen = () => {
                     />
                     {/* <View style={{position : 'absolute' , bottom : 0}}> */}
                     <LinearGradient
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 0, y: 1 }}
+                      start={{x: 0, y: 0}}
+                      end={{x: 0, y: 1}}
                       colors={['#8A8A8A00', '#000000']}
                       style={{
                         position: 'absolute',
                         bottom: 0,
                         borderRadius: 5,
                         justifyContent: 'flex-end',
-                        shadowOffset: { height: 2, width: 0 },
+                        shadowOffset: {height: 2, width: 0},
                         shadowOpacity: 1,
                         shadowRadius: 4,
                         width: '100%',
@@ -357,7 +355,7 @@ const Homescreen = () => {
                   justifyContent: 'space-between',
                 }}
                 data={barberData?.reverse()}
-                renderItem={({ item, index }) => {
+                renderItem={({item, index}) => {
                   return (
                     <BarberCard
                       item={item}
@@ -450,7 +448,7 @@ const Homescreen = () => {
             </View>
             {isLoading ? (
               <View
-                style={{ height: windowHeight * 0.23, justifyContent: 'center' }}>
+                style={{height: windowHeight * 0.23, justifyContent: 'center'}}>
                 <ActivityIndicator color={Color.themeColor} size={'large'} />
               </View>
             ) : (
@@ -478,9 +476,10 @@ const Homescreen = () => {
                 }}
                 data={orderData
                   ?.filter(item => item?.status == 'pending')
-                  .reverse().slice(0, 5)}
+                  .reverse()
+                  .slice(0, 5)}
                 horizontal
-                renderItem={({ item, index }) => {
+                renderItem={({item, index}) => {
                   return <OrderCard item={item} />;
                 }}
               />
@@ -501,7 +500,7 @@ const Homescreen = () => {
             </CustomText>
             {isLoading ? (
               <View
-                style={{ height: windowHeight * 0.23, justifyContent: 'center' }}>
+                style={{height: windowHeight * 0.23, justifyContent: 'center'}}>
                 <ActivityIndicator color={Color.themeColor} size={'large'} />
               </View>
             ) : (
@@ -528,7 +527,7 @@ const Homescreen = () => {
                   );
                 }}
                 numColumns={1}
-                renderItem={({ item, index }) => {
+                renderItem={({item, index}) => {
                   return <CompletedOrderCard item={item} />;
 
                   //  <OrderCard item={item} />;

@@ -1,4 +1,4 @@
-package com.lookclean_updated
+package com.lookclean
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

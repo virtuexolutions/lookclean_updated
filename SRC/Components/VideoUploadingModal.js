@@ -61,8 +61,8 @@ const VideoUploadingModal = ({modalVisible, setModalVisible}) => {
               color: Color.white,
               textAlign: 'center',
               // backgroundColor :'red'
-              paddingHorizontal :moderateScale(10,.6),
-             marginTop:moderateScale(35,.3)
+              paddingHorizontal: moderateScale(10, 0.6),
+              // marginTop: moderateScale(35, 0.3),
             }}>
             loading
           </CustomText>
@@ -75,13 +75,13 @@ const VideoUploadingModal = ({modalVisible, setModalVisible}) => {
 export default VideoUploadingModal;
 const styles = StyleSheet.create({
   main: {
-    height: windowHeight,
-    width: windowWidth,
+    height: windowHeight * 0.8,
+    width: windowWidth * 0.9,
     backgroundColor: 'rgba(0,0,0,0.4)',
-
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: windowHeight * 0.06,
   },
   image: {
     height: windowHeight * 0.1,

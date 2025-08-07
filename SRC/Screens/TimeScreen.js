@@ -65,12 +65,11 @@ const TimeScreen = () => {
       time: selectedTimes,
     };
 
-
- if(selectedTimes?.length == 0){
-  return Platform.OS == 'android'
-  ? ToastAndroid.show(`please add time to proceed`, ToastAndroid.SHORT)
-  : Alert.alert(`please add time to proceed`);
- }
+    if (selectedTimes?.length == 0) {
+      return Platform.OS == 'android'
+        ? ToastAndroid.show(`please add time to proceed`, ToastAndroid.SHORT)
+        : Alert.alert(`please add time to proceed`);
+    }
 
     const url = 'auth/barber/service_timing';
     setIsLoading(true);
@@ -78,7 +77,6 @@ const TimeScreen = () => {
     setIsLoading(false);
 
     if (response != undefined) {
-
       Platform.OS === 'android'
         ? ToastAndroid.show('Added sucessfully', ToastAndroid.SHORT)
         : Alert.alert('Added sucessfully');
@@ -95,7 +93,6 @@ const TimeScreen = () => {
 
     setLoading(false);
     if (response != undefined) {
-    
       setSelectedTimes(response?.data?.info?.time.map(item => item?.time));
     }
   };
@@ -116,58 +113,62 @@ const TimeScreen = () => {
         end={{x: 0.5, y: 1.0}}
         colors={Color.themeGradient}
         style={styles.container}>
-          <ScrollView
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingBottom : 50,
-          }}
+            paddingBottom: 50,
+          }}>
+          <View style={styles.headerContainer}>
+            <CustomText isBold style={styles.addService}>
+              Add Time
+            </CustomText>
 
-          >
-       
-        <View style={styles.headerContainer}>
-          <CustomText isBold style={styles.addService}>
-            Add Time
-          </CustomText>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.plusButton}
+              onPress={showTimePicker}>
+              <Icon
+                name="plus"
+                as={AntDesign}
+                size={moderateScale(18, 0.3)}
+                color={Color.white}
+              />
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.plusButton}
-            onPress={showTimePicker}>
-            <Icon
-              name="plus"
-              as={AntDesign}
-              size={moderateScale(18, 0.3)}
-              color={Color.white}
-            />
-          </TouchableOpacity>
-        </View>
+          <DateTimePickerModal
+            isVisible={isTimePickerVisible}
+            mode="time"
+            onConfirm={handleConfirm}
+            onCancel={hideTimePicker}
+          />
 
-        <DateTimePickerModal
-          isVisible={isTimePickerVisible}
-          mode="time"
-          onConfirm={handleConfirm}
-          onCancel={hideTimePicker}
-        />
-
-        <View style={styles.selectedTimesContainer}>
-          {selectedTimes.map((item, index) => (
-            <View key={index} style={styles.selectedTimeContainer}>
-              <CustomText style={styles.selectedTimeText}>
-                Appointment Time: {item}
-              </CustomText>
-              <TouchableOpacity
-                onPress={() => removeTime()}
-                style={styles.removeButton}>
-                <Icon
-                  name="close"
-                  as={AntDesign}
-                  size={moderateScale(16, 0.3)}
-                  color={Color.white}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
+          <View style={styles.selectedTimesContainer}>
+            {Loading ? (
+              <ActivityIndicator style={{
+                alignSelf :'center',
+                height : windowHeight*0.5
+              }} size={'large'} color={'white'} />
+            ) : (
+              selectedTimes?.map((item, index) => (
+                <View key={index} style={styles.selectedTimeContainer}>
+                  <CustomText style={styles.selectedTimeText}>
+                    Appointment Time: {item}
+                  </CustomText>
+                  <TouchableOpacity
+                    onPress={() => removeTime()}
+                    style={styles.removeButton}>
+                    <Icon
+                      name="close"
+                      as={AntDesign}
+                      size={moderateScale(16, 0.3)}
+                      color={Color.white}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
+          </View>
         </ScrollView>
         <View
           style={{
@@ -242,6 +243,7 @@ const styles = ScaledSheet.create({
     marginTop: moderateScale(20, 0.3),
     width: windowWidth * 0.9,
     alignSelf: 'center',
+    // backgroundColor :'red'
   },
   selectedTimeContainer: {
     flexDirection: 'row',

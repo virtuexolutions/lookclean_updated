@@ -1,4 +1,4 @@
-package com.lookclean_updated
+package com.lookclean
 
 import android.app.Application
 import com.facebook.react.PackageList

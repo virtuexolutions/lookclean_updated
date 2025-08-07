@@ -133,7 +133,7 @@ const Wishlist = () => {
                       width: windowWidth * 0.6,
                       alignItems: 'center',
                     }}
-                    text={'No Upcoming Orders'}
+                    text={'No Data'}
                   />
                 );
               }}

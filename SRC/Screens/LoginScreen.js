@@ -16,7 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import CustomButton from '../Components/CustomButton';
 import TextInputWithTitle from '../Components/TextInputWithTitle';
 import navigationService from '../navigationService';
-import {setUserToken} from '../Store/slices/auth';
+import {setUserToken, setWalkThrough} from '../Store/slices/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {Post} from '../Axios/AxiosInterceptorFunction';
 import {Platform} from 'react-native';
@@ -129,6 +129,8 @@ const LoginScreen = () => {
               textColor={Color.black}
               onPress={() => {
                 login();
+                // dispatch(setWalkThrough(false)); 
+                // console.log("Pressed")
 
                 // dispatch(setUserToken({token: 'skjfhkjhfdjjsdfjlkjlkfj;kdf;l'}));
               }}

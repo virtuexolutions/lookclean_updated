@@ -61,6 +61,7 @@ const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token);
   const walkThrough = useSelector(state => state.authReducer.userWalkThrough);
+  console.log("🚀 ~ AppNavigator ~ walkThrough:", walkThrough)
 
   const RootNav = createNativeStackNavigator();
 

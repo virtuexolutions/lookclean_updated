@@ -31,11 +31,11 @@ const ConsulationVideoScreen = () => {
   const isFocused = useIsFocused();
   const token = useSelector(state => state.authReducer.token);
   const user = useSelector(state => state.commonReducer.userData);
- 
+
   const [item, setItem] = useState('');
   const [Loading, setLoading] = useState(false);
   const [barberVideo, setBarberVideo] = useState([]);
- 
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [answer, setAnswer] = useState([]);
 
@@ -47,7 +47,7 @@ const ConsulationVideoScreen = () => {
     const response = await Get(url, token);
     setLoading(false);
     if (response != undefined) {
-      console.log('dfdfdfsdf ',JSON.stringify(response?.data,null,2))
+      console.log('dfdfdfsdf ', JSON.stringify(response?.data, null, 2));
       setBarberVideo(response?.data?.video_info);
     }
   };
@@ -58,9 +58,9 @@ const ConsulationVideoScreen = () => {
     const url = 'auth/video';
     setLoading(true);
     const response = await Get(url, token);
+    // console.log("🚀 ~ answerList ~ response:", response?.data)
     setLoading(false);
     if (response != undefined) {
-
       setAnswer(response?.data?.video_info);
     }
   };
@@ -93,7 +93,7 @@ const ConsulationVideoScreen = () => {
             }}>
             <ActivityIndicator size={'large'} color={Color.themeColor} />
           </View>
-        ) :(
+        ) : (
           <FlatList
             numOfColumns={4}
             decelerationRate={'fast'}
@@ -105,7 +105,7 @@ const ConsulationVideoScreen = () => {
               paddingHorizontal: moderateScale(8, 0.3),
               paddingBottom: moderateScale(30, 0.3),
             }}
-            data={user?.role == 'barber' ?barberVideo :answer}
+            data={user?.role == 'barber' ? barberVideo : answer}
             ListEmptyComponent={() => {
               return (
                 <NoData
@@ -119,11 +119,10 @@ const ConsulationVideoScreen = () => {
               );
             }}
             renderItem={({item, index}) => {
-
               return <VideoController item={item} />;
             }}
           />
-        ) }
+        )}
       </LinearGradient>
     </ScreenBoiler>
   );

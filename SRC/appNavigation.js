@@ -55,17 +55,27 @@ import VideoReplyScreen from './Screens/VideoReplyScreen';
 import Vouchers from './Screens/Vouchers';
 import WalletScreen from './Screens/WalletScreen';
 import Wishlist from './Screens/Wishlist';
+import Walkthrough from './Screens/Walkthrough';
 
 const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token);
+  const walkThrough = useSelector(state => state.authReducer.userWalkThrough);
+  console.log("🚀 ~ AppNavigator ~ walkThrough:", walkThrough)
 
   const RootNav = createNativeStackNavigator();
 
   const AppNavigatorContainer = () => {
-    const customerFirstScreen = token == null ? 'LoginScreen' : 'TabNavigation';
+    const customerFirstScreen =       
+    walkThrough == false ?  
+    'WalkThroughScreen' :
+     token == null ? 
+     'LoginScreen' 
+     :'TabNavigation';
 
     const secondScreen =
+    walkThrough == false
+    ? 'WalkThroughScreen' :
       token == null
         ? 'LoginScreen'
         : userData?.services?.length == 0
@@ -81,7 +91,7 @@ const AppNavigator = () => {
             userData?.role == 'customer' ? customerFirstScreen : secondScreen
           }
           screenOptions={{headerShown: false}}>
-          {/* <RootNav.Screen name="Walkthrough" component={Walkthrough} /> */}
+          <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
           <RootNav.Screen
             name="QuestionAnswerScreen"
             component={QuestionAnswerScreen}

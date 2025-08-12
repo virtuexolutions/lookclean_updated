@@ -36,10 +36,7 @@ const VideoReplyScreen = props => {
   const userData = useSelector(state => state.commonReducer.userData);
   const item = props?.route?.params?.item;
 
- 
-
   const navigation = useNavigation();
-
 
   return (
     <ScreenBoiler
@@ -52,16 +49,12 @@ const VideoReplyScreen = props => {
         end={{x: 0.5, y: 1.0}}
         colors={Color.themeGradient}
         style={styles.container}>
-
-        
-           <MediaPlayer 
-           item={item}
-           userRole={userData?.role}
-           uri={item?.video}
-           replied={item?.reply == null ? false : true}
-           
-           />
-        
+        <MediaPlayer
+          item={item}
+          userRole={userData?.role}
+          uri={item?.video}
+          replied={item?.reply == null ? false : true}
+        />
       </LinearGradient>
     </ScreenBoiler>
   );

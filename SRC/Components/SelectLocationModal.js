@@ -1,56 +1,57 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { windowHeight, windowWidth } from '../Utillity/utils';
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {windowHeight, windowWidth} from '../Utillity/utils';
 import Color from '../Assets/Utilities/Color';
 import Modal from 'react-native-modal';
 import CustomText from './CustomText';
-import { moderateScale } from 'react-native-size-matters';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {moderateScale} from 'react-native-size-matters';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
-const SelectLocationModal = ({isVisible , setIsVisibleModal , setLocation}) => {
+const SelectLocationModal = ({isVisible, setIsVisibleModal, setLocation}) => {
   return (
     <Modal
-    hasBackdrop={true}
-    style={{
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-    isVisible={isVisible}
-    onBackdropPress={() => {
-      setIsVisibleModal(false);
-    }}>
-    <View style={styles.maincontainer}>
-      <CustomText
-        style={{
-          color: Color.themeColor,
-          marginBottom:moderateScale(10,.3),
-          fontSize: moderateScale(22, 0.6),
-        }}
-        isBold>
-        Select Location
-      </CustomText>
-      <GooglePlacesAutocomplete
+      hasBackdrop={true}
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      isVisible={isVisible}
+      onBackdropPress={() => {
+        setIsVisibleModal(false);
+      }}>
+      <View style={styles.maincontainer}>
+        <CustomText
+          style={{
+            color: Color.themeColor,
+            marginBottom: moderateScale(10, 0.3),
+            fontSize: moderateScale(22, 0.6),
+          }}
+          isBold>
+          Select Location
+        </CustomText>
+        <GooglePlacesAutocomplete
           placeholder="Search"
           textInputProps={{
             placeholderTextColor: '#5d5d5d',
           }}
-          
           onPress={(data, details = null) => {
-           
             setLocation({
               name: data?.description,
               lat: details?.geometry?.location?.lat,
               lng: details?.geometry?.location?.lng,
             });
-            setIsVisibleModal(false)
+            setIsVisibleModal(false);
           }}
           query={{
             key: 'AIzaSyAqNK7IfM16zi79N0u7qX4Ncm5QgGvBqmg',
             // key: 'AIzaSyCHuiMaFjSnFTQfRmAfTp9nZ9VpTICgNrc',
 
-            
             language: 'en',
           }}
+            onFail={(error) => {
+    console.log('Google Places Error:', error);
+    // yahan error ko alert ya toast se show bhi kar sakte ho
+  }}
           isRowScrollable={true}
           fetchDetails={true}
           styles={{
@@ -70,7 +71,6 @@ const SelectLocationModal = ({isVisible , setIsVisibleModal , setLocation}) => {
               width: windowWidth * 0.8,
               marginLeft: moderateScale(5, 0.6),
               borderColor: Color.veryLightGray,
-            
             },
 
             description: {
@@ -78,22 +78,22 @@ const SelectLocationModal = ({isVisible , setIsVisibleModal , setLocation}) => {
             },
           }}
         />
-      </View></Modal>
-  )
-}
+      </View>
+    </Modal>
+  );
+};
 
-export default SelectLocationModal
-
+export default SelectLocationModal;
 
 const styles = StyleSheet.create({
-    maincontainer: {
-      backgroundColor: Color.black,
-      width: windowWidth * 0.9,
-      height : windowHeight * 0.8,
-      alignItems: 'center',
-      borderRadius: moderateScale(20, 0.3),
-      paddingVertical: moderateScale(15, 0.3),
-      borderWidth : 1,
-      borderColor : Color.themeColor
-    },
-  });
+  maincontainer: {
+    backgroundColor: Color.black,
+    width: windowWidth * 0.9,
+    height: windowHeight * 0.8,
+    alignItems: 'center',
+    borderRadius: moderateScale(20, 0.3),
+    paddingVertical: moderateScale(15, 0.3),
+    borderWidth: 1,
+    borderColor: Color.themeColor,
+  },
+});

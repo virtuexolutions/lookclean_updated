@@ -44,9 +44,7 @@ const ImageUpload = props => {
         </CustomText>
 
         <CustomText style={styles.text1}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non
-          pellentesque est, et luctus lacus. Nam bibendum imperdiet metus sit
-          amet sodales. Vivamus efficitur.
+        Upload a clear image of your desired hairstyle or look. This helps your barber understand your preferences and deliver the perfect grooming experience.
         </CustomText>
 
         {/* <Icon

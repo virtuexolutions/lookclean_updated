@@ -16,7 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import CustomButton from '../Components/CustomButton';
 import TextInputWithTitle from '../Components/TextInputWithTitle';
 import navigationService from '../navigationService';
-import {setUserToken} from '../Store/slices/auth';
+import {setUserToken, setWalkThrough} from '../Store/slices/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {Post} from '../Axios/AxiosInterceptorFunction';
 import {Platform} from 'react-native';
@@ -46,6 +46,7 @@ const LoginScreen = () => {
     }
     setLoading(true);
     const response = await Post(url, body, apiHeader(token));
+    console.log("🚀 ~ login ~ response:", response?.data)
     setLoading(false);
     if (response != undefined) {
       dispatch(setUserToken({token: response?.data?.token}));
@@ -127,6 +128,8 @@ const LoginScreen = () => {
               textColor={Color.black}
               onPress={() => {
                 login();
+                // dispatch(setWalkThrough(false)); 
+                // console.log("Pressed")
 
                 // dispatch(setUserToken({token: 'skjfhkjhfdjjsdfjlkjlkfj;kdf;l'}));
               }}

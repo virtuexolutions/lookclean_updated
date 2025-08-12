@@ -493,7 +493,7 @@ const BarberServicesScreen = props => {
                               'Please select any service',
                               ToastAndroid.SHORT,
                             )
-                          : alert('Please select any service');
+                          : Alert.alert('Please select any service');
                       }
                     }}
                     width={windowWidth * 0.75}

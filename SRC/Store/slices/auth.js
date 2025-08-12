@@ -29,7 +29,7 @@ const AuthSlice = createSlice({
       state.fcmToken = null;
     },
     setWalkThrough(state, action) {
-      state.userWalkThrough = true;
+      state.userWalkThrough = action.payload;
     },
   },
 });

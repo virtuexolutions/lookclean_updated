@@ -93,7 +93,7 @@ const WalkThroughScreen = props => {
                           // position:'absolute',
                           // bottom:'26%',
                           width:'97%',
-                          fontWeight: "bold",
+                          // fontWeight: "bold",
                           textAlign:'center',
                           marginTop:moderateScale(30,0.2),
                           color:Color.white

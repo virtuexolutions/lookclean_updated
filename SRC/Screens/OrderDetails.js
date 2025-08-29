@@ -211,9 +211,10 @@ const OrderDetails = props => {
             {Array.isArray(item?.booking_detail) &&
             item.booking_detail.length > 0 ? (
               item.booking_detail.map(booking => {
+                console.log('serviceeeeeeeeeeeee _info  > > > >  >  ' , booking)
                 return (
                   <View
-                    key={booking.id}
+                    key={booking?.id}
                     style={{
                       width: windowWidth * 0.7,
                       flexDirection: 'row',
@@ -226,7 +227,7 @@ const OrderDetails = props => {
                       size={moderateScale(14, 0.3)}
                       color={Color.themeColor}
                     />
-                    {booking.service_info && (
+                    {booking?.service_info && (
                       <CustomText
                         style={{
                           marginLeft: moderateScale(5, 0.3),

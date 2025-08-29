@@ -8,7 +8,7 @@ import {
   Alert,
   ToastAndroid,
   ActivityIndicator,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import TextInputWithTitle from '../Components/TextInputWithTitle';
 import Color from '../Assets/Utilities/Color';
 import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import ImageView from "react-native-image-viewing";
+import ImageView from 'react-native-image-viewing';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import {Icon} from 'native-base';
 import CustomImage from '../Components/CustomImage';
@@ -44,22 +44,19 @@ const ChangePassword = props => {
       new_password: password,
       confirm_password: confirmPassword,
     };
-   
 
     const url = 'auth/change_password';
     setIsLoading(true);
     const response = await Post(url, params, apiHeader(token));
     setIsLoading(false);
     if (response != undefined) {
+      Platform.OS == 'android'
+        ? ToastAndroid.show('Password changed successfully', ToastAndroid.SHORT)
+        : Alert.alert('Password changed successfully');
 
-      // Platform.OS == 'android'
-      //   ? ToastAndroid.show('Password changed successfully', ToastAndroid.SHORT)
-      //   : alert('Password changed successfully');
-   
-      // navigationService.navigate('HomeScreen')
+      navigationService.navigate('HomeScreen');
     }
   };
- 
 
   return (
     <ScreenBoiler
@@ -72,11 +69,8 @@ const ChangePassword = props => {
         end={{x: 0.5, y: 1.0}}
         colors={Color.themeGradient}
         style={styles.container}>
-          <KeyboardAvoidingView    
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
-
-
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -87,98 +81,98 @@ const ChangePassword = props => {
             style={{
               width: windowWidth,
             }}>
-                <CustomText isBold style={styles.text1}>
-           Change Password
-          </CustomText>
-        <View style={{marginTop: moderateScale(50, 0.3)}}>
-        <TextInputWithTitle
-          iconName={'lock'}
-          iconType={FontAwesome}
-          titleText={'Current Password'}
-          secureText
-          placeholder={'Current Password'}
-          setText={setCurrentPassword}
-          value={currentPassword}
-          viewHeight={0.06}
-          viewWidth={0.75}
-          inputWidth={0.74}
-          // border={1}
-          // borderColor={'#1B5CFB45'}
-          backgroundColor={'#FFFFFF'}
-          marginTop={moderateScale(12, 0.3)}
-          color={Color.themeColor}
-          placeholderColor={Color.themeLightGray}
-          borderRadius={moderateScale(30, 0.4)}
-
-        />
-        <TextInputWithTitle
-     
-          iconName={'lock'}
-          iconType={FontAwesome}
-          titleText={'New password'}
-          secureText
-          placeholder={'New password'}
-          setText={setPassword}
-          value={password}
-          viewHeight={0.06}
-          viewWidth={0.75}
-          inputWidth={0.74}
-          backgroundColor={'#FFFFFF'}
-          marginTop={moderateScale(12, 0.3)}
-          color={Color.themeColor}
-          placeholderColor={Color.themeLightGray}
-          borderRadius={moderateScale(30, 0.4)}
-
-        />
-          <TextInputWithTitle
-          iconName={'lock'}
-          iconType={FontAwesome}
-          titleText={'Confirm New password'}
-          secureText
-          placeholder={'Confirm New password'}
-          setText={setConfirmPassword}
-          value={confirmPassword}
-          viewHeight={0.06}
-          viewWidth={0.75}
-          inputWidth={0.74}
-          // border={1}
-          // borderColor={'#1B5CFB45'}
-          backgroundColor={'#FFFFFF'}
-          marginTop={moderateScale(12, 0.3)}
-          color={Color.themeColor}
-          placeholderColor={Color.themeLightGray}
-          borderRadius={moderateScale(30, 0.4)}
-
-        />
-        </View>
-        <CustomButton
-            bgColor={Color.themeColor}
-            borderColor={'white'}
-            borderWidth={1}
-            textColor={Color.black}
-            onPress={() => {passwordReset()}}
-            borderRadius={moderateScale(25, 0.6)}
-            width={windowWidth * 0.75}
-            height={windowHeight * 0.06}
-            text={isLoading ? <ActivityIndicator color={'black'} size={'small'}/> :'Update'}
-            fontSize={moderateScale(14, 0.3)}
-            textTransform={'uppercase'}
-            isGradient={true}
-            isBold
-            marginTop={moderateScale(30, 0.3)}
-            
-          />
+            <CustomText isBold style={styles.text1}>
+              Change Password
+            </CustomText>
+            <View style={{marginTop: moderateScale(50, 0.3)}}>
+              <TextInputWithTitle
+                iconName={'lock'}
+                iconType={FontAwesome}
+                titleText={'Current Password'}
+                secureText
+                placeholder={'Current Password'}
+                setText={setCurrentPassword}
+                value={currentPassword}
+                viewHeight={0.06}
+                viewWidth={0.75}
+                inputWidth={0.74}
+                // border={1}
+                // borderColor={'#1B5CFB45'}
+                backgroundColor={'#FFFFFF'}
+                marginTop={moderateScale(12, 0.3)}
+                color={Color.themeColor}
+                placeholderColor={Color.themeLightGray}
+                borderRadius={moderateScale(30, 0.4)}
+              />
+              <TextInputWithTitle
+                iconName={'lock'}
+                iconType={FontAwesome}
+                titleText={'New password'}
+                secureText
+                placeholder={'New password'}
+                setText={setPassword}
+                value={password}
+                viewHeight={0.06}
+                viewWidth={0.75}
+                inputWidth={0.74}
+                backgroundColor={'#FFFFFF'}
+                marginTop={moderateScale(12, 0.3)}
+                color={Color.themeColor}
+                placeholderColor={Color.themeLightGray}
+                borderRadius={moderateScale(30, 0.4)}
+              />
+              <TextInputWithTitle
+                iconName={'lock'}
+                iconType={FontAwesome}
+                titleText={'Confirm New password'}
+                secureText
+                placeholder={'Confirm New password'}
+                setText={setConfirmPassword}
+                value={confirmPassword}
+                viewHeight={0.06}
+                viewWidth={0.75}
+                inputWidth={0.74}
+                // border={1}
+                // borderColor={'#1B5CFB45'}
+                backgroundColor={'#FFFFFF'}
+                marginTop={moderateScale(12, 0.3)}
+                color={Color.themeColor}
+                placeholderColor={Color.themeLightGray}
+                borderRadius={moderateScale(30, 0.4)}
+              />
+            </View>
+            <CustomButton
+              bgColor={Color.themeColor}
+              borderColor={'white'}
+              borderWidth={1}
+              textColor={Color.black}
+              onPress={() => {
+                passwordReset();
+              }}
+              borderRadius={moderateScale(25, 0.6)}
+              width={windowWidth * 0.75}
+              height={windowHeight * 0.06}
+              text={
+                isLoading ? (
+                  <ActivityIndicator color={'black'} size={'small'} />
+                ) : (
+                  'Update'
+                )
+              }
+              fontSize={moderateScale(14, 0.3)}
+              textTransform={'uppercase'}
+              isGradient={true}
+              isBold
+              marginTop={moderateScale(30, 0.3)}
+            />
           </ScrollView>
-
-</KeyboardAvoidingView>
-      
-          </LinearGradient></ScreenBoiler>
-    
+        </KeyboardAvoidingView>
+      </LinearGradient>
+    </ScreenBoiler>
   );
 };
 
 const styles = ScaledSheet.create({
- 
   container: {
     paddingTop: windowHeight * 0.03,
     // justifyContent: "center",

@@ -106,7 +106,7 @@ const BookingDateModal = ({
             : alert('Required field is empty');
         }
       }
-      return console.log("Body =======> ", moment(startTime))
+     console.log("Body =======> ", body,moment(startTime))
 
       setIsLoading(true);
       const response = await RNCalendarEvents.saveEvent(eventName, {
@@ -114,7 +114,7 @@ const BookingDateModal = ({
         endDate: `${new Date(endTime).toISOString()}`,
       });
       setIsLoading(false);
-      return console.log("Body =======> ", response?.data)
+      console.log("response =======> ", response?.data)
 
       if (response != undefined) {
         navigationService.navigate('TabNavigation');
@@ -266,7 +266,7 @@ const BookingDateModal = ({
               <TextInputWithTitle
                 viewHeight={0.12}
                 viewWidth={0.8}
-                inputWidth={0.8}
+                inputWidth={0.75}
                 placeholder="Type Your Notes Here....."
                 placeholderColor={'grey'}
                 border={1}

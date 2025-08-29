@@ -85,7 +85,7 @@ const PaymentScreen = props => {
     selectedServiceIds?.map((item, index) =>
       formData.append(`service_id[${index}]`, item),
     );
-
+ console.log('bodyyyyyyyyy == == = == = >> > >> > ' ,body)
 
     const url = 'auth/booking';
     setIsLoading(true);
@@ -93,7 +93,7 @@ const PaymentScreen = props => {
     setIsLoading(false);
 
     if (response != undefined) {
-   console.log('testing ====== >>>> ',response?.data)
+    console.log('testing ====== >>>> ',response?.data)
       Platform.OS === 'android'
         ? ToastAndroid.show('Booking successful', ToastAndroid.SHORT)
         : Alert.alert('Booking successful');
@@ -103,6 +103,7 @@ const PaymentScreen = props => {
         'save the booking',
         'you want to save this booking to your calendar ?',
         [
+
           {
             text: 'Cancel',
             style: 'cancel',

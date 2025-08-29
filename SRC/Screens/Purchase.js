@@ -4,6 +4,9 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  Platform,
+  ToastAndroid,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ScreenBoiler from '../Components/ScreenBoiler';
@@ -56,6 +59,7 @@ const Purchase = () => {
     const responsetoken = await createToken({
       type: 'Card',
     });
+
     if (responsetoken != undefined) {
       const body = {
         amount: selectedCoins == 'Other...' ? otherCoins : selectedCoins,
@@ -63,10 +67,19 @@ const Purchase = () => {
         type: 'debit',
         pm_id: responsetoken?.token?.id,
       };
-
+      for(let key in body ){
+        console.log('keyyyyyyyyyyyyyyyyy' ,key)
+        if(body[key] ===  ''){
+       return Platform.OS == 'android'  ?
+        ToastAndroid.SHORT(`${key } is required`) :
+        Alert.alert(`${key} is required`)
+      }}
       const url = 'auth/transaction';
       setIsLoading(true);
+
       const response = await Post(url, body, apiHeader(token));
+       console.log('reeeedhfsdhjfghsjdaghgdhjgfjh' ,response?.data)
+
       setIsLoading(false);
       if (response != undefined) {
         

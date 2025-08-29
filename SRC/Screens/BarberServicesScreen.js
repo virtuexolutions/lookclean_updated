@@ -47,7 +47,7 @@ const BarberServicesScreen = props => {
   const userData = useSelector(state => state.commonReducer.userData);
   const userWallet = useSelector(state => state.commonReducer.userWallet);
   const token = useSelector(state => state.authReducer.token);
- 
+
   const [selectedService, setSelectedService] = useState([]);
   const [barberDetails, setBarberDetails] = useState([]);
   const [Loading, setLoading] = useState(false);
@@ -58,10 +58,8 @@ const BarberServicesScreen = props => {
   const [totalPrice, settotalPrice] = useState(0);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [fileObject, setFileObject] = useState();
- 
- 
- 
- 
+  const [show, setShow] = useState(false);
+
   const BarberDetals = async () => {
     const url = `auth/barber/detail/${detail?.id}`;
     setLoading(true);
@@ -98,10 +96,7 @@ const BarberServicesScreen = props => {
   //   }
   // }, [selectedService]);
 
- 
-
   const openCamera = async () => {
-    console.log('in the fucmtion')
     let options = {
       mediaType: 'video',
       maxWidth: 500,
@@ -112,60 +107,56 @@ const BarberServicesScreen = props => {
     if (Platform.OS === 'android') {
       if (PermissionsAndroid.PERMISSIONS.CAMERA) {
       } else {
-        console.log("Else block")
+        console.log('Else block');
         await requestCameraPermission();
       }
     }
+
     launchCamera(options, response => {
-    
       try {
-       
         if (response.didCancel) {
         } else if (response.error) {
-        } 
-        else if (response.customButton) {
+        } else if (response.customButton) {
           Alert.alert(response.customButton);
-        }
-
-
-        else if (response?.assets && response?.assets[0]?.duration > 15) {
-          alert('Video is too long you can post  maximum video of 15 seconds');
-        }
-       
-        else {
+        } else if (response?.assets && response?.assets[0]?.duration > 15) {
+          Alert.alert(
+            'Video is too long you can post  maximum video of 15 seconds',
+          );
+        } else {
           if (response == undefined) {
-            console.log('dsadas')
+            console.log('dsadas');
           } else {
-          
-              consultancyVideo({
-                uri: response?.assets[0]?.uri,
-                type: response?.assets[0]?.type,
-                name: response?.assets[0]?.fileName,
-              });
-            }
-          
+            consultancyVideo({
+              uri: response?.assets[0]?.uri,
+              type: response?.assets[0]?.type,
+              name: response?.assets[0]?.fileName,
+            });
+          }
         }
       } catch (error) {
-        console.log(error)
+        console.log('get your consutancy --    ------- - - > > > > > >', error);
       }
     });
   };
 
-
   const consultancyVideo = async videoObject => {
     const formData = new FormData();
-    const url = 'auth/video';
-    setLoading(true);
+    
     const body = {
       video: videoObject,
       barber_id: detail?.id,
     };
     formData.append('video', body.video);
     formData.append('barber_id', String(body.barber_id));
+
+
+    const url = 'auth/video';
+    setLoading(true);
     const response = await Post(url, formData, apiHeader(token));
+     console.log('consultancy form data herreeee eeee >>>> >> >>> >> > >> > > ' ,response?.data)
+
     setLoading(false);
     if (response != undefined) {
-      
     }
   };
 
@@ -238,7 +229,6 @@ const BarberServicesScreen = props => {
               }}>
               {barberDetails?.review?.length} Review
             </CustomText>
-           
           </View>
         </View>
         <View
@@ -246,31 +236,31 @@ const BarberServicesScreen = props => {
             width: windowWidth,
             marginHorizontal: moderateScale(10, 0.6),
           }}>
-             <View style={{
-              width: windowWidth*0.9,
-              paddingVertical :moderateScale(10,.6),
-              justifyContent :'space-between',
+          <View
+            style={{
+              width: windowWidth * 0.9,
+              paddingVertical: moderateScale(10, 0.6),
+              justifyContent: 'space-between',
             }}>
-            
-              <CustomText
+            <CustomText
               isBold
-                style={{
-                  color: Color.themeColor,
-                  fontSize: moderateScale(15, 0.3),
-                }}>
+              style={{
+                color: Color.themeColor,
+                fontSize: moderateScale(15, 0.3),
+              }}>
               designation
-              </CustomText>
-              <CustomText
-                style={{
-                  color: Color.white,
-                  fontSize: moderateScale(15, 0.3),
-                  // paddingHorizontal :moderateScale(10,.6)
-                }}>
-                  nails
+            </CustomText>
+            <CustomText
+              style={{
+                color: Color.white,
+                fontSize: moderateScale(15, 0.3),
+                // paddingHorizontal :moderateScale(10,.6)
+              }}>
+              nails
               {/* designation */}
-                {detail?.designation}
-              </CustomText>
-            </View>
+              {detail?.designation}
+            </CustomText>
+          </View>
           <CustomText
             isBold
             // size={moderateScale(30, 0.3)}
@@ -462,6 +452,7 @@ const BarberServicesScreen = props => {
                     <CustomButton
                       textColor={Color.black}
                       onPress={() => {
+                        // console.log('========--- ------- -- - - -`- ,from camera hereeeeeeeeeee')
                         openCamera();
                       }}
                       width={windowWidth * 0.75}
@@ -659,7 +650,7 @@ const VideoComponent = ({item, videos, setVideos}) => {
         source={{uri: item?.uri}}
         // ref={videoRef}
         // onProgress={x => {
-       
+
         //   setProgress(x);
         // }}
 

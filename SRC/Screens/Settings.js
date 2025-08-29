@@ -135,6 +135,7 @@ console.log('user data =============  >>>>>>>>>> ',UserData)
         </CustomText>
 
         <FlatList
+        keyExtractor={item =>item?.id}
           bounces={false}
           showsVerticalScrollIndicator={false}
           style={{

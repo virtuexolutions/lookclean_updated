@@ -76,15 +76,15 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
         if (Platform.OS == 'ios') {
           setShow(false);
         } else if (response?.assets && response?.assets[0]?.duration > 30) {
-          alert('Video is too long you can post  maximum video of 30 seconds');
+          Alert.alert(
+            'Video is too long you can post  maximum video of 30 seconds',
+          );
         }
-        // if (response.didCancel) {
-        // } else if (response.error) {
-        // }
-        // else if (response.customButton) {
-        //   Alert.alert(response.customButton);
-        // }
-        else {
+        if (response.didCancel) {
+        } else if (response.error) {
+        } else if (response.customButton) {
+          Alert.alert(response.customButton);
+        } else {
           if (response?.assets && response?.assets[0]) {
             setModalVisible(true);
             answerToCustomer({
@@ -92,31 +92,31 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
               type: response?.assets[0]?.type,
               name: response?.assets[0]?.fileName,
             });
-          }else{
+          } else {
           }
         }
-      } catch (error) {
-
-      }
+      } catch (error) {}
     });
   };
 
   // reply to customer with video api
   const answerToCustomer = async videoObject => {
-    console.log('answering d')
+    console.log('answering d');
     const formData = new FormData();
-    const url = 'auth/barber/video';
-    setIsLoading(true);
+
     const body = {
       video: videoObject,
       post_id: item?.id,
     };
     formData.append('video', body.video);
     formData.append('post_id', String(body.post_id));
+
+    const url = 'auth/barber/video';
+    setIsLoading(true);
     const response = await Post(url, formData, apiHeader(token));
     setIsLoading(false);
-    if (response !== undefined) {
 
+    if (response !== undefined) {
       navigation.navigate('ConsulationVideoScreen');
     }
   };
@@ -126,16 +126,16 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
     const body = {
       post_id: item?.id,
     };
-    console.log('body',body)
+    console.log('body', body);
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
     setIsLoading(false);
     if (response != undefined) {
-      console.log('response ===>' , response?.data)
-      Platform.OS == 'android' ? 
-      ToastAndroid.show('Video deleted successfully' , ToastAndroid.SHORT) :
-      Alert.alert('consultancy request denied successfully')
-      navigation.goBack()
+      console.log('response ===>', response?.data);
+      Platform.OS == 'android'
+        ? ToastAndroid.show('Video deleted successfully', ToastAndroid.SHORT)
+        : Alert.alert('consultancy request denied successfully');
+      navigation.goBack();
     }
   };
 
@@ -145,7 +145,7 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
         activeOpacity={0.9}
         style={{
           backgroundColor: 'white',
-          width :windowWidth,
+          width: windowWidth,
           // height : 400,
           // justifyContent : 'center'
         }}
@@ -153,55 +153,55 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
           setClicked(!clicked);
         }}>
         <Video
-          source={
-            {
-              uri: uri,
-            }
-           
-          }
+          source={{
+            uri: uri,
+          }}
           volume={1}
           ref={videoRef}
           paused={paused}
           onProgress={x => {
-            setLoading(false)
-            console.log(x , 'progress')
+            setLoading(false);
             setProgress(x);
           }}
           onLoadStart={x => {
             setLoading(true);
-            console.log(x , 'loading start')
+            console.log(x, 'loading start');
           }}
           onLoad={x => {
             setLoading(false);
-            console.log(x , 'loading end')
+            console.log(x, 'loading end');
           }}
           style={{
             height: windowHeight * 0.4,
             width: windowWidth,
-            backgroundColor :'black'
+            backgroundColor: 'black',
           }}
         />
         {clicked && (
           <TouchableOpacity
             onPress={() => {
-              console.log('clicking')
+              console.log('clicking');
               // setClicked(!clicked);
             }}
             style={styles.button}>
             <View style={styles.rowView}>
               <TouchableOpacity
                 onPress={() => {
-                  videoRef.current.seek(progress.currentTime - 5);
+                  if (progress?.currentTime && !isNaN(progress.currentTime)) {
+                    videoRef.current.seek(progress.currentTime - 10);
+                  }
                 }}
                 style={styles.button2}>
                 <CustomImage
                   onPress={() => {
-                    videoRef.current.seek(progress.currentTime - 10);
+                    if (progress?.currentTime && !isNaN(progress.currentTime)) {
+                      videoRef.current.seek(progress.currentTime - 10);
+                    }
                   }}
                   style={{
                     width: '100%',
                     height: '100%',
-                    tintColor : 'white'
+                    tintColor: 'white',
                   }}
                   source={require('../Assets/Images/backword.png')}
                 />
@@ -210,7 +210,7 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
               <TouchableOpacity
                 onPress={() => {
                   setPaused(!paused);
-                  console.log('dasdasdasda')
+                  console.log('dasdasdasda');
                 }}
                 style={[
                   styles.button2,
@@ -220,13 +220,13 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
                 ]}>
                 <CustomImage
                   onPress={() => {
-                    console.log('dasdasdasda')
+                    console.log('dasdasdasda');
                     setPaused(!paused);
                   }}
                   style={{
                     width: '100%',
                     height: '100%',
-                    tintColor : 'white'
+                    tintColor: 'white',
                     // backgroundColor : 'green'
                   }}
                   source={
@@ -243,18 +243,21 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
 
               <TouchableOpacity
                 onPress={() => {
-                  videoRef.current.seek(progress?.currentTime + 5);
+                  if (progress?.currentTime && !isNaN(progress.currentTime)) {
+                    videoRef.current.seek(progress.currentTime + 10);
+                  }
                 }}
                 style={styles.button2}>
                 <CustomImage
                   onPress={() => {
-
-                    videoRef.current.seek(progress?.currentTime + 10);
+                    if (progress?.currentTime && !isNaN(progress.currentTime)) {
+                      videoRef.current.seek(progress.currentTime + 10);
+                    }
                   }}
                   style={{
                     width: '100%',
                     height: '100%',
-                    tintColor : 'white'
+                    tintColor: 'white',
                   }}
                   source={require('../Assets/Images/forward.png')}
                 />
@@ -294,7 +297,7 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: 'rgba(0,0,0,0.5)',
-              zIndex : 1,
+              zIndex: 1,
             }}>
             <ActivityIndicator size={'large'} color={Color.white} />
           </View>
@@ -389,7 +392,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     bottom: 0,
-    zIndex : 1,
+    zIndex: 1,
     // top : 0
     // pointerEvents: 'none',
     // justifySelf  : 'center'

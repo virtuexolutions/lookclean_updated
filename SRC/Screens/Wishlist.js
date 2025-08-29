@@ -58,7 +58,7 @@ const Wishlist = () => {
         colors={Color.themeGradient}
         style={styles.container}>
         <CustomText isBold style={styles.text1}>
-          Wishlist
+          Wishlist 
         </CustomText>
         {/* <View
           style={{
@@ -123,6 +123,7 @@ const Wishlist = () => {
             </View>
           ) : (
             <FlatList
+            scrollEnabled={false}
               decelerationRate={'fast'}
               numColumns={2}
               ListEmptyComponent={() => {

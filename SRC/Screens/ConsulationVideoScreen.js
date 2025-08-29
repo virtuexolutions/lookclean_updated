@@ -105,7 +105,7 @@ const ConsulationVideoScreen = () => {
               paddingHorizontal: moderateScale(8, 0.3),
               paddingBottom: moderateScale(30, 0.3),
             }}
-            data={user?.role == 'barber' ?barberVideo :answer}
+            data={user?.role == 'barber' ?barberVideo : answer}
             ListEmptyComponent={() => {
               return (
                 <NoData

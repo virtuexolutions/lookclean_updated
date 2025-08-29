@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
-apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+// apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
 
 
 
@@ -82,9 +82,9 @@ android {
         applicationId "com.lookclean"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
+        versionCode 4
         
-        versionName "1.0"
+        versionName "4.0"
     }
     signingConfigs {
          release {

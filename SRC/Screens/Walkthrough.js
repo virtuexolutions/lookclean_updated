@@ -89,11 +89,11 @@ const WalkThroughScreen = props => {
                         }}>{item?.title}</CustomText>
 
                         <CustomText style={{
-                          fontSize : moderateScale(15,0.6),
+                          fontSize : moderateScale(14,0.6),
                           // position:'absolute',
                           // bottom:'26%',
                           width:'97%',
-                          fontWeight: "bold",
+                          fontWeight: "400",
                           textAlign:'center',
                           marginTop:moderateScale(30,0.2),
                           color:Color.white
@@ -235,7 +235,7 @@ const WalkThroughScreen = props => {
           justifyContent: 'center',
 
           borderColor: Color.lightGray,
-          bottom: -270,
+          bottom: -263,
           left: moderateScale(10,0.2),
           // alignSelf : 'flex-start'
         }}>

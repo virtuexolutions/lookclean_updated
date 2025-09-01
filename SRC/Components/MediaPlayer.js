@@ -80,13 +80,11 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
             'Video is too long you can post  maximum video of 30 seconds',
           );
         }
-        // if (response.didCancel) {
-        // } else if (response.error) {
-        // }
-        // else if (response.customButton) {
-        //   Alert.alert(response.customButton);
-        // }
-        else {
+        if (response.didCancel) {
+        } else if (response.error) {
+        } else if (response.customButton) {
+          Alert.alert(response.customButton);
+        } else {
           if (response?.assets && response?.assets[0]) {
             setModalVisible(true);
             answerToCustomer({
@@ -105,14 +103,16 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
   const answerToCustomer = async videoObject => {
     console.log('answering d');
     const formData = new FormData();
-    const url = 'auth/barber/video';
-    setIsLoading(true);
+
     const body = {
       video: videoObject,
       post_id: item?.id,
     };
     formData.append('video', body.video);
     formData.append('post_id', String(body.post_id));
+
+    const url = 'auth/barber/video';
+    setIsLoading(true);
     const response = await Post(url, formData, apiHeader(token));
     setIsLoading(false);
     if (response !== undefined) {
@@ -143,8 +143,8 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
       <TouchableOpacity
         activeOpacity={0.9}
         style={{
-          // backgroundColor: 'white',
-          // width :windowWidth *0.95,
+          backgroundColor: 'white',
+          width: windowWidth,
           // height : 400,
           // justifyContent : 'center'
           backgroundColor: 'white',
@@ -164,7 +164,6 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
            resizeMode="cover"
           onProgress={x => {
             setLoading(false);
-            console.log(x, 'progress');
             setProgress(x);
           }}
           onLoadStart={x => {
@@ -178,7 +177,8 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
           style={{
             width: '100%',
             height: windowHeight * 0.4,
-            // backgroundColor :'red'
+            width: windowWidth,
+            backgroundColor: 'black',
           }}
         />
         {clicked && (
@@ -191,12 +191,16 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
             <View style={styles.rowView}>
               <TouchableOpacity
                 onPress={() => {
-                  videoRef.current.seek(progress.currentTime - 5);
+                  if (progress?.currentTime && !isNaN(progress.currentTime)) {
+                    videoRef.current.seek(progress.currentTime - 10);
+                  }
                 }}
                 style={styles.button2}>
                 <CustomImage
                   onPress={() => {
-                    videoRef.current.seek(progress.currentTime - 10);
+                    if (progress?.currentTime && !isNaN(progress.currentTime)) {
+                      videoRef.current.seek(progress.currentTime - 10);
+                    }
                   }}
                   style={{
                     width: '100%',
@@ -243,12 +247,16 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
 
               <TouchableOpacity
                 onPress={() => {
-                  videoRef.current.seek(progress?.currentTime + 5);
+                  if (progress?.currentTime && !isNaN(progress.currentTime)) {
+                    videoRef.current.seek(progress.currentTime + 10);
+                  }
                 }}
                 style={styles.button2}>
                 <CustomImage
                   onPress={() => {
-                    videoRef.current.seek(progress?.currentTime + 10);
+                    if (progress?.currentTime && !isNaN(progress.currentTime)) {
+                      videoRef.current.seek(progress.currentTime + 10);
+                    }
                   }}
                   style={{
                     width: '100%',

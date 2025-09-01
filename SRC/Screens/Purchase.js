@@ -4,13 +4,16 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  Platform,
+  ToastAndroid,
+  Alert,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
-import { ScaledSheet, moderateScale } from 'react-native-size-matters';
-import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import {ScaledSheet, moderateScale} from 'react-native-size-matters';
+import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
 import CustomText from '../Components/CustomText';
 import Modal from 'react-native-modal';
 import CustomButton from '../Components/CustomButton';
@@ -19,11 +22,11 @@ import BookingHistoryModal from '../Components/BookingHistoryModal';
 import TextInputWithTitle from '../Components/TextInputWithTitle';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CustomImage from '../Components/CustomImage';
-import { CardField, createToken } from '@stripe/stripe-react-native';
-import { Post } from '../Axios/AxiosInterceptorFunction';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUserData, setUserWallet } from '../Store/slices/common';
-import { useNavigation } from '@react-navigation/native';
+import {CardField, createToken} from '@stripe/stripe-react-native';
+import {Post} from '../Axios/AxiosInterceptorFunction';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUserData, setUserWallet} from '../Store/slices/common';
+import {useNavigation} from '@react-navigation/native';
 
 const Purchase = () => {
   const dispatch = useDispatch();
@@ -36,14 +39,13 @@ const Purchase = () => {
 
   const [otherCoins, setOtherCoins] = useState(0);
 
-
   const [isVisible, setIsVisible] = useState(false);
   const coinsConfig = [
-    { id: '1', coin: 10 },
-    { id: '2', coin: 20 },
-    { id: '3', coin: 30 },
-    { id: '4', coin: 40 },
-    { id: '5', coin: 50 },
+    {id: '1', coin: 10},
+    {id: '2', coin: 20},
+    {id: '3', coin: 30},
+    {id: '4', coin: 40},
+    {id: '5', coin: 50},
     {
       id: '6',
       coin: 'Other...',
@@ -57,6 +59,7 @@ const Purchase = () => {
     const responsetoken = await createToken({
       type: 'Card',
     });
+
     if (responsetoken != undefined) {
       const body = {
         amount: selectedCoins == 'Other...' ? otherCoins : selectedCoins,
@@ -64,13 +67,22 @@ const Purchase = () => {
         type: 'debit',
         pm_id: responsetoken?.token?.id,
       };
-
+      for (let key in body) {
+        console.log('keyyyyyyyyyyyyyyyyy', key);
+        if (body[key] === '') {
+          return Platform.OS == 'android'
+            ? ToastAndroid.SHORT(`${key} is required`)
+            : Alert.alert(`${key} is required`);
+        }
+      }
       const url = 'auth/transaction';
       setIsLoading(true);
+
       const response = await Post(url, body, apiHeader(token));
+      console.log('reeeedhfsdhjfghsjdaghgdhjgfjh', response?.data);
+
       setIsLoading(false);
       if (response != undefined) {
-
         // dispatch(setUserData(response?.data?.user_info));
         dispatch(setUserWallet(response?.data?.user_info?.wallet));
         setIsVisible(false);
@@ -91,13 +103,12 @@ const Purchase = () => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{ x: 0.1, y: 0.25 }}
-        end={{ x: 0.5, y: 1.0 }}
+        start={{x: 0.1, y: 0.25}}
+        end={{x: 0.5, y: 1.0}}
         colors={Color.themeGradient}
         style={styles.container}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -108,7 +119,6 @@ const Purchase = () => {
             }}
             style={{
               width: windowWidth,
-
             }}>
             <View
               style={{
@@ -139,7 +149,7 @@ const Purchase = () => {
                       width: '100%',
                     }}
                     source={require('../Assets/Images/Coins-main.png')}
-                  // resizeMode={'cover'}
+                    // resizeMode={'cover'}
                   />
                 </View>
                 <CustomText
@@ -164,7 +174,7 @@ const Purchase = () => {
                   numColumns={2}
                   data={coinsConfig}
                   keyExtractor={item => item.id}
-                  renderItem={({ item }) => (
+                  renderItem={({item}) => (
                     <CustomButton
                       textColor={Color.black}
                       onPress={() => {
@@ -195,8 +205,7 @@ const Purchase = () => {
                 />
               </View>
 
-              {isVisible &&
-
+              {isVisible && (
                 <View style={styles.modal}>
                   <View style={styles.header}>
                     <CustomText
@@ -239,19 +248,15 @@ const Purchase = () => {
                       width: windowWidth * 0.4,
                       borderRadius: moderateScale(35, 0.6),
                       textColor: 'black',
-                      placeholderColor:Color.darkGray,
-                      
+                      placeholderColor: Color.darkGray,
                     }}
                     style={{
                       width: '85%',
                       height: windowHeight * 0.07,
                       marginVertical: moderateScale(10, 0.3),
                     }}
-                    onCardChange={cardDetails => {
-
-                    }}
-                    onFocus={focusedField => {
-                    }}
+                    onCardChange={cardDetails => {}}
+                    onFocus={focusedField => {}}
                   />
                   {/* </View> */}
                   <CustomButton
@@ -276,7 +281,7 @@ const Purchase = () => {
                     disabled={isLoading}
                   />
                 </View>
-              }
+              )}
 
               {(selectedCoins > 0 || selectedCoins == 'Other...') && (
                 <CustomButton
@@ -296,7 +301,6 @@ const Purchase = () => {
                 />
               )}
             </View>
-
           </ScrollView>
         </KeyboardAvoidingView>
       </LinearGradient>
@@ -382,8 +386,8 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     // paddingTop: windowHeight * 0.03,
     gap: 12,
-    marginTop: moderateScale(20, .6),
-    marginHorizontal: moderateScale(20, .3),
+    marginTop: moderateScale(20, 0.6),
+    marginHorizontal: moderateScale(20, 0.3),
     overflow: 'hidden',
   },
 });

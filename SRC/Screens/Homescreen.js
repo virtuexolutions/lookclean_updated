@@ -32,9 +32,11 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Homescreen = () => {
   const user = useSelector(state => state.commonReducer.userData);
+  console.log("🚀 ~ Homescreen ~ user:", user)
   const [isLoading, setIsLoading] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [barberData, setBarberData] = useState([]);
+  console.log("🚀 ~ Homescreen ~ barberData:", barberData)
   const [orderData, setOrderData] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
@@ -49,7 +51,7 @@ const Homescreen = () => {
     const url = `auth/barber/booking/list`;
     setIsLoading(true);
     const response = await Get(url, token);
-
+    console.log('responseeeeeeeeeeeeee', response?.data);
     setIsLoading(false);
 
     if (response != undefined) {
@@ -68,6 +70,7 @@ const Homescreen = () => {
     };
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
+  //  return  console.log("🚀 ~ retuern  barberFilter ~ response:", response?.data)
     setIsLoading(false);
     if (response != undefined) {
       setBarberData(response?.data?.users);
@@ -233,6 +236,8 @@ const Homescreen = () => {
             />
 
             <FlatList
+              keyExtractor={item => item?.id}
+              scrollEnabled={false}
               style={styles.bannerView}
               data={bannerArray}
               horizontal
@@ -280,11 +285,7 @@ const Homescreen = () => {
                         {item?.description}
                       </CustomText>
                       <View
-                        style={{
-                          flexDirection: 'row',
-                          alignSelf: 'center',
-                          marginTop: moderateScale(10, 0.3),
-                        }}>
+                        style={styles.ban_con}>
                         {bannerArray.map((x, index1) => {
                           return (
                             <View
@@ -323,25 +324,19 @@ const Homescreen = () => {
             </CustomText>
             {isLoading ? (
               <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: windowHeight * 0.2,
-                }}>
+                style={styles.activity_con}>
                 <ActivityIndicator color={Color.themeColor} size={'large'} />
               </View>
             ) : (
               <FlatList
+                keyExtractor={item => item?.id}
+                scrollEnabled={false}
                 decelerationRate={'fast'}
                 numColumns={2}
                 ListEmptyComponent={() => {
                   return (
                     <NoData
-                      style={{
-                        height: windowHeight * 0.25,
-                        width: windowWidth * 0.6,
-                        alignItems: 'center',
-                      }}
+                      style={styles.no_data}
                       text={'No barber found'}
                     />
                   );
@@ -381,7 +376,6 @@ const Homescreen = () => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               paddingBottom: windowHeight * 0.155,
-
               alignItems: 'center',
             }}
             style={{
@@ -408,34 +402,13 @@ const Homescreen = () => {
               />
             </View>
             <View
-              style={{
-                borderBottomWidth: 1,
-                borderColor: Color.themeLightGray,
-                width: windowWidth,
-                // marginLeft : moderateScale(10,0.3)
-              }}
+              style={styles.con_1}
             />
             <View
-              style={{
-                marginTop: moderateScale(10, 0.3),
-
-                flexDirection: 'row',
-                // backgroundColor : 'red',
-                justifyContent: 'space-between',
-                width: windowWidth * 0.95,
-                alignItems: 'center',
-              }}>
+              style={styles.up_con}>
               <CustomText
                 isBold
-                style={[
-                  {
-                    fontSize: moderateScale(15, 0.3),
-                    // width: windowWidth,
-                    color: Color.white,
-
-                    // marginLeft: moderateScale(10, 0.3),
-                  },
-                ]}>
+                style={styles.up_coming}>
                 Upcoming Orders
               </CustomText>
               <CustomText
@@ -453,16 +426,13 @@ const Homescreen = () => {
               </View>
             ) : (
               <FlatList
+                keyExtractor={item => item?.id}
+                scrollEnabled={false}
                 decelerationRate={'fast'}
                 ListEmptyComponent={() => {
                   return (
                     <NoData
-                      style={{
-                        height: windowHeight * 0.25,
-                        width: windowWidth * 0.6,
-                        alignItems: 'center',
-                        // backgroundColor : 'red'
-                      }}
+                      style={styles.no_data}
                       text={'No Upcoming Orders'}
                     />
                   );
@@ -486,16 +456,7 @@ const Homescreen = () => {
             )}
             <CustomText
               isBold
-              style={[
-                {
-                  fontSize: moderateScale(15, 0.3),
-                  width: windowWidth,
-                  marginTop: moderateScale(10, 0.3),
-                  color: Color.white,
-
-                  marginLeft: moderateScale(10, 0.3),
-                },
-              ]}>
+              style={styles.h1}>
               Completed Orders
             </CustomText>
             {isLoading ? (
@@ -505,6 +466,8 @@ const Homescreen = () => {
               </View>
             ) : (
               <FlatList
+                keyExtractor={item => item?.id}
+                scrollEnabled={false}
                 decelerationRate={'fast'}
                 showsVerticalScrollIndicator={false}
                 style={{
@@ -517,11 +480,7 @@ const Homescreen = () => {
                 ListEmptyComponent={() => {
                   return (
                     <NoData
-                      style={{
-                        height: windowHeight * 0.25,
-                        width: windowWidth * 0.6,
-                        alignItems: 'center',
-                      }}
+                      style={styles.no_data}
                       text={'No Upcoming Orders'}
                     />
                   );
@@ -529,8 +488,6 @@ const Homescreen = () => {
                 numColumns={1}
                 renderItem={({item, index}) => {
                   return <CompletedOrderCard item={item} />;
-
-                  //  <OrderCard item={item} />;
                 }}
               />
             )}
@@ -546,11 +503,9 @@ export default Homescreen;
 const styles = ScaledSheet.create({
   container: {
     paddingTop: windowHeight * 0.03,
-    // justifyContent: "center",
     height: windowHeight * 0.9,
     width: windowWidth,
     alignItems: 'center',
-    // backgroundColor : Color.green
   },
   text1: {
     textTransform: 'uppercase',
@@ -563,10 +518,6 @@ const styles = ScaledSheet.create({
     color: Color.white,
     textAlign: 'center',
     fontSize: moderateScale(16, 0.3),
-    // position : 'absolute',
-    // bottom : moderateScale(10,0.3),
-    // marginTop : moderateScale(10,0.3),
-    // lineHeight: moderateScale(32, 0.3),
   },
   bannerView: {
     width: windowWidth * 0.85,
@@ -579,11 +530,44 @@ const styles = ScaledSheet.create({
     fontSize: moderateScale(12, 0.3),
   },
   mapview: {
-    // backgroundColor: 'red',
     width: windowWidth * 0.76,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // paddingHorizontal: moderateScale(10, 0.6),
     paddingVertical: moderateScale(5, 0.6),
   },
+  h1:  {
+    fontSize: moderateScale(15, 0.3),
+    width: windowWidth,
+    marginTop: moderateScale(10, 0.3),
+    color: Color.white,
+    marginLeft: moderateScale(10, 0.3),
+  },
+  no_data:{
+    height: windowHeight * 0.25,
+    width: windowWidth * 0.6,
+    alignItems: 'center',
+  },
+  up_coming : {
+    fontSize: moderateScale(15, 0.3),
+    color: Color.white,
+  },
+  up_con:{
+    marginTop: moderateScale(10, 0.3),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: windowWidth * 0.95,
+    alignItems: 'center',
+  },con_1:{
+    borderBottomWidth: 1,
+    borderColor: Color.themeLightGray,
+    width: windowWidth,
+  },activity_con:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: windowHeight * 0.2,
+  },ban_view:{
+    flexDirection: 'row',
+    alignSelf: 'center',
+    marginTop: moderateScale(10, 0.3),
+  }
 });

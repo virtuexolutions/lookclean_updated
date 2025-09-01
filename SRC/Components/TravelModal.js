@@ -58,20 +58,20 @@ const HolidayModal = ({
       }}
       isVisible={isVisibleModal}
       onBackdropPress={() => {
-        if (
-          travelDateTo == '' ||
-          travelDateFrom == '' ||
-          Object.keys(location).length == 0
-        ) {
-          Platform.OS == 'android'
-            ? ToastAndroid.show(
-                'Required Field is Empty',
-                ToastAndroid.SHORT,
-              )
-            : alert('Required Field is empty');
-        } else {
+        // if (
+        //   travelDateTo == '' ||
+        //   travelDateFrom == '' ||
+        //   Object.keys(location).length == 0
+        // ) {
+        //   Platform.OS == 'android'
+        //     ? ToastAndroid.show(
+        //         'Required Field is Empty',
+        //         ToastAndroid.SHORT,
+        //       )
+        //     : alert('Required Field is empty');
+        // } else {
           setIsVisibleModal(false);
-        }
+        // }
       }}>
       <View
         style={{

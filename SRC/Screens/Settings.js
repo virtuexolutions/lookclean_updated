@@ -27,8 +27,7 @@ const Settings = () => {
   const [showModal, setShowModal] = useState(false);
   const UserData = useSelector(state => state.commonReducer.userData);
 
-console.log('user data =============  >>>>>>>>>> ',UserData)
-
+  console.log('user data =============  >>>>>>>>>> ', UserData);
 
   const cardArray = [
     {
@@ -135,6 +134,7 @@ console.log('user data =============  >>>>>>>>>> ',UserData)
         </CustomText>
 
         <FlatList
+          keyExtractor={item => item?.id}
           bounces={false}
           showsVerticalScrollIndicator={false}
           style={{
@@ -168,11 +168,12 @@ console.log('user data =============  >>>>>>>>>> ',UserData)
           }}
           ListHeaderComponent={() => {
             return (
-              <View style={{
-               width : windowWidth,
-              //  backgroundColor :'red',
-               alignItems: 'center'
-              }}>
+              <View
+                style={{
+                  width: windowWidth,
+                  //  backgroundColor :'red',
+                  alignItems: 'center',
+                }}>
                 <View
                   style={{
                     paddingTop: moderateScale(50, 0.3),
@@ -199,12 +200,13 @@ console.log('user data =============  >>>>>>>>>> ',UserData)
                   }}>
                   {UserData.first_name}
                 </CustomText>
-                <View style={{
-                  flexDirection :'row',
-                  justifyContent:'center',
-                  gap : moderateScale(5,0.6),
-                  paddingHorizontal :moderateScale(20,.6) 
-                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    gap: moderateScale(5, 0.6),
+                    paddingHorizontal: moderateScale(20, 0.6),
+                  }}>
                   <CustomText
                     style={{
                       fontSize: moderateScale(13, 0.3),
@@ -213,15 +215,15 @@ console.log('user data =============  >>>>>>>>>> ',UserData)
                     }}>
                     {UserData.role}
                   </CustomText>
-                {UserData?.role == 'Barber' &&                
-                  <CustomText
-                    style={{
-                      fontSize: moderateScale(13, 0.3),
-                      color: Color.white,
-                    }}>
+                  {UserData?.role == 'Barber' && (
+                    <CustomText
+                      style={{
+                        fontSize: moderateScale(13, 0.3),
+                        color: Color.white,
+                      }}>
                       ({UserData.designation})
-                  </CustomText>
-                  }
+                    </CustomText>
+                  )}
                 </View>
               </View>
             );

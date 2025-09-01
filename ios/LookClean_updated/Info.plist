@@ -39,7 +39,8 @@
 	<string>LookClean Good would like to access Your Gallery</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>LookClean Good would like to access Your phoneCalendar</string>
-	
+	<key>NSMicrophoneUsageDescription</key>
+     <string>Need microphone access for uploading audio</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>LookClean Good would like to access Your Gallery</string>
 	<key>UIAppFonts</key>
@@ -59,8 +60,8 @@
 		<string>MaterialIcons.ttf</string>
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
-		<string>Oswald-Regular.ttf</string>
-		<string>Oswald-Bold.ttf</string>
+		<!-- <string>Oswald-Regular.ttf</string> -->
+		<!-- <string>Oswald-Bold.ttf</string> -->
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

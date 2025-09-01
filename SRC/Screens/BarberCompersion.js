@@ -49,8 +49,6 @@ const BarberCompersion = props => {
   const [isVisible, setIsVisible] = useState(false);
   const [index, setIndex] = useState(0);
 
-
-
   return (
     <ScreenBoiler
       showHeader={true}
@@ -105,18 +103,17 @@ const BarberCompersion = props => {
                 width: windowWidth,
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                
               }}
               data={detail}
               renderItem={({item, index}) => {
                 return (
                   <View
-                    // style={
-                    //   {
-                    //     // backgroundColor:'red'
-                    //   }
-                    // }
-                    >
+                  // style={
+                  //   {
+                  //     // backgroundColor:'red'
+                  //   }
+                  // }
+                  >
                     <TouchableOpacity style={styles.mainContainer}>
                       <View style={styles.imageConatiner}>
                         <CustomImage
@@ -157,7 +154,11 @@ const BarberCompersion = props => {
                           type="custom"
                           readonly
                           // startingValue={3}
-                          startingValue={item?.reviews_avg_rating ?item?.reviews_avg_rating :0}
+                          startingValue={
+                            item?.reviews_avg_rating
+                              ? item?.reviews_avg_rating
+                              : 0
+                          }
                           ratingCount={5}
                           imageSize={moderateScale(10, 0.3)}
                           style={{

@@ -86,7 +86,7 @@ const PaymentScreen = props => {
     selectedServiceIds?.map((item, index) =>
       formData.append(`service_id[${index}]`, item),
     );
-
+ console.log('bodyyyyyyyyy == == = == = >> > >> > ' ,body)
 
     const url = 'auth/booking';
     setIsLoading(true);
@@ -104,6 +104,7 @@ const PaymentScreen = props => {
         'save the booking',
         'you want to save this booking to your calendar ?',
         [
+
           {
             text: 'Cancel',
             style: 'cancel',

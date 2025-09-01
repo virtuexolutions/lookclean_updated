@@ -37,6 +37,7 @@ import CustomButton from '../Components/CustomButton';
 const CompareBaberScreen = () => {
   const user = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token);
+  console.log("🚀 ~ CompareBaberScreen ~ token:", token)
   const [isLoading, setIsLoading] = useState(false);
 
   const focused = useIsFocused();
@@ -48,6 +49,7 @@ const CompareBaberScreen = () => {
   const [selectedItem, setSelectedItem] = useState([]);
   const [isHolidayMode, setIsHolidayMode] = useState(false);
   const [selectedBarber, setSelectedBarber] = useState([]);
+  console.log("🚀 ~ CompareBaberScreen ~ selectedBarber:", selectedBarber)
   const [index, setIndex] = useState(0);
 
   const GetBarberBooking = async () => {

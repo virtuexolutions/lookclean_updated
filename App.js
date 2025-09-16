@@ -18,13 +18,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 const App = () => {
   return (
     <StripeProvider
-<<<<<<< HEAD
-    publishableKey={"pk_test_51RoieKFIiQxtLicEZZqk0AwV9gdF7RWYSQsTOVEPgiGQmJQKhN5ZIINW7i5HC7LcX4teSDXXSfnwP8AJl1nUVjFg00ycMYLDEw"}
-
-    // publishableKey={"pk_live_51P9XFVE0duL4FerOlgZZZu31QkZerkL5IFURa8jAmOVVPidjMLZ5CIGjto5cG0Fs5tXdh33mBvAZYkxGZXYGLfjr00vWU9iqMA"}
-=======
     publishableKey={"pk_test_51LCrVHHNvw3AIrpxbW6YRt474JjQ4PpqMivtUwvxeSTVunzUBUPdSlVgkMcJYUD52ffHIgjAxHJDW52o1B2almWu00exPb0ci6"}
->>>>>>> 6939c2bc9c208fc75aa55682b2d5a70498964c4d
     // merchantIdentifier="merchant.identifier" // required for Apple Pay
     // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
   >
@@ -79,7 +73,7 @@ const useloader = value => {
   return [isloading];
 };
 
-
+   
 export default App
 
 const styles = StyleSheet.create({})

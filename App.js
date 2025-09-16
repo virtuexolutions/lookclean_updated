@@ -1,60 +1,56 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { Provider } from 'react-redux'
-import { store, persistor } from './SRC/Store'
-import { NativeBaseProvider } from 'native-base'
-import { useState, useEffect } from 'react';
-import { Platform } from 'react-native'
+import {LogBox, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {Provider} from 'react-redux';
+import {store, persistor} from './SRC/Store';
+import {NativeBaseProvider} from 'native-base';
+import {useState, useEffect} from 'react';
+import {Platform} from 'react-native';
 import {
   requestCameraPermission,
   requestLocationPermission,
   requestWritePermission,
 } from './SRC/Utillity/utils';
-import SplashScreen from './SRC/Screens/SplashScreen'
-import AppNavigator from './SRC/appNavigation'
-import { StripeProvider } from '@stripe/stripe-react-native'
-import { PersistGate } from 'redux-persist/integration/react'
+import SplashScreen from './SRC/Screens/SplashScreen';
+import AppNavigator from './SRC/appNavigation';
+import {StripeProvider} from '@stripe/stripe-react-native';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const App = () => {
+  LogBox.ignoreLogs([
+    'Warning: ...',
+    'VirtualizedLists should never be nested',
+  ]);
+  LogBox.ignoreAllLogs();
   return (
     <StripeProvider
-<<<<<<< HEAD
-    publishableKey={"pk_test_51RoieKFIiQxtLicEZZqk0AwV9gdF7RWYSQsTOVEPgiGQmJQKhN5ZIINW7i5HC7LcX4teSDXXSfnwP8AJl1nUVjFg00ycMYLDEw"}
+      // publishableKey={"pk_test_51RoieKFIiQxtLicEZZqk0AwV9gdF7RWYSQsTOVEPgiGQmJQKhN5ZIINW7i5HC7LcX4teSDXXSfnwP8AJl1nUVjFg00ycMYLDEw"}
 
-    // publishableKey={"pk_live_51P9XFVE0duL4FerOlgZZZu31QkZerkL5IFURa8jAmOVVPidjMLZ5CIGjto5cG0Fs5tXdh33mBvAZYkxGZXYGLfjr00vWU9iqMA"}
-=======
-    publishableKey={"pk_test_51LCrVHHNvw3AIrpxbW6YRt474JjQ4PpqMivtUwvxeSTVunzUBUPdSlVgkMcJYUD52ffHIgjAxHJDW52o1B2almWu00exPb0ci6"}
->>>>>>> 6939c2bc9c208fc75aa55682b2d5a70498964c4d
-    // merchantIdentifier="merchant.identifier" // required for Apple Pay
-    // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
-  >
+      publishableKey={
+        'pk_live_51P9XFVE0duL4FerOlgZZZu31QkZerkL5IFURa8jAmOVVPidjMLZ5CIGjto5cG0Fs5tXdh33mBvAZYkxGZXYGLfjr00vWU9iqMA'
+      }
+      // merchantIdentifier="merchant.identifier" // required for Apple Pay
+      // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+    >
       <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NativeBaseProvider>
-
-      <MainContainer/>
-        </NativeBaseProvider>
-</PersistGate>
+        <PersistGate loading={null} persistor={persistor}>
+          <NativeBaseProvider>
+            <MainContainer />
+          </NativeBaseProvider>
+        </PersistGate>
       </Provider>
-   </StripeProvider> 
-    
-  )
-}
+    </StripeProvider>
+  );
+};
 
-const MainContainer =()=>{
-
-
-
+const MainContainer = () => {
   useEffect(() => {
     async function GetPermission() {
-     
       await requestCameraPermission();
       await requestWritePermission();
       await requestLocationPermission();
     }
 
-    if(Platform.OS == 'android'){
-
+    if (Platform.OS == 'android') {
       GetPermission();
     }
   }, []);
@@ -65,10 +61,8 @@ const MainContainer =()=>{
   }
   // return <Purchase/>
   // return <SplashScreen/>;
-  return <AppNavigator/>;
-
-}
-
+  return <AppNavigator />;
+};
 
 const useloader = value => {
   const [isloading, setIsloading] = useState(value);
@@ -79,7 +73,6 @@ const useloader = value => {
   return [isloading];
 };
 
+export default App;
 
-export default App
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

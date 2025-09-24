@@ -45,7 +45,6 @@ const CustomButton = (props) => {
     alignSelf,
     image,
     gradientColor
-
     // value
   } = props;
   return (
@@ -55,7 +54,7 @@ const CustomButton = (props) => {
       style={[
         styles.mainBtn,
         {
-          margin:margin,
+          margin: margin,
           width: width,
           height: height,
           backgroundColor: bgColor,
@@ -94,9 +93,9 @@ const CustomButton = (props) => {
             justifyContent: "center",
             borderRadius: borderRadius,
           }}
-          start={{ x: 0.2, y: 0.6}}
+          start={{ x: 0.2, y: 0.6 }}
           end={{ x: 1, y: 0 }}
-          colors={props?.gradientColor ? props?.gradientColor :  Color.btnColor}
+          colors={props?.gradientColor ? props?.gradientColor : Color.btnColor}
         >
           {loader && (
             <ActivityIndicator
@@ -114,22 +113,23 @@ const CustomButton = (props) => {
           )}
           {
             image &&
-            <View 
-            style={{
-              width: windowWidth * 0.1,
-             height:windowWidth * 0.1,
-            //  paddingVertical:moderateScale(17, 0.8)
-            }}
+            <View
+              style={{
+                width: windowWidth * 0.1,
+                height: windowWidth * 0.1,
+                //  paddingVertical:moderateScale(17, 0.8)
+              }}
             >
 
-            <CustomImage source={image} 
-            resizeMode={'cover'}
-            style={{width:"100%",
-            height:"100%",
-            overflow:"hidden"
-          
-          }}
-            />
+              <CustomImage source={image}
+                resizeMode={'cover'}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  overflow: "hidden"
+
+                }}
+              />
             </View>
           }
           <CustomText
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    zIndex : 1,
+    zIndex: 1,
     // overflow: 'hidden',
     // borderWidth: 1,
   },
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
   iconCustom: {
     // color: "#C0C0C0",
-    color:Color.black,
+    color: Color.black,
     fontSize: 20,
     paddingRight: 20,
     paddingLeft: I18nManager.isRTL ? 20 : 0,

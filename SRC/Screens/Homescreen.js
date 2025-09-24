@@ -1,42 +1,38 @@
-import React, {useState, useEffect} from 'react';
-import {
-  ImageBackground,
-  View,
-  ScrollView,
-  FlatList,
-  ActivityIndicator,
-  TouchableOpacity,
-} from 'react-native';
-import Color from '../Assets/Utilities/Color';
-import CustomText from '../Components/CustomText';
-import CustomImage from '../Components/CustomImage';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
-import ScreenBoiler from '../Components/ScreenBoiler';
-import LinearGradient from 'react-native-linear-gradient';
-import navigationService from '../navigationService';
+import { useIsFocused } from '@react-navigation/native';
 import moment from 'moment/moment';
-import CustomTextWithMask from '../Components/CustomTextWithMask';
-import BarberCard from '../Components/BarberCard';
-import {useSelector} from 'react-redux';
-import OrderCard from '../Components/OrderCard';
-import {Get, Post} from '../Axios/AxiosInterceptorFunction';
-import NoData from '../Components/NoData';
-import {useIsFocused} from '@react-navigation/native';
-import CompletedOrderCard from '../Components/CompletedOrderCard';
-import FilteringModal from '../Components/FilteringModal';
-import ShowReview from '../Components/ShowReview';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useSelector } from 'react-redux';
+import Color from '../Assets/Utilities/Color';
+import { Get, Post } from '../Axios/AxiosInterceptorFunction';
+import BarberCard from '../Components/BarberCard';
+import CompletedOrderCard from '../Components/CompletedOrderCard';
+import CustomImage from '../Components/CustomImage';
+import CustomText from '../Components/CustomText';
+import CustomTextWithMask from '../Components/CustomTextWithMask';
+import FilteringModal from '../Components/FilteringModal';
+import NoData from '../Components/NoData';
+import OrderCard from '../Components/OrderCard';
+import ScreenBoiler from '../Components/ScreenBoiler';
+import navigationService from '../navigationService';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 
 const Homescreen = () => {
   const user = useSelector(state => state.commonReducer.userData);
-  console.log("🚀 ~ Homescreen ~ user:", user)
   const [isLoading, setIsLoading] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [barberData, setBarberData] = useState([]);
-  console.log("🚀 ~ Homescreen ~ barberData:", barberData)
   const [orderData, setOrderData] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
@@ -70,7 +66,7 @@ const Homescreen = () => {
     };
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
-  //  return  console.log("🚀 ~ retuern  barberFilter ~ response:", response?.data)
+    //  return  console.log("🚀 ~ retuern  barberFilter ~ response:", response?.data)
     setIsLoading(false);
     if (response != undefined) {
       setBarberData(response?.data?.users);
@@ -116,13 +112,13 @@ const Homescreen = () => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         {user?.role == 'customer' ? (
           <ScrollView
-          // scrollEnabled={false}
+            // scrollEnabled={false}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               paddingBottom: windowHeight * 0.155,
@@ -242,7 +238,7 @@ const Homescreen = () => {
               data={bannerArray}
               horizontal
               pagingEnabled
-              renderItem={({item, index}) => {
+              renderItem={({ item, index }) => {
                 return (
                   <View
                     style={{
@@ -259,15 +255,15 @@ const Homescreen = () => {
                     />
                     {/* <View style={{position : 'absolute' , bottom : 0}}> */}
                     <LinearGradient
-                      start={{x: 0, y: 0}}
-                      end={{x: 0, y: 1}}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0, y: 1 }}
                       colors={['#8A8A8A00', '#000000']}
                       style={{
                         position: 'absolute',
                         bottom: 0,
                         borderRadius: 5,
                         justifyContent: 'flex-end',
-                        shadowOffset: {height: 2, width: 0},
+                        shadowOffset: { height: 2, width: 0 },
                         shadowOpacity: 1,
                         shadowRadius: 4,
                         width: '100%',
@@ -350,7 +346,7 @@ const Homescreen = () => {
                   justifyContent: 'space-between',
                 }}
                 data={barberData?.reverse()}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return (
                     <BarberCard
                       item={item}
@@ -421,7 +417,7 @@ const Homescreen = () => {
             </View>
             {isLoading ? (
               <View
-                style={{height: windowHeight * 0.23, justifyContent: 'center'}}>
+                style={{ height: windowHeight * 0.23, justifyContent: 'center' }}>
                 <ActivityIndicator color={Color.themeColor} size={'large'} />
               </View>
             ) : (
@@ -449,7 +445,7 @@ const Homescreen = () => {
                   .reverse()
                   .slice(0, 5)}
                 horizontal
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return <OrderCard item={item} />;
                 }}
               />
@@ -461,7 +457,7 @@ const Homescreen = () => {
             </CustomText>
             {isLoading ? (
               <View
-                style={{height: windowHeight * 0.23, justifyContent: 'center'}}>
+                style={{ height: windowHeight * 0.23, justifyContent: 'center' }}>
                 <ActivityIndicator color={Color.themeColor} size={'large'} />
               </View>
             ) : (
@@ -486,7 +482,7 @@ const Homescreen = () => {
                   );
                 }}
                 numColumns={1}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return <CompletedOrderCard item={item} />;
                 }}
               />
@@ -535,37 +531,37 @@ const styles = ScaledSheet.create({
     flexWrap: 'wrap',
     paddingVertical: moderateScale(5, 0.6),
   },
-  h1:  {
+  h1: {
     fontSize: moderateScale(15, 0.3),
     width: windowWidth,
     marginTop: moderateScale(10, 0.3),
     color: Color.white,
     marginLeft: moderateScale(10, 0.3),
   },
-  no_data:{
+  no_data: {
     height: windowHeight * 0.25,
     width: windowWidth * 0.6,
     alignItems: 'center',
   },
-  up_coming : {
+  up_coming: {
     fontSize: moderateScale(15, 0.3),
     color: Color.white,
   },
-  up_con:{
+  up_con: {
     marginTop: moderateScale(10, 0.3),
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: windowWidth * 0.95,
     alignItems: 'center',
-  },con_1:{
+  }, con_1: {
     borderBottomWidth: 1,
     borderColor: Color.themeLightGray,
     width: windowWidth,
-  },activity_con:{
+  }, activity_con: {
     justifyContent: 'center',
     alignItems: 'center',
     height: windowHeight * 0.2,
-  },ban_view:{
+  }, ban_view: {
     flexDirection: 'row',
     alignSelf: 'center',
     marginTop: moderateScale(10, 0.3),

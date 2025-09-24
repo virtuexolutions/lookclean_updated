@@ -56,6 +56,7 @@ import Vouchers from './Screens/Vouchers';
 import WalletScreen from './Screens/WalletScreen';
 import Wishlist from './Screens/Wishlist';
 import Walkthrough from './Screens/Walkthrough';
+import DeleteAccount from './Screens/DeleteAccount';
 
 const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
@@ -135,6 +136,7 @@ const AppNavigator = () => {
           <RootNav.Screen name="ImageUpload" component={ImageUpload} />
           <RootNav.Screen name="ImageScreen" component={ImageScreen} />
           <RootNav.Screen name="Purchase" component={Purchase} />
+          <RootNav.Screen name="DeleteAccount" component={DeleteAccount} />
           <RootNav.Screen
             name="CompareBaberScreen"
             component={CompareBaberScreen}

@@ -192,7 +192,8 @@ const ImagePickerModal = props => {
     }}
     onBackdropPress={() => {
       setShow(false);
-    }}>
+    }}
+    >
     <View
       style={{
         backgroundColor: Color.white,

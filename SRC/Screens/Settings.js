@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ImageBackground,
   View,
@@ -9,24 +9,25 @@ import {
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
 import CustomImage from '../Components/CustomImage';
-import {windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomButton from '../Components/CustomButton';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import navigationService from '../navigationService';
 import ImagePickerModal from '../Components/ImagePickerModal';
-import {setUserLogoutAuth} from '../Store/slices/auth';
-import {useDispatch, useSelector} from 'react-redux';
+import { setUserLogoutAuth } from '../Store/slices/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import Modal from 'react-native-modal';
 
 const Settings = () => {
   const dispatch = useDispatch();
   const [image, setImage] = useState({});
   const [showModal, setShowModal] = useState(false);
   const UserData = useSelector(state => state.commonReducer.userData);
-
+  const [deleteAccount, setDeleteAccount] = useState(false)
   console.log('user data =============  >>>>>>>>>> ', UserData);
 
   const cardArray = [
@@ -45,29 +46,29 @@ const Settings = () => {
 
     ...(UserData?.role === 'barber'
       ? [
-          {
-            name: 'Add Time',
-            onPress: () => {
-              navigationService.navigate('TimeScreen');
-            },
+        {
+          name: 'Add Time',
+          onPress: () => {
+            navigationService.navigate('TimeScreen');
           },
-          {
-            name: 'Add Service',
-            onPress: () => {
-              navigationService.navigate('AddService', {fromSettings: true});
-            },
+        },
+        {
+          name: 'Add Service',
+          onPress: () => {
+            navigationService.navigate('AddService', { fromSettings: true });
           },
-        ]
+        },
+      ]
       : []),
     ...(UserData?.role == 'customer'
       ? [
-          {
-            name: 'compare barber',
-            onPress: () => {
-              navigationService.navigate('CompareBaberScreen');
-            },
+        {
+          name: 'compare barber',
+          onPress: () => {
+            navigationService.navigate('CompareBaberScreen');
           },
-        ]
+        },
+      ]
       : []),
     // {
     //   name: 'Payment Method',
@@ -117,6 +118,12 @@ const Settings = () => {
         dispatch(setUserLogoutAuth());
       },
     },
+    {
+      name: 'Delete Account',
+      onPress: () => {
+        setDeleteAccount(true)
+      }
+    }
   ];
 
   return (
@@ -125,8 +132,8 @@ const Settings = () => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <CustomText isBold style={styles.text1}>
@@ -145,7 +152,7 @@ const Settings = () => {
             paddingBottom: windowHeight * 0.2,
             alignItems: 'center',
           }}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             return (
               <CustomButton
                 bgColor={Color.themeColor}
@@ -180,13 +187,13 @@ const Settings = () => {
                   }}>
                   {Object.keys(image).length > 0 ? (
                     <CustomImage
-                      source={{uri: image?.uri}}
+                      source={{ uri: image?.uri }}
                       style={styles.image}
                     />
                   ) : (
                     <CustomImage
                       style={styles.image}
-                      source={{uri: UserData?.photo}}
+                      source={{ uri: UserData?.photo }}
                     />
                   )}
                 </View>
@@ -235,6 +242,88 @@ const Settings = () => {
         setShow={setShowModal}
         setFileObject={setImage}
       />
+      <Modal
+        isVisible={deleteAccount}
+        swipeDirection="up"
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        onBackdropPress={() => {
+          setDeleteAccount(false);
+        }}
+      >
+        <View style={{
+          width: windowWidth,
+          height: windowHeight,
+          backgroundColor: 'rgba(0,0,0,0.2)',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <View style={{
+            width: windowWidth * 0.8,
+            height: windowHeight * 0.35,
+            backgroundColor: Color.white,
+            borderRadius: moderateScale(20, 0.6),
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <View style={{
+              width: windowWidth * 0.3,
+              height: windowWidth * 0.3,
+            }}>
+              <CustomImage source={require('../Assets/Images/delete.png')} style={{
+                width: '100%',
+                height: '100%'
+              }} />
+            </View>
+            <CustomText isBold style={{
+              color: Color.black,
+              fontSize: moderateScale(15, 0.6),
+              width: '80%',
+              textAlign: 'center',
+            }}>Are You SUre want to Delete your Account</CustomText>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '90%',
+            }}>
+              <CustomButton
+                bgColor={Color.white}
+                borderWidth={3}
+                textColor={Color.black}
+                borderColor={Color.themeColor}
+                width={windowWidth * 0.35}
+                height={windowHeight * 0.055}
+                borderRadius={moderateScale(25, 0.6)}
+                text={'Cancel'}
+                fontSize={moderateScale(14, 0.3)}
+                textTransform={'uppercase'}
+                isBold
+                onPress={() => setDeleteAccount(false)}
+                marginTop={moderateScale(20, 0.3)}
+              />
+              <CustomButton
+                bgColor={Color.themeColor}
+                borderColor={'white'}
+                borderWidth={1}
+                textColor={Color.black}
+                width={windowWidth * 0.35}
+                height={windowHeight * 0.055}
+                borderRadius={moderateScale(25, 0.6)}
+                text={'Delete'}
+                fontSize={moderateScale(14, 0.3)}
+                textTransform={'uppercase'}
+                isGradient={true}
+                isBold
+                marginTop={moderateScale(20, 0.3)}
+                onPress={() => navigationService.navigate('DeleteAccount')}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScreenBoiler>
   );
 };

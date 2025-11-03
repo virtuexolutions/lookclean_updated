@@ -61,6 +61,7 @@ const Header = props => {
           style={{
             position: 'absolute',
             zIndex: 1,
+               top: 40,
             left: moderateScale(10, 0.3),
             height: moderateScale(30, 0.3),
             width: moderateScale(30, 0.3),
@@ -83,7 +84,9 @@ const Header = props => {
         style={{
           width: windowWidth * 0.3,
           height: windowHeight * 0.1,
+          marginTop: moderateScale( 20, 0.3),
           alignSelf: 'center',
+          
         }}
       />
       {showUser && (
@@ -95,7 +98,8 @@ const Header = props => {
           style={{
             position: 'absolute',
             right: moderateScale(10, 0.3),
-
+            // marginTop:35,
+            top: 35,
             alignSelf: 'center',
             width: moderateScale(40, 0.3),
             height: moderateScale(40, 0.3),
@@ -151,6 +155,7 @@ const styles = ScaledSheet.create({
   header2: {
     width: windowWidth,
     height: windowHeight * 0.1,
+    // paddingTop:  moderateScale(20, 0.3),
     backgroundColor: Color.black,
     justifyContent: 'center',
     // flexDirection: 'row',

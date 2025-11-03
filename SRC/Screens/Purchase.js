@@ -32,6 +32,7 @@ const Purchase = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const token = useSelector(state => state.authReducer.token);
+  console.log("🚀 ~ Purchase ~ token:", token)
   const [amount, setAmount] = useState();
   const [transactionAdd, setTransactionAdd] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,6 +68,7 @@ const Purchase = () => {
         type: 'debit',
         pm_id: responsetoken?.token?.id,
       };
+    // return  console.log("🚀 ~ addTransaction ~ body:", body)
       for (let key in body) {
         console.log('keyyyyyyyyyyyyyyyyy', key);
         if (body[key] === '') {

@@ -310,7 +310,7 @@ const Homescreen = () => {
               style={[
                 styles.text1,
                 {
-                  width: windowWidth * 0.85,
+                  width: windowWidth * 0.9,
                   fontSize: moderateScale(16, 0.3),
                   textAlign: 'left',
                   marginTop: moderateScale(10, 0.3),
@@ -338,7 +338,7 @@ const Homescreen = () => {
                   );
                 }}
                 style={{
-                  marginTop: moderateScale(10, 0.3),
+                  marginTop: moderateScale(6, 0.3),
                 }}
                 contentContainerStyle={{
                   width: windowWidth,

@@ -1,39 +1,33 @@
-import React, {useEffect, useState} from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import { Icon } from 'native-base';
+import React, { useEffect, useState } from 'react';
 import {
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Linking,
-  ToastAndroid,
-  Platform,
   ActivityIndicator,
-  ImageBackground,
   KeyboardAvoidingView,
-  FlatList,
+  Linking,
+  Platform,
+  ScrollView,
+  ToastAndroid,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import CustomText from '../Components/CustomText';
-import {ScaledSheet, moderateScale} from 'react-native-size-matters';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import TextInputWithTitle from '../Components/TextInputWithTitle';
-import {Get, Post} from '../Axios/AxiosInterceptorFunction';
-import CustomAlertModal from '../Components/CustomAlertModal';
-import navigationService from '../navigationService';
-import Color from '../Assets/Utilities/Color';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import ScreenBoiler from '../Components/ScreenBoiler';
-import {useSelector} from 'react-redux';
-import {useIsFocused} from '@react-navigation/native';
-import CustomButton from '../Components/CustomButton';
 import LinearGradient from 'react-native-linear-gradient';
-import CompletedOrderCard from '../Components/CompletedOrderCard';
-import {Icon} from 'native-base';
-import {validateEmail} from '../Config';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { ScaledSheet, moderateScale } from 'react-native-size-matters';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { useSelector } from 'react-redux';
+import Color from '../Assets/Utilities/Color';
+import { Get, Post } from '../Axios/AxiosInterceptorFunction';
 import BookingHistoryModal from '../Components/BookingHistoryModal';
-import CustomImage from '../Components/CustomImage';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import CompletedOrderCard from '../Components/CompletedOrderCard';
+import CustomButton from '../Components/CustomButton';
+import CustomText from '../Components/CustomText';
+import ScreenBoiler from '../Components/ScreenBoiler';
+import TextInputWithTitle from '../Components/TextInputWithTitle';
+import { validateEmail } from '../Config';
+import navigationService from '../navigationService';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 // import {useIsFocused} from '@react-navigation/core';
 
 const Support = () => {
@@ -56,12 +50,13 @@ const Support = () => {
     const url = 'auth/admin/info';
     setLoading(true);
     const response = await Get(url, token);
+    console.log(response?.data, '=======================>')
     setLoading(false);
     if (response != undefined) {
       setSupportData(response?.data?.data);
     }
   };
-  
+
   useEffect(() => {
     GetSupportData();
     // setFullName('');
@@ -75,7 +70,7 @@ const Support = () => {
     const url = 'auth/support/submit';
     const body = {
       name: fullName,
-      phone: phone,
+      // phone: phone,
       email: email,
       subject: subject,
       description: message,
@@ -119,8 +114,8 @@ const Support = () => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <KeyboardAvoidingView
@@ -141,7 +136,7 @@ const Support = () => {
             <TouchableOpacity
               style={[
                 styles?.ContactInfoContainer,
-                {marginTop: moderateScale(20, 0.3)},
+                { marginTop: moderateScale(20, 0.3) },
               ]}
               activeOpacity={0.85}
               onPress={() => {
@@ -157,14 +152,14 @@ const Support = () => {
                 {loading
                   ? 'loading...'
                   : supportData?.phone
-                  ? supportData?.phone
-                  : 'no contact added yet'}
+                    ? supportData?.phone
+                    : 'no contact added yet'}
               </CustomText>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles?.ContactInfoContainer,
-                {marginBottom: moderateScale(20, 0.3)},
+                { marginBottom: moderateScale(20, 0.3) },
               ]}
               activeOpacity={0.85}
               onPress={() => {
@@ -180,12 +175,12 @@ const Support = () => {
                 {loading
                   ? 'loading...'
                   : supportData?.official_email
-                  ? supportData?.official_email
-                  : 'not added yet'}
+                    ? supportData?.official_email
+                    : 'not added yet'}
               </CustomText>
             </TouchableOpacity>
 
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <TextInputWithTitle
                 titleText={'Your Name'}
                 secureText={false}
@@ -203,7 +198,7 @@ const Support = () => {
                 placeholderColor={Color.themeLightGray}
                 borderRadius={moderateScale(30, 0.4)}
               />
-              <TextInputWithTitle
+              {/* <TextInputWithTitle
                 titleText={'Phone'}
                 secureText={false}
                 placeholder={'Phone'}
@@ -220,8 +215,7 @@ const Support = () => {
                 color={Color.themeColor}
                 placeholderColor={Color.themeLightGray}
                 borderRadius={moderateScale(30, 0.4)}
-              />
-
+              /> */}
               <TextInputWithTitle
                 titleText={'Email'}
                 secureText={false}
@@ -365,7 +359,7 @@ const Support = () => {
                 textTransform={'uppercase'}
                 isGradient={true}
                 isBold
-                // marginTop={moderateScale(1s0, 0.3)}
+              // marginTop={moderateScale(1s0, 0.3)}
               />
             </View>
             <BookingHistoryModal

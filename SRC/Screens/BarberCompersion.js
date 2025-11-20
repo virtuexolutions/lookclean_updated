@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ImageBackground,
   View,
@@ -11,29 +11,29 @@ import {
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
 import CustomImage from '../Components/CustomImage';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import navigationService from '../navigationService';
 import moment from 'moment/moment';
 import CustomTextWithMask from '../Components/CustomTextWithMask';
 import BarberCard from '../Components/BarberCard';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import OrderCard from '../Components/OrderCard';
-import {Get, Post} from '../Axios/AxiosInterceptorFunction';
+import { Get, Post } from '../Axios/AxiosInterceptorFunction';
 import NoData from '../Components/NoData';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import CompletedOrderCard from '../Components/CompletedOrderCard';
 import FilteringModal from '../Components/FilteringModal';
 import ShowReview from '../Components/ShowReview';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Alert} from 'react-native';
-import {Platform} from 'react-native';
+import { Alert } from 'react-native';
+import { Platform } from 'react-native';
 import CustomButton from '../Components/CustomButton';
-import {Rating} from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
 
 const BarberCompersion = props => {
   const detail = props?.route?.params?.item;
@@ -52,13 +52,13 @@ const BarberCompersion = props => {
   return (
     <ScreenBoiler
       showHeader={true}
-      showback={true}
+      showBack={true}
       showUser={true}
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <ScrollView
@@ -71,6 +71,7 @@ const BarberCompersion = props => {
           style={{
             width: windowWidth,
           }}>
+          <CustomText isBold style={{ color: Color.white, fontSize: moderateScale(20, 0.6), textAlign: 'left', width: windowWidth * 0.9, marginBottom: moderateScale(10, 0.6) }}>Explore Professionals :</CustomText>
           {isLoading ? (
             <View
               style={{
@@ -105,15 +106,9 @@ const BarberCompersion = props => {
                 justifyContent: 'space-between',
               }}
               data={detail}
-              renderItem={({item, index}) => {
+              renderItem={({ item, index }) => {
                 return (
-                  <View
-                  // style={
-                  //   {
-                  //     // backgroundColor:'red'
-                  //   }
-                  // }
-                  >
+                  <View>
                     <TouchableOpacity style={styles.mainContainer}>
                       <View style={styles.imageConatiner}>
                         <CustomImage
@@ -122,7 +117,7 @@ const BarberCompersion = props => {
                             height: '100%',
                           }}
                           // resizeMode= "contain"
-                          source={{uri: item?.photo}}
+                          source={{ uri: item?.photo }}
                         />
                       </View>
                       <View

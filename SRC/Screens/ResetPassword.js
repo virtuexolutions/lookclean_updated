@@ -1,38 +1,32 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
-  Dimensions,
-  ImageBackground,
-  ToastAndroid,
-  Alert,
   ActivityIndicator,
+  Alert,
+  Platform,
+  ToastAndroid
 } from 'react-native';
-import {ScaledSheet, moderateScale} from 'react-native-size-matters';
-import {useDispatch, useSelector} from 'react-redux';
-import TextInputWithTitle from '../Components/TextInputWithTitle';
+import { ScaledSheet, moderateScale } from 'react-native-size-matters';
+import { useDispatch, useSelector } from 'react-redux';
 import Color from '../Assets/Utilities/Color';
-import CustomText from '../Components/CustomText';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
+import { Post } from '../Axios/AxiosInterceptorFunction';
 import CustomButton from '../Components/CustomButton';
-import {setIsVerified, setUserLogin, setUserToken} from '../Store/slices/auth';
-import {Platform} from 'react-native';
-import {setUserData} from '../Store/slices/common';
-import {Post} from '../Axios/AxiosInterceptorFunction';
+import CustomText from '../Components/CustomText';
+import TextInputWithTitle from '../Components/TextInputWithTitle';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 // import CardContainer from '../Components/CardContainer';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import CustomStatusBar from '../Components/CustomStatusBar';
 // import CustomHeader from '../Components/CustomHeader';
-import navigationService from '../navigationService';
-import ScreenBoiler from '../Components/ScreenBoiler';
+import { View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomImage from '../Components/CustomImage';
-import {View} from 'react-native';
+import ScreenBoiler from '../Components/ScreenBoiler';
+import navigationService from '../navigationService';
 
 const ResetPassword = props => {
   const phoneNumber = props?.route?.params?.phoneNumber;
-  
+
 
   const dispatch = useDispatch();
-  const {fcmToken} = useSelector(state => state.commonReducer);
+  const { fcmToken } = useSelector(state => state.commonReducer);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -63,21 +57,21 @@ const ResetPassword = props => {
       Platform.OS === 'android'
         ? ToastAndroid.show('Password Have been Reset', ToastAndroid.SHORT)
         : Alert.alert('Password Has been Reset');
-        navigationService.navigate('LoginScreen')
+      navigationService.navigate('LoginScreen')
 
     }
-  }; 
-  
+  };
+
   return (
     <>
       <ScreenBoiler
-        // showBack={true}
+        showBack={true}
         showHeader={true}
         statusBarBackgroundColor={Color.black}
         statusBarContentStyle={'light-content'}>
         <LinearGradient
-          start={{x: 0.0, y: 0.25}}
-          end={{x: 0.5, y: 1.0}}
+          start={{ x: 0.0, y: 0.25 }}
+          end={{ x: 0.5, y: 1.0 }}
           colors={Color.themeGradient}
           style={styles.container}>
           <CustomText isBold style={styles.txt2}>

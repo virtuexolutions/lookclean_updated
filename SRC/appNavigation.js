@@ -1,12 +1,12 @@
 import MaskedView from '@react-native-masked-view/masked-view';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Icon} from 'native-base';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Icon } from 'native-base';
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {moderateScale} from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -15,7 +15,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Color from './Assets/Utilities/Color';
 import navigationService from './navigationService';
 import AddService from './Screens/AddService';
@@ -57,6 +57,7 @@ import WalletScreen from './Screens/WalletScreen';
 import Wishlist from './Screens/Wishlist';
 import Walkthrough from './Screens/Walkthrough';
 import DeleteAccount from './Screens/DeleteAccount';
+import GreetingScreen from './Screens/GreetingScreen';
 
 const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
@@ -67,37 +68,39 @@ const AppNavigator = () => {
   const RootNav = createNativeStackNavigator();
 
   const AppNavigatorContainer = () => {
-    const customerFirstScreen =       
-    walkThrough == false ?  
-    'WalkThroughScreen' :
-     token == null ? 
-     'LoginScreen' 
-     :'TabNavigation';
+    const customerFirstScreen =
+      walkThrough == false ?
+        'WalkThroughScreen' :
+        token == null ?
+          'LoginScreen'
+          : 'TabNavigation';
 
     const secondScreen =
-    walkThrough == false
-    ? 'WalkThroughScreen' :
-      token == null
-        ? 'LoginScreen'
-        : userData?.services?.length == 0
-        ? 'AddService'
-        : userData?.complete_questions?.toLowerCase() == 'no'
-        ? 'QuestionAnswerScreen'
-        : 'TabNavigation';
+      walkThrough == false
+        ? 'WalkThroughScreen' :
+        token == null
+          ? 'LoginScreen'
+          : userData?.services?.length == 0
+            ? 'AddService'
+            : userData?.complete_questions?.toLowerCase() == 'no'
+              ? 'QuestionAnswerScreen'
+              : 'TabNavigation';
 
     return (
       <NavigationContainer ref={navigationService.navigationRef}>
         <RootNav.Navigator
-          initialRouteName={
-            userData?.role == 'customer' ? customerFirstScreen : secondScreen
-          }
-          screenOptions={{headerShown: false}}>
+          // initialRouteName={
+          //   userData?.role == 'customer' ? customerFirstScreen : secondScreen
+          // }
+          initialRouteName={'GreetingScreen'}
+          screenOptions={{ headerShown: false }}>
           <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
           <RootNav.Screen
             name="QuestionAnswerScreen"
             component={QuestionAnswerScreen}
           />
 
+          <RootNav.Screen name="GreetingScreen" component={GreetingScreen} />
           <RootNav.Screen name="EnterPhone" component={EnterPhone} />
           <RootNav.Screen name="GetStarted" component={GetStarted} />
           <RootNav.Screen name="LoginScreen" component={LoginScreen} />
@@ -171,12 +174,12 @@ export const TabNavigation = props => {
 
   return (
     <Tabs.Navigator
-      screenOptions={({route}) => ({
+      screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: {
           backgroundColor: 'rgba(34,36,40,1)',
         },
-        tabBarIcon: ({focused}) => {
+        tabBarIcon: ({ focused }) => {
           let iconName;
           let color = Color.themeColor;
           let size = moderateScale(20, 0.3);
@@ -212,7 +215,7 @@ export const TabNavigation = props => {
 
           return (
             <MaskedView
-              style={{flexDirection: 'row', height: size}}
+              style={{ flexDirection: 'row', height: size }}
               maskElement={
                 <View
                   style={{
@@ -225,7 +228,7 @@ export const TabNavigation = props => {
               }>
               <LinearGradient
                 colors={['#C49948', '#EBDBBD', '#E3C488']}
-                style={{flex: 1}}
+                style={{ flex: 1 }}
               />
             </MaskedView>
           );

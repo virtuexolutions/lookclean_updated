@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   Dimensions,
@@ -6,11 +6,11 @@ import {
   Platform,
   ToastAndroid,
 } from 'react-native';
-import {ScaledSheet, moderateScale} from 'react-native-size-matters';
+import { ScaledSheet, moderateScale } from 'react-native-size-matters';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import {useDispatch, useSelector} from 'react-redux';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { useDispatch, useSelector } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import navigationService from '../navigationService';
 
@@ -19,15 +19,16 @@ import Color from '../Assets/Utilities/Color';
 import CustomStatusBar from '../Components/CustomStatusBar';
 import CustomText from '../Components/CustomText';
 
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 import CustomButton from '../Components/CustomButton';
-import {ActivityIndicator} from 'react-native';
-import {Post} from '../Axios/AxiosInterceptorFunction';
+import { ActivityIndicator } from 'react-native';
+import { Post } from '../Axios/AxiosInterceptorFunction';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 import CustomImage from '../Components/CustomImage';
-import {View} from 'react-native';
+import { View } from 'react-native';
+import Header from '../Components/Header';
 // import CardContainer from '../Components/CardContainer';
 // import CustomHeader from '../Components/CustomHeader';
 
@@ -59,23 +60,23 @@ const EnterPhone = props => {
 
     if (response != undefined) {
       alert(response?.data?.data[0].code)
-      Platform.OS === 'android' 
+      Platform.OS === 'android'
         ? ToastAndroid.show('Your OTP is Send', ToastAndroid.SHORT)
-        : Alert.alert('OTP is Send')       
-        navigationService.navigate('VerifyNumber',{phoneNumber : phone})
+        : Alert.alert('OTP is Send')
+      navigationService.navigate('VerifyNumber', { phoneNumber: phone })
     }
   };
 
   return (
     <>
       <ScreenBoiler
-        // showBack={true}
+        showBack={true}
         showHeader={true}
         statusBarBackgroundColor={Color.black}
         statusBarContentStyle={'light-content'}>
         <LinearGradient
-          start={{x: 0.0, y: 0.25}}
-          end={{x: 0.5, y: 1.0}}
+          start={{ x: 0.0, y: 0.25 }}
+          end={{ x: 0.5, y: 1.0 }}
           colors={Color.themeGradient}
           style={styles.container}>
           <CustomText isBold style={styles.txt2}>
@@ -103,7 +104,7 @@ const EnterPhone = props => {
             color={Color.themeColor}
             placeholderColor={Color.themeLightGray}
             borderRadius={moderateScale(25, 0.3)}
-            marginTopDown={moderateScale(10,0.3)}
+            marginTopDown={moderateScale(10, 0.3)}
             elevation
           />
 
@@ -122,7 +123,7 @@ const EnterPhone = props => {
             marginTop={moderateScale(15, 0.3)}
             onPress={() => {
               EnterOTP();
-             
+
             }}
             bgColor={Color.themeColor}
             borderColor={Color.white}

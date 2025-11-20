@@ -29,12 +29,12 @@ const ScreenBoiler = props => {
     Notify,
     showUser,
     showUndo,
-    onUndoPress
+    onUndoPress,
+    style
   } = props;
 
   return (
-    <View style={{
-    }}>
+    <View style={style}>
       <CustomStatusBar
         backgroundColor={statusBarBackgroundColor}
         barStyle={statusBarContentStyle}

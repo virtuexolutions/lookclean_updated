@@ -220,9 +220,9 @@ const Settings = () => {
                       color: Color.white,
                       textAlign: 'center',
                     }}>
-                    {UserData.role}
+                    {UserData.role === 'barber' ? "Service Provider" : 'Client'}
                   </CustomText>
-                  {UserData?.role == 'Barber' && (
+                  {UserData?.role == 'barber' && (
                     <CustomText
                       style={{
                         fontSize: moderateScale(13, 0.3),

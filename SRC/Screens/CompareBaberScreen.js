@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ImageBackground,
   View,
@@ -11,27 +11,27 @@ import {
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
 import CustomImage from '../Components/CustomImage';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import navigationService from '../navigationService';
 import moment from 'moment/moment';
 import CustomTextWithMask from '../Components/CustomTextWithMask';
 import BarberCard from '../Components/BarberCard';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import OrderCard from '../Components/OrderCard';
-import {Get, Post} from '../Axios/AxiosInterceptorFunction';
+import { Get, Post } from '../Axios/AxiosInterceptorFunction';
 import NoData from '../Components/NoData';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import CompletedOrderCard from '../Components/CompletedOrderCard';
 import FilteringModal from '../Components/FilteringModal';
 import ShowReview from '../Components/ShowReview';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Alert} from 'react-native';
-import {Platform} from 'react-native';
+import { Alert } from 'react-native';
+import { Platform } from 'react-native';
 import CustomButton from '../Components/CustomButton';
 
 const CompareBaberScreen = () => {
@@ -76,7 +76,7 @@ const CompareBaberScreen = () => {
     const response = await Post(url, body, apiHeader(token));
     setIsLoading(false);
     if (response != undefined) {
-  
+
       setBarberData(response?.data?.users);
     }
   };
@@ -94,27 +94,27 @@ const CompareBaberScreen = () => {
     }
   }, [focused, selectedItem.length]);
 
- 
+
 
   return (
     <ScreenBoiler
       showHeader={true}
-      showback={true}
+      showBack={true}
       showUser={true}
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <View
           style={{
             width: windowWidth,
-            paddingBottom: windowHeight * 0.155,
+            // paddingBottom: windowHeight * 0.1,
             alignItems: 'center',
             height: windowHeight * 0.95,
-           }}>
+          }}>
           {isLoading ? (
             <View
               style={{
@@ -128,6 +128,7 @@ const CompareBaberScreen = () => {
             <FlatList
               decelerationRate={'fast'}
               numColumns={2}
+              ListHeaderComponent={<CustomText isBold style={{ color: Color.white, fontSize: moderateScale(15, 0.6), paddingBottom: moderateScale(10, 0.5), width: windowWidth * 0.9, textAlign: 'left' }}>Compare Providers</CustomText>}
               ListEmptyComponent={() => {
                 return (
                   <NoData
@@ -140,6 +141,7 @@ const CompareBaberScreen = () => {
                   />
                 );
               }}
+              ListFooterComponent={<View style={{ height: windowHeight * 0.1 }} />}
               style={{
                 marginTop: moderateScale(10, 0.3),
               }}
@@ -151,13 +153,14 @@ const CompareBaberScreen = () => {
               }}
               // data={barberdata}
               data={barberData}
-              renderItem={({item, index}) => {
+              renderItem={({ item, index }) => {
                 return (
                   <BarberCard
                     selectedBarber={selectedBarber}
                     setSelectedBarber={setSelectedBarber}
                     fromComparebarber={true}
                     item={item}
+                    isDetails={false}
                     setIsHolidayMode={setIsHolidayMode}
                     isHolidayMode={isHolidayMode}
                     onPress={() => {
@@ -185,7 +188,7 @@ const CompareBaberScreen = () => {
                 textColor={Color.black}
                 width={windowWidth * 0.8}
                 height={windowHeight * 0.06}
-                text={'compare'}
+                text={'Compare Services'}
                 fontSize={moderateScale(14, 0.3)}
                 onPress={() => {
                   navigationService.navigate('BarberCompersion', {

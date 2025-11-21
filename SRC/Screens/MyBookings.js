@@ -32,7 +32,6 @@ const MyBookings = () => {
 
   const token = useSelector(state => state.authReducer.token);
   
-  // Booking GET API START
   const GetBooking = async () => {
     const url = `auth/booking/list?status=${item == '' ? 'all' : item}`;
     setLoading(true);

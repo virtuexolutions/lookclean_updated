@@ -47,7 +47,6 @@ const Homescreen = () => {
     const url = `auth/barber/booking/list`;
     setIsLoading(true);
     const response = await Get(url, token);
-    console.log('responseeeeeeeeeeeeee', response?.data);
     setIsLoading(false);
 
     if (response != undefined) {

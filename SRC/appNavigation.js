@@ -61,9 +61,10 @@ import GreetingScreen from './Screens/GreetingScreen';
 
 const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
+  const isWelcome = useSelector(state => state.commonReducer.isWelcome);
   const token = useSelector(state => state.authReducer.token);
   const walkThrough = useSelector(state => state.authReducer.userWalkThrough);
-  console.log("🚀 ~ AppNavigator ~ walkThrough:", walkThrough)
+  console.log("🚀 ~ AppNavigator ~ isWelcome:", isWelcome)
 
   const RootNav = createNativeStackNavigator();
 
@@ -73,7 +74,7 @@ const AppNavigator = () => {
         'WalkThroughScreen' :
         token == null ?
           'LoginScreen'
-          : 'TabNavigation';
+          : isWelcome == undefined ? "GreetingScreen" : 'TabNavigation';
 
     const secondScreen =
       walkThrough == false
@@ -89,10 +90,10 @@ const AppNavigator = () => {
     return (
       <NavigationContainer ref={navigationService.navigationRef}>
         <RootNav.Navigator
-          // initialRouteName={
-          //   userData?.role == 'customer' ? customerFirstScreen : secondScreen
-          // }
-          initialRouteName={'GreetingScreen'}
+          initialRouteName={
+            userData?.role == 'customer' ? customerFirstScreen : secondScreen
+          }
+          // initialRouteName={'GreetingScreen'}
           screenOptions={{ headerShown: false }}>
           <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
           <RootNav.Screen

@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {ImageBackground, View, ScrollView, FlatList} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, View, ScrollView, FlatList } from 'react-native';
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment/moment';
@@ -13,22 +13,23 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import numeral from 'numeral';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import CustomButton from '../Components/CustomButton';
-import {Get, Post} from '../Axios/AxiosInterceptorFunction';
-import {useSelector} from 'react-redux';
-import {ActivityIndicator} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { Get, Post } from '../Axios/AxiosInterceptorFunction';
+import { useSelector } from 'react-redux';
+import { ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import ImageView from 'react-native-image-viewing';
 import ReviewModal from '../Components/ReviewModal';
 import ReviewCard from '../Components/ReviewCard';
 
 const OrderDetails = props => {
   const item = props?.route?.params?.item;
-
+  console.log(item, 'itemmmmmmmmmmmmmmmmmm')
   const user = useSelector(state => state.commonReducer.userData);
 
   const token = useSelector(state => state.authReducer.token);
+  console.log(token, 'tokeeeeeeeeeeeeeeen')
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setisLoading2] = useState(false);
@@ -39,7 +40,7 @@ const OrderDetails = props => {
   );
 
   const dateDiff = (date, time) => {
-   
+
     return moment(date + ' ' + moment(time, 'h:mm A').format('HH:mm:ss')).diff(
       moment(),
       'minute',
@@ -84,7 +85,7 @@ const OrderDetails = props => {
     const response = await Post(url, body, apiHeader(token));
     setisLoading2(false);
     if (response != undefined) {
-      
+
       navigation.goBack();
 
     }
@@ -97,12 +98,12 @@ const OrderDetails = props => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <CustomText isBold style={styles.text1}>
-          Orders Details
+          Booking Details
         </CustomText>
         <View style={styles.containerCard}>
           <CustomImage
@@ -115,7 +116,6 @@ const OrderDetails = props => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               paddingBottom: windowHeight * 0.15,
-              // paddingTop : moderateScale(20,0.3),
               alignItems: 'center',
             }}
             style={{
@@ -126,7 +126,24 @@ const OrderDetails = props => {
                 ? `${item?.barber_info?.first_name}${item?.barber_info?.last_name}`
                 : `${item?.member_info?.first_name}${item?.member_info?.last_name}`}
             </CustomText>
-            <View style={[styles.eachRow, {marginTop: moderateScale(30, 0.3)}]}>
+            <CustomText isBold numberOfLines={1} style={styles.designation}>
+              {user?.role == 'customer'
+                ? `${item?.member_info?.designation}`
+                : ` `}
+            </CustomText>
+            <View style={[styles.eachRow, { marginTop: moderateScale(30, 0.3) }]}>
+              <CustomText
+                isBold
+                style={{
+                  fontSize: moderateScale(14, 0.3),
+                }}>
+                Booking Number :{' '}
+              </CustomText>
+              <CustomText style={[styles.heading, { fontSize: moderateScale(11, 0.6), color: Color.darkGray }]}>
+                {item?.order_no}
+              </CustomText>
+            </View>
+            <View style={[styles.eachRow]}>
               <CustomText
                 isBold
                 style={{
@@ -147,7 +164,7 @@ const OrderDetails = props => {
                   // width: windowWidth * 0.16,
                   fontSize: moderateScale(14, 0.3),
                 }}>
-                time :{' '}
+                Booking time :{' '}
               </CustomText>
               <CustomText style={styles.heading}>
                 {item?.booking_time}
@@ -176,10 +193,24 @@ const OrderDetails = props => {
                   // width: windowWidth * 0.16,
                   fontSize: moderateScale(14, 0.3),
                 }}>
-                Amount :{' '}
+                Total Amount :{' '}
+              </CustomText>
+              <CustomText isBold style={styles.heading}>
+                {/* {numeral(calculateTotalAmount()).format('$0,0.0')} */}
+                {item?.total_price + ' $'}
+              </CustomText>
+            </View>
+            <View style={styles.eachRow}>
+              <CustomText
+                isBold
+                style={{
+                  // width: windowWidth * 0.16,
+                  fontSize: moderateScale(14, 0.3),
+                }}>
+                Service Location :{' '}
               </CustomText>
               <CustomText style={styles.heading}>
-                {numeral(calculateTotalAmount()).format('$0,0.0')}
+                {item?.custom_location}
               </CustomText>
             </View>
             {item?.dis_price && (
@@ -209,9 +240,9 @@ const OrderDetails = props => {
               Services Chose :{' '}
             </CustomText>
             {Array.isArray(item?.booking_detail) &&
-            item.booking_detail.length > 0 ? (
+              item.booking_detail.length > 0 ? (
               item.booking_detail.map(booking => {
-                console.log('serviceeeeeeeeeeeee _info  > > > >  >  ' , booking)
+                console.log('serviceeeeeeeeeeeee _info  > > > >  >  ', booking)
                 return (
                   <View
                     key={booking?.id}
@@ -240,7 +271,7 @@ const OrderDetails = props => {
                 );
               })
             ) : (
-              <CustomText style={{color: 'red'}}>No services chosen</CustomText>
+              <CustomText style={{ color: 'red' }}>No services chosen</CustomText>
             )}
 
             {item?.image && (
@@ -361,36 +392,36 @@ const OrderDetails = props => {
             )}
             {item?.status == 'accept' &&
               user?.role == 'barber' &&
-              dateDiff(item?.booking_date, item?.booking_time) <= 0 && 
-              
-                <CustomButton
-                  bgColor={Color.themeColor}
-                  borderColor={'white'}
-                  borderWidth={1}
-                  textColor={Color.black}
-                  onPress={() => {
-                    accept();
-                    // buttonText == 'review' &&  rbRef.open()
-                  }}
-                  width={windowWidth * 0.75}
-                  height={windowHeight * 0.06}
-                  text={
-                    isLoading2 ? (
-                      <ActivityIndicator color={Color.black} size={'small'} />
-                    ) : (
-                      'done the job'
-                    )
-                  }
-                  fontSize={moderateScale(14, 0.3)}
-                  textTransform={'uppercase'}
-                  isGradient={true}
-                  isBold
-                  marginTop={moderateScale(30, 0.3)}
-                />
-              }
+              dateDiff(item?.booking_date, item?.booking_time) <= 0 &&
+
+              <CustomButton
+                bgColor={Color.themeColor}
+                borderColor={'white'}
+                borderWidth={1}
+                textColor={Color.black}
+                onPress={() => {
+                  accept();
+                  // buttonText == 'review' &&  rbRef.open()
+                }}
+                width={windowWidth * 0.75}
+                height={windowHeight * 0.06}
+                text={
+                  isLoading2 ? (
+                    <ActivityIndicator color={Color.black} size={'small'} />
+                  ) : (
+                    'done the job'
+                  )
+                }
+                fontSize={moderateScale(14, 0.3)}
+                textTransform={'uppercase'}
+                isGradient={true}
+                isBold
+                marginTop={moderateScale(30, 0.3)}
+              />
+            }
             {item?.status == 'waiting for approval' &&
               user?.role == 'customer' &&
-              dateDiff(item?.booking_date, item?.booking_time) <= 0 && 
+              dateDiff(item?.booking_date, item?.booking_time) <= 0 &&
               (
                 <CustomButton
                   bgColor={Color.themeColor}
@@ -419,8 +450,8 @@ const OrderDetails = props => {
               )}
             {item?.status == 'complete' &&
               (user?.role == 'customer' &&
-              item?.review == null &&
-              Object.keys(review).length == 0 ? (
+                item?.review == null &&
+                Object.keys(review).length == 0 ? (
                 <CustomButton
                   bgColor={Color.themeColor}
                   borderColor={'white'}
@@ -471,7 +502,7 @@ const OrderDetails = props => {
               ))}
           </ScrollView>
           <ImageView
-            images={[{uri: item?.image}]}
+            images={[{ uri: item?.image }]}
             imageIndex={0}
             visible={imageModal}
             onRequestClose={() => setImageModal(false)}
@@ -540,6 +571,10 @@ const styles = ScaledSheet.create({
     marginTop: moderateScale(5, 0.3),
     fontSize: moderateScale(20, 0.3),
   },
+  designation: {
+    fontSize: moderateScale(16, 0.3),
+    color: Color.themeColor1
+  },
   eachRow: {
     flexDirection: 'row',
     width: '70%',
@@ -548,6 +583,7 @@ const styles = ScaledSheet.create({
   },
   heading: {
     fontSize: moderateScale(13, 0.3),
+    color: Color.darkGray
   },
   mapView: {
     width: windowWidth * 0.7,

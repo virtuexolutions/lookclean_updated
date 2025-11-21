@@ -21,20 +21,20 @@ const WalkThroughScreen = () => {
   const slides = [
     {
       key: '1',
-      title: 'Book A Professional Barber',
-      text: 'Easily discover and book top-rated barbers near you. Choose the perfect stylist based on reviews, services, and availability.',
+      title: 'Discover Top Service Providers',
+      text: 'Easily explore local Service Providers and skilled individual Providers near you. Find your perfect match for any grooming style',
       image: require('../Assets/Images/walkthrough.jpg'),
     },
     {
       key: '2',
-      title: 'Look Sharp, Feel Confident',
-      text: 'Enjoy a seamless grooming experience. Stay fresh and stylish with just a few taps.',
-      image: require('../Assets/Images/walkthrough2.jpg'),
+      title: 'Book Appointments Instantly',
+      text: 'Check Providers availability and schedule your grooming sessions in just a few taps no waiting, no hassle.',
+      image: require('../Assets/Images/walkthrough3.jpeg'),
     },
     {
       key: '3',
-      title: 'Track Appointments & History',
-      text: 'Manage upcoming appointments and your grooming history in one place.',
+      title: 'Pay & Manage',
+      text: 'Pay securely within the app and manage all your grooming appointments effortlessly.',
       image: require('../Assets/Images/walkthrough3.jpeg'),
     },
   ];

@@ -1,13 +1,14 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   userData: {},
   services: [],
   cartData: [],
-  selectedVoucher :{},
+  selectedVoucher: {},
   financeBreakDown: [],
-  notification : false,
-  userWallet : {}
+  notification: false,
+  userWallet: {},
+  isWelcome: false
   // barberServices:[]
 };
 
@@ -21,13 +22,13 @@ const CommonSlice = createSlice({
     },
     setRemoveCardData(state, action) {
       let data = [...state.cartData];
-      data.splice(action.payload , 1);
-      state.cartData = data ;
+      data.splice(action.payload, 1);
+      state.cartData = data;
     },
-    setWholeCart(state , action){
+    setWholeCart(state, action) {
       state.cartData = action.payload;
     },
-    setUserWallet(state , action){
+    setUserWallet(state, action) {
       state.userWallet = action.payload
     },
     setUserData(state, action) {
@@ -40,16 +41,18 @@ const CommonSlice = createSlice({
     setServices(state, action) {
       state.services = action?.payload;
     },
-   
-    setNotification(state,action){
+
+    setNotification(state, action) {
       state.notification = action.payload
     },
-    setVoucherData(state,action){
+    setVoucherData(state, action) {
       state.selectedVoucher = action.payload
 
     },
- 
-}
+    setIsWelcome(state, action) {
+      state.isWelcome = action.payload
+    }
+  }
 });
 
 export const {
@@ -61,7 +64,8 @@ export const {
   setRemoveCardData,
   setWholeCart,
   setVoucherData,
-  setUserWallet
+  setUserWallet,
+  setIsWelcome
 } = CommonSlice.actions;
 
 export default CommonSlice.reducer;

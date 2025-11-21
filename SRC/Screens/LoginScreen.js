@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ImageBackground,
   View,
@@ -9,21 +9,21 @@ import * as Animatable from 'react-native-animatable';
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
 import CustomImage from '../Components/CustomImage';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomButton from '../Components/CustomButton';
 import TextInputWithTitle from '../Components/TextInputWithTitle';
 import navigationService from '../navigationService';
-import {setUserToken, setWalkThrough} from '../Store/slices/auth';
-import {useDispatch, useSelector} from 'react-redux';
-import {Post} from '../Axios/AxiosInterceptorFunction';
-import {Platform} from 'react-native';
-import {ToastAndroid} from 'react-native';
-import {Alert} from 'native-base';
-import {ActivityIndicator} from 'react-native';
-import {setUserData, setUserWallet} from '../Store/slices/common';
+import { setUserToken, setWalkThrough } from '../Store/slices/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { Post } from '../Axios/AxiosInterceptorFunction';
+import { Platform } from 'react-native';
+import { ToastAndroid } from 'react-native';
+import { Alert } from 'native-base';
+import { ActivityIndicator } from 'react-native';
+import { setUserData, setUserWallet } from '../Store/slices/common';
 import DropDownSingleSelect from '../Components/DropDownSingleSelect';
 
 const LoginScreen = () => {
@@ -35,7 +35,7 @@ const LoginScreen = () => {
 
   const login = async () => {
     const url = 'login';
-    const body = {email: email, password: password};
+    const body = { email: email, password: password };
 
     for (let key in body) {
       if (body[key] == '') {
@@ -50,7 +50,7 @@ const LoginScreen = () => {
     console.log("🚀 ~ login ~ response:", response?.data)
     setLoading(false);
     if (response != undefined) {
-      dispatch(setUserToken({token: response?.data?.token}));
+      dispatch(setUserToken({ token: response?.data?.token }));
       dispatch(setUserData(response?.data?.user_info));
       dispatch(setUserWallet(response?.data?.user_info?.wallet));
     }
@@ -81,8 +81,8 @@ const LoginScreen = () => {
             zIndex: 1,
           }}>
           <LinearGradient
-            start={{x: 0.0, y: 0.25}}
-            end={{x: 0.5, y: 1.0}}
+            start={{ x: 0.0, y: 0.25 }}
+            end={{ x: 0.5, y: 1.0 }}
             colors={Color.themeGradient}
             style={styles.container}>
             <CustomText isBold style={styles.text1}>

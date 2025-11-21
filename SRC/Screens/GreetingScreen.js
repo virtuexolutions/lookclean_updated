@@ -7,11 +7,15 @@ import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomButton from '../Components/CustomButton';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView, View } from 'react-native';
+import { setIsWelcome, setUserData, setUserWallet } from '../Store/slices/common';
+import { setUserLogin, setUserToken } from '../Store/slices/auth';
+import { useDispatch } from 'react-redux';
 
 const GreetingScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch()
     return (
         <ScreenBoiler style={{ width: windowWidth, height: windowHeight }}
             statusBarBackgroundColor={Color.black}
@@ -37,7 +41,46 @@ const GreetingScreen = () => {
                     }}>
                         <CustomImage source={require('../Assets/Images/Logo.png')} style={{ width: '100%', height: '100%' }} />
                     </View>
+                    <View style={{
+                        alignItems: 'center',
+                        marginTop: windowWidth * 0.1
+                    }}>
+                        <CustomText isBold style={{
+                            fontSize: moderateScale(35, 0.6),
+                            color: Color.white,
+                            textTransform: 'uppercase',
+                        }}>Welcome</CustomText>
+                        <CustomText style={{
+                            fontSize: moderateScale(20, 0.6),
+                            color: Color.themeColor1,
+                            textAlign: 'center',
+                            width: windowWidth * 0.9,
+                            marginTop: moderateScale(3, 0.6)
+                        }}>Book expert barbers & beauty services with ease.</CustomText>
+                        <CustomText style={{
+                            fontSize: moderateScale(12, 0.6),
+                            color: Color.lightGray,
+                            textAlign: 'center',
+                            width: windowWidth * 0.92,
+                            marginTop: moderateScale(10, 0.6),
 
+                        }}>LookClean brings professional grooming and beauty services right to your fingertips. Browse skilled barbers and stylists, compare services, read reviews, and book appointments in just a few taps. Enjoy a smooth, modern salon experience with secure bookings, instant confirmations, and trusted service providers ready to elevate your look.</CustomText>
+                        <CustomButton
+                            textColor={Color.black}
+                            width={windowWidth * 0.8}
+                            height={windowHeight * 0.067}
+                            text={'Get Started'}
+                            textTransform={'uppercase'}
+                            fontSize={moderateScale(14, 0.3)}
+                            onPress={() => {
+                                dispatch(setIsWelcome(true))
+                            }}
+                            isGradient={true}
+                            borderRadius={moderateScale(30, 0.4)}
+                            isBold
+                            marginTop={moderateScale(30, 0.3)}
+                        />
+                    </View>
                 </ScrollView>
                 <View
                     style={{
@@ -49,7 +92,6 @@ const GreetingScreen = () => {
                         source={require('../Assets/Images/backgroundLogo.png')}
                     />
                 </View>
-
             </LinearGradient>
         </ScreenBoiler>
     )

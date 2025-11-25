@@ -44,8 +44,10 @@ const CustomButton = (props) => {
     disabled = false,
     alignSelf,
     image,
-    gradientColor
+    elevation,
+    gradientColor,
     // value
+    style
   } = props;
   return (
     <TouchableOpacity
@@ -80,6 +82,17 @@ const CustomButton = (props) => {
           borderColor: Color.themeLightGray,
           color: Color.white,
         },
+        elevation && {
+          shadowColor: Color.themeBlack,
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.32,
+          shadowRadius: 5.46,
+
+          elevation: 9,
+        }, style
       ]}
       disabled={disabled}
     >

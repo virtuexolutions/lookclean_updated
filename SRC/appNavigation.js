@@ -58,6 +58,8 @@ import Wishlist from './Screens/Wishlist';
 import Walkthrough from './Screens/Walkthrough';
 import DeleteAccount from './Screens/DeleteAccount';
 import GreetingScreen from './Screens/GreetingScreen';
+import GroupServices from './Screens/GroupService';
+import GroupMemberDetails from './Screens/GroupMemberDetails';
 
 const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
@@ -93,7 +95,7 @@ const AppNavigator = () => {
           initialRouteName={
             userData?.role == 'customer' ? customerFirstScreen : secondScreen
           }
-          // initialRouteName={'GreetingScreen'}
+          // initialRouteName={'WalkThroughScreen'}
           screenOptions={{ headerShown: false }}>
           <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
           <RootNav.Screen
@@ -110,6 +112,7 @@ const AppNavigator = () => {
           <RootNav.Screen name="OrderDetails" component={OrderDetails} />
           <RootNav.Screen name="Signup" component={Signup} />
           <RootNav.Screen name="ResetPassword" component={ResetPassword} />
+          <RootNav.Screen name="GroupMemberDetails" component={GroupMemberDetails} />
           <RootNav.Screen
             name="BarberServicesScreen"
             component={BarberServicesScreen}
@@ -141,6 +144,7 @@ const AppNavigator = () => {
           <RootNav.Screen name="ImageScreen" component={ImageScreen} />
           <RootNav.Screen name="Purchase" component={Purchase} />
           <RootNav.Screen name="DeleteAccount" component={DeleteAccount} />
+          <RootNav.Screen name="GroupServices" component={GroupServices} />
           <RootNav.Screen
             name="CompareBaberScreen"
             component={CompareBaberScreen}

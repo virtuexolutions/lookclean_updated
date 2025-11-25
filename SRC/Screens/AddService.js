@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -11,24 +11,24 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import {ScaledSheet, moderateScale} from 'react-native-size-matters';
+import { ScaledSheet, moderateScale } from 'react-native-size-matters';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Color from '../Assets/Utilities/Color';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 import ScreenBoiler from '../Components/ScreenBoiler';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import CustomButton from '../Components/CustomButton';
 import LinearGradient from 'react-native-linear-gradient';
 import DropDownSingleSelect from '../Components/DropDownSingleSelect';
 import CustomText from '../Components/CustomText';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ServiceComponent from '../Components/ServiceComponent';
-import {useDispatch, useSelector} from 'react-redux';
-import {Get, Post} from '../Axios/AxiosInterceptorFunction';
-import {useNavigation} from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { Get, Post } from '../Axios/AxiosInterceptorFunction';
+import { useNavigation } from '@react-navigation/native';
 import NoData from '../Components/NoData';
 import SelectedServicesModal from '../Components/SelectdServicesModal';
-import {setUserData} from '../Store/slices/common';
+import { setUserData } from '../Store/slices/common';
 // import SelectedService from '../Components/selectdService';
 // import { setbarberServices } from '../Store/slices/common';
 
@@ -56,7 +56,7 @@ const AddService = props => {
 
     setLoading(false);
     if (response != undefined) {
-      // console.log(response?.data)
+      console.log(response?.data, '===============>barbaer')
       setIsSelected(response?.data?.data?.find(item => item.main_service == 1));
       setService(response?.data?.data);
     }
@@ -66,7 +66,7 @@ const AddService = props => {
     const url = `auth/service`;
     setLoading(true);
     const response = await Get(url, token);
-
+    console.log(response?.data, '===============>')
     setLoading(false);
     if (response != undefined) {
       // console.log(response?.data?.data)
@@ -81,21 +81,21 @@ const AddService = props => {
 
   // POST API START
   const Services = async () => {
-  //  return console.log('selected services ====>' , service)
-   if (service.some(item => item?.name == '')) {
-    return Platform.OS == 'android'
-      ? ToastAndroid.show(
+    //  return console.log('selected services ====>' , service)
+    if (service.some(item => item?.name == '')) {
+      return Platform.OS == 'android'
+        ? ToastAndroid.show(
           'Please select your added service or delete the slot',
           ToastAndroid.SHORT,
         )
-      : Alert.alert('Please select your added service or delete the slot');
-  }
+        : Alert.alert('Please select your added service or delete the slot');
+    }
     if (service.some(item => item?.price == '')) {
       return Platform.OS == 'android'
         ? ToastAndroid.show(
-            'Please add price for all the services',
-            ToastAndroid.SHORT,
-          )
+          'Please add price for all the services',
+          ToastAndroid.SHORT,
+        )
         : Alert.alert('Please add price for all the services');
     }
     const body = {
@@ -138,8 +138,8 @@ const AddService = props => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         {service?.length > 0 && (
@@ -148,7 +148,7 @@ const AddService = props => {
               position: 'absolute',
               zIndex: 1,
               right: 0,
-              bottom: moderateScale(70 , 0.6),
+              bottom: moderateScale(70, 0.6),
               left: 0,
               justifyContent: 'center',
               alignItems: 'center',
@@ -156,9 +156,9 @@ const AddService = props => {
             }}>
             <CustomButton
               onPress={() => {
-            
-                if ([undefined , null , ''].includes(isSelected) || Object.keys(isSelected).length == 0 ) {
-                
+
+                if ([undefined, null, ''].includes(isSelected) || Object.keys(isSelected).length == 0) {
+
                   setIsVisiable(true);
                 } else {
                   Services();
@@ -180,7 +180,7 @@ const AddService = props => {
               marginTop={moderateScale(50, 0.3)}
               bgColor={Color.themeColor}
               borderRadius={moderateScale(25, 0.3)}
-              // isGradient
+            // isGradient
             />
           </View>
         )}
@@ -201,7 +201,7 @@ const AddService = props => {
 
           <TouchableOpacity
             onPress={() => {
-              setService(prev => [...prev, {name: '', price: ''}]);
+              setService(prev => [...prev, { name: '', price: '' }]);
             }}
             activeOpacity={0.7}
             style={{
@@ -223,7 +223,7 @@ const AddService = props => {
 
         {Loading ? (
           <View
-            style={{alignSelf: 'center', marginTop: moderateScale(150, 0.3)}}>
+            style={{ alignSelf: 'center', marginTop: moderateScale(150, 0.3) }}>
             <ActivityIndicator size={moderateScale(40, 0.6)} color={'white'} />
           </View>
         ) : (
@@ -244,7 +244,7 @@ const AddService = props => {
                 />
               );
             }}
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               return (
                 <ServiceComponent
                   service={service}

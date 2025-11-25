@@ -22,19 +22,19 @@ const WalkThroughScreen = () => {
     {
       key: '1',
       title: 'Discover Top Service Providers',
-      text: 'Easily explore local Service Providers and skilled individual Providers near you. Find your perfect match for any grooming style',
+      text: 'Explore top-rated salons and skilled individual service providers around your location. View detailed profiles, services, ratings, and portfolio styles so you can easily find the perfect match for your grooming needs.',
       image: require('../Assets/Images/walkthrough.jpg'),
     },
     {
       key: '2',
       title: 'Book Appointments Instantly',
-      text: 'Check Providers availability and schedule your grooming sessions in just a few taps no waiting, no hassle.',
+      text: 'Check real-time availability and book your appointments at the time that suits you best. With just a few taps, your booking is confirmed no waiting, no extra steps, just a smooth and hassle-free experience.',
       image: require('../Assets/Images/walkthrough3.jpeg'),
     },
     {
       key: '3',
       title: 'Pay & Manage',
-      text: 'Pay securely within the app and manage all your grooming appointments effortlessly.',
+      text: 'Make secure in-app payments and keep all your appointments organized in one place. Track upcoming bookings, view your history, and manage everything effortlessly with complete convenience.',
       image: require('../Assets/Images/walkthrough3.jpeg'),
     },
   ];
@@ -75,7 +75,7 @@ const WalkThroughScreen = () => {
             <View
               style={{
                 position: 'absolute',
-                bottom: windowWidth * 0.2,
+                bottom: 6,
                 left: 0,
                 right: 0,
                 backgroundColor: 'transparent',
@@ -135,21 +135,26 @@ const styles = StyleSheet.create({
   },
 
   imageWrapper: {
-    width: '92%',
-    height: windowHeight * 0.55,
-    borderRadius: moderateScale(20),
+    width: '100%',
+    height: windowHeight * 0.45,
+    // borderRadius: moderateScale(20),
     overflow: 'hidden',
+    borderBottomRightRadius: windowWidth,
+    borderBottomLeftRadius: windowWidth
   },
 
   image: { width: '100%', height: '100%' },
 
   title: {
-    fontSize: moderateScale(20),
+    fontSize: moderateScale(25, 0.6),
     fontWeight: '700',
     color: Color.white,
     textAlign: 'center',
     marginTop: moderateScale(25),
-    paddingHorizontal: '8%',
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'solid',
+    textDecorationColor: Color.themeColor1,
+    width: "90%",
   },
 
   description: {
@@ -157,7 +162,8 @@ const styles = StyleSheet.create({
     color: Color.white,
     textAlign: 'center',
     marginTop: moderateScale(15),
-    paddingHorizontal: '10%',
+    paddingHorizontal: moderateScale(15, 0.6),
+    width: "100%",
   },
 
   footer: {

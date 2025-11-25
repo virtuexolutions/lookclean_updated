@@ -149,8 +149,6 @@ const Signup = ({ navigation }) => {
       <Header showBack={true} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
-
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
@@ -274,16 +272,16 @@ const Signup = ({ navigation }) => {
                 }}>
                 <CustomText
                   style={{ fontSize: moderateScale(13, 0.6), color: Color.white }}>
-                  designation
+                  Category
                 </CustomText>
                 <DropDownSingleSelect
-                  array={['Textured Hair', 'Face treatments', 'Med spa', 'Braids', 'beautician', 'Nails']}
+                  array={['Hair & Styling', 'Makeup & Lashes', 'Skin & Spa', 'Wellness & Therapy', 'Other / Custom', 'Nails']}
                   backgroundColor={Color.white}
                   item={designation}
                   setItem={setDesignation}
                   Color={Color.darkGray}
                   fontSize={moderateScale(14, 0.6)}
-                  placeholder={'Choose designation'}
+                  placeholder={'Choose Specialty Category'}
                   width={windowWidth * 0.75}
                   // buttonStyle={{backgroundColor :Color.white}}
                   dropdownStyle={{

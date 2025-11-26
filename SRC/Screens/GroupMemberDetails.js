@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    FlatList,
     ScrollView,
     TouchableOpacity,
     View
@@ -20,7 +21,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import CustomButton from '../Components/CustomButton';
 import navigationService from '../navigationService';
-import { Icon } from 'native-base';
+import { Icon, Modal } from 'native-base';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import GroupMemberModal from '../Components/GroupMemberModal';
 
@@ -31,6 +32,10 @@ const GroupMemberDetails = props => {
     const userWallet = useSelector(state => state.commonReducer.userWallet);
     const token = useSelector(state => state.authReducer.token);
     const [add_memberModal, setAddMemberModal] = useState(false)
+    const [members, setMembers] = useState([]);
+    const handleAddMember = (memberObj) => {
+        setMembers(prev => [...prev, memberObj]);
+    };
 
     return (
         <ScreenBoiler
@@ -47,7 +52,7 @@ const GroupMemberDetails = props => {
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <CustomText style={styles.heading}>Enter Details of Your Group Members</CustomText>
                     <TouchableOpacity onPress={() => setAddMemberModal(true)} activeOpacity={0.5} style={[styles.row, {
-                        width: windowWidth * 0.92,
+                        width: windowWidth * 0.94,
                         marginTop: moderateScale(20, 0.6),
                         padding: moderateScale(10, 0.6),
                         borderRadius: moderateScale(7, 0.6),
@@ -62,8 +67,29 @@ const GroupMemberDetails = props => {
                             }} />
                         </View>
                     </TouchableOpacity>
+                    <FlatList
+                        data={members}
+                        renderItem={(({ item, index }) => {
+                            return (
+                                <TouchableOpacity style={{
+                                    width: windowWidth * 0.94,
+                                    paddingVertical: moderateScale(10, 0.6),
+                                    backgroundColor: 'red',
+                                    height: windowWidth * 0.15,
+                                    marginTop: moderateScale(15, 0.6),
+                                    borderRadius: moderateScale(10, 0.6),
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    paddingHorizontal: moderateScale(10, 0.6)
+                                }}>
+                                       
+                                </TouchableOpacity>
+                            )
+                        })}
+                    />
                 </ScrollView>
-                <GroupMemberModal modal={add_memberModal} setModal={setAddMemberModal} />
+                <GroupMemberModal modal={add_memberModal} setModal={setAddMemberModal} onAdd={handleAddMember} />
             </LinearGradient>
         </ScreenBoiler>
     );

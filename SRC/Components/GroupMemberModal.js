@@ -11,10 +11,36 @@ import CustomText from './CustomText';
 import CustomButton from './CustomButton';
 import TextInputWithTitle from './TextInputWithTitle';
 import DropDownSingleSelect from './DropDownSingleSelect';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import ImagePickerModal from './ImagePickerModal';
+import CustomImage from './CustomImage';
 
-const GroupMemberModal = ({ modal, setModal, setType, type, onPress }) => {
+const GroupMemberModal = ({ modal, setModal, setType, type, onPress, onAdd }) => {
     console.log(type, '==============>')
     const [event_type, setEventType] = useState('')
+    const [name, setName] = useState("");
+    const [allergy, setAllergy] = useState("");
+    const [addons, setAddons] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const [image, setImage] = useState({});
+    console.log(image, '===================')
+    const handleAdd = () => {
+        const obj = {
+            name,
+            event_type,
+            allergy,
+            addons,
+            image
+        };
+
+        onAdd(obj);
+        setModal(false);
+        setName('');
+        setEventType('');
+        setAllergy('');
+        setAddons('');
+        setImage({})
+    };
 
     return (
         <Modal
@@ -42,8 +68,8 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress }) => {
                     titleText={'Name : '}
                     secureText={false}
                     placeholder={'Enter Name Here'}
-                    // setText={setFirstName}
-                    // value={firstName}
+                    setText={setName}
+                    value={name}
                     viewHeight={0.06}
                     viewWidth={0.8}
                     inputWidth={0.74}
@@ -94,8 +120,8 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress }) => {
                     titleText={'Any allergies or sensitivities : '}
                     secureText={false}
                     placeholder={'Yes/No'}
-                    // setText={setFirstName}
-                    // value={firstName}
+                    setText={setAllergy}
+                    value={allergy}
                     viewHeight={0.06}
                     viewWidth={0.8}
                     inputWidth={0.74}
@@ -114,8 +140,8 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress }) => {
                     titleText={'Add-ons (optional) : '}
                     secureText={false}
                     placeholder={'Add-ons (lashes, hair extensions, nail art, etc.)'}
-                    // setText={setFirstName}
-                    // value={firstName}
+                    setText={setAddons}
+                    value={addons}
                     viewHeight={0.06}
                     viewWidth={0.8}
                     inputWidth={0.74}
@@ -130,20 +156,57 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress }) => {
                         fontWeight: 'bold'
                     }}
                 />
+                <CustomText isBold
+                    style={{
+                        fontSize: moderateScale(15, 0.6),
+                        paddingTop: moderateScale(10, 0.6),
+                        color: Color.themeColor1,
+                        textAlign: 'left',
+                        width: windowWidth * 0.8
+                    }}>
+                    Any Reference (optional) :
+                </CustomText>
+                <TouchableOpacity onPress={() => setShowModal(true)} style={{
+                    width: windowWidth * 0.2,
+                    height: windowWidth * 0.24,
+                    backgroundColor: Color.lightGray,
+                    borderRadius: moderateScale(10, 0.6),
+                    alignSelf: 'flex-start',
+                    marginLeft: moderateScale(20, 0.6),
+                    justifyContent: 'center',
+                    alignItems: "center",
+                    marginTop: moderateScale(10, 0.6)
+                }}>
+                    {Object.keys(image).length > 0 ? (
+                        <CustomImage
+                            source={{ uri: image?.uri }}
+                            style={styles.image}
+                        />) :
+                        <Icon name='plus' as={FontAwesome} size={moderateScale(24, 0.6)} color={Color.veryLightGray} style={{
+                            alignSelf: 'center',
+                            marginLeft: moderateScale(3, 0.6)
+                        }} />
+                    }
+                </TouchableOpacity>
                 <CustomButton
                     textColor={Color.black}
                     width={windowWidth * 0.8}
                     height={windowHeight * 0.06}
                     text={'Add'}
                     fontSize={moderateScale(13, 0.3)}
-                    onPress={onPress}
                     isGradient={true}
                     borderRadius={moderateScale(30, 0.4)}
                     isBold
                     marginTop={moderateScale(20, 0.3)}
                     elevation
+                    onPress={handleAdd}
                 />
             </View>
+            <ImagePickerModal
+                show={showModal}
+                setShow={setShowModal}
+                setFileObject={setImage}
+            />
         </Modal>
     );
 };

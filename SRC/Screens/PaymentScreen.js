@@ -86,7 +86,7 @@ const PaymentScreen = props => {
     selectedServiceIds?.map((item, index) =>
       formData.append(`service_id[${index}]`, item),
     );
- console.log('bodyyyyyyyyy == == = == = >> > >> > ' ,body)
+    console.log('bodyyyyyyyyy == == = == = >> > >> > ', body)
 
     const url = 'auth/booking';
     setIsLoading(true);
@@ -155,8 +155,8 @@ const PaymentScreen = props => {
         end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
-            <KeyboardAvoidingView    
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 
           <ScrollView
             showsVerticalScrollIndicator={false}
@@ -168,63 +168,112 @@ const PaymentScreen = props => {
             style={{
               width: windowWidth,
             }}>
-          <CustomText isBold style={styles.text1}>
-            Payment
-          </CustomText>
-          <CustomText
-            isBold
-            style={[styles.subHeading, { width: windowWidth * 0.9 }]}>
-            Address
-          </CustomText>
-          <View style={[styles.container1, { height: windowHeight * 0.15 }]}>
-            <CustomImage
-              source={require('../Assets/Images/address.png')}
-              resizeMode={'stretch'}
-              style={{
-                width: windowWidth * 0.4,
-                height: '100%',
-              }}
-            />
-            <View
-              style={{
-                marginLeft: moderateScale(10, 0.3),
-                justifyContent: 'center',
-              }}>
-              <CustomText
-                isBold
+            <CustomText isBold style={styles.text1}>
+              Payment
+            </CustomText>
+            <CustomText
+              isBold
+              style={[styles.subHeading, { width: windowWidth * 0.9 }]}>
+              Address
+            </CustomText>
+            <View style={[styles.container1, { height: windowHeight * 0.15 }]}>
+              <CustomImage
+                source={require('../Assets/Images/address.png')}
+                resizeMode={'stretch'}
                 style={{
-                  fontSize: moderateScale(12, 0.3),
                   width: windowWidth * 0.4,
-                  color: Color.black,
-                }}>
-                Home Address:
-              </CustomText>
-              <CustomText
+                  height: '100%',
+                }}
+              />
+              <View
                 style={{
-                  fontSize: moderateScale(11, 0.3),
-                  width: windowWidth * 0.4,
-                  color: Color.themeLightGray,
+                  marginLeft: moderateScale(10, 0.3),
+                  justifyContent: 'center',
                 }}>
-                {finalData?.location?.name}
-              </CustomText>
-            </View>
-          </View>
-          {fromStore && (
-            <>
-              <CustomText
-                isBold
-                style={[styles.subHeading, { width: windowWidth * 0.9 }]}>
-                Courier
-              </CustomText>
-              <View style={[styles.container1, { height: windowHeight * 0.06 }]}>
                 <CustomText
                   isBold
+                  style={{
+                    fontSize: moderateScale(12, 0.3),
+                    width: windowWidth * 0.4,
+                    color: Color.black,
+                  }}>
+                  Home Address:
+                </CustomText>
+                <CustomText
+                  style={{
+                    fontSize: moderateScale(11, 0.3),
+                    width: windowWidth * 0.4,
+                    color: Color.themeLightGray,
+                  }}>
+                  {finalData?.location?.name}
+                </CustomText>
+              </View>
+            </View>
+            {fromStore && (
+              <>
+                <CustomText
+                  isBold
+                  style={[styles.subHeading, { width: windowWidth * 0.9 }]}>
+                  Courier
+                </CustomText>
+                <View style={[styles.container1, { height: windowHeight * 0.06 }]}>
+                  <CustomText
+                    isBold
+                    style={[
+                      styles.subHeading,
+                      { color: Color.black, marginTop: moderateScale(0, 0.3) },
+                    ]}>
+                    Regular
+                  </CustomText>
+                  <CustomText
+                    style={[
+                      styles.subHeading,
+                      {
+                        color: Color.themeLightGray,
+                        marginTop: moderateScale(0, 0.3),
+                      },
+                    ]}>
+                    3-6 days
+                  </CustomText>
+                  <CustomText
+                    style={[
+                      styles.subHeading,
+                      { color: Color.black, marginTop: moderateScale(0, 0.3) },
+                    ]}>
+                    $2.05
+                  </CustomText>
+                </View>
+              </>
+            )}
+            <CustomText
+              isBold
+              style={[styles.subHeading, { width: windowWidth * 0.9 }]}>
+              payment method
+            </CustomText>
+            <View
+              style={[
+                styles.container1,
+                { height: windowHeight * 0.1, justifyContent: 'flex-start' },
+              ]}>
+              <View
+                style={{
+                  width: 50,
+                  height: 30,
+                  backgroundColor: '#000',
+                  marginLeft: moderateScale(20, 0.3),
+                }}></View>
+              <View
+                style={{
+                  marginLeft: moderateScale(20, 0.3),
+                }}>
+                <CustomText
                   style={[
                     styles.subHeading,
                     { color: Color.black, marginTop: moderateScale(0, 0.3) },
                   ]}>
-                  Regular
+                  Wallet
                 </CustomText>
+
                 <CustomText
                   style={[
                     styles.subHeading,
@@ -233,222 +282,173 @@ const PaymentScreen = props => {
                       marginTop: moderateScale(0, 0.3),
                     },
                   ]}>
-                  3-6 days
-                </CustomText>
-                <CustomText
-                  style={[
-                    styles.subHeading,
-                    { color: Color.black, marginTop: moderateScale(0, 0.3) },
-                  ]}>
-                  $2.05
+                  My wallet
                 </CustomText>
               </View>
-            </>
-          )}
-          <CustomText
-            isBold
-            style={[styles.subHeading, { width: windowWidth * 0.9 }]}>
-            payment method
-          </CustomText>
-          <View
-            style={[
-              styles.container1,
-              { height: windowHeight * 0.1, justifyContent: 'flex-start' },
-            ]}>
-            <View
-              style={{
-                width: 50,
-                height: 30,
-                backgroundColor: '#000',
-                marginLeft: moderateScale(20, 0.3),
-              }}></View>
-            <View
-              style={{
-                marginLeft: moderateScale(20, 0.3),
-              }}>
-              <CustomText
-                style={[
-                  styles.subHeading,
-                  { color: Color.black, marginTop: moderateScale(0, 0.3) },
-                ]}>
-                Wallet
-              </CustomText>
-
-              <CustomText
-                style={[
-                  styles.subHeading,
-                  {
-                    color: Color.themeLightGray,
-                    marginTop: moderateScale(0, 0.3),
-                  },
-                ]}>
-                My wallet
-              </CustomText>
+              <View style={styles.addCardContainer}>
+                <Icon
+                  name="keyboard-arrow-down"
+                  as={MaterialIcons}
+                  size={moderateScale(20, 0.3)}
+                  color={Color.black}
+                />
+              </View>
             </View>
-            <View style={styles.addCardContainer}>
-              <Icon
-                name="keyboard-arrow-down"
-                as={MaterialIcons}
-                size={moderateScale(20, 0.3)}
-                color={Color.black}
-              />
+            <View style={styles.userTypeContainer}>
+              <View style={styles.innerContainer}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelectedPaymentMethod('wallet');
+                  }}
+                  activeOpacity={0.9}
+                  style={[
+                    styles.circle,
+                    selectedPaymentMethod == 'wallet' && {
+                      backgroundColor: Color.themeColor1,
+                      borderColor: Color.themeColor1,
+                    },
+                  ]}></TouchableOpacity>
+                <CustomText
+                  isBold
+                  style={styles.txt2}
+                  onPress={() => {
+                    // if (finalData?.total > userWallet?.amount) {
+                    //   Platform.OS == 'android'
+                    //     ? ToastAndroid.show(
+                    //         'insufficient amount',
+                    //         ToastAndroid.SHORT,
+                    //       )
+                    //     : alert('insufficient amount');
+                    //   // navigation.navigate('Purchase')
+                    // } else {
+                    setSelectedPaymentMethod('wallet');
+                    // }
+                  }}>
+                  from wallet
+                </CustomText>
+              </View>
+              <View style={styles.innerContainer}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelectedPaymentMethod('stripe');
+                  }}
+                  activeOpacity={0.9}
+                  style={[
+                    styles.circle,
+                    selectedPaymentMethod == 'stripe' && {
+                      backgroundColor: Color.themeColor1,
+                      borderColor: Color.themeColor1,
+                    },
+                  ]}></TouchableOpacity>
+                <CustomText
+                  isBold
+                  onPress={() => {
+                    setSelectedPaymentMethod('stripe');
+                    setIsVisible(true);
+                  }}
+                  style={styles.txt2}>
+                  pay through stripe
+                </CustomText>
+              </View>
             </View>
-          </View>
-          <View style={styles.userTypeContainer}>
-            <View style={styles.innerContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  setSelectedPaymentMethod('wallet');
-                }}
-                activeOpacity={0.9}
-                style={[
-                  styles.circle,
-                  selectedPaymentMethod == 'wallet' && {
-                    backgroundColor: Color.themeColor1,
-                    borderColor: Color.themeColor1,
-                  },
-                ]}></TouchableOpacity>
-              <CustomText
-                isBold
-                style={styles.txt2}
-                onPress={() => {
-                  // if (finalData?.total > userWallet?.amount) {
-                  //   Platform.OS == 'android'
-                  //     ? ToastAndroid.show(
-                  //         'insufficient amount',
-                  //         ToastAndroid.SHORT,
-                  //       )
-                  //     : alert('insufficient amount');
-                  //   // navigation.navigate('Purchase')
-                  // } else {
-                  setSelectedPaymentMethod('wallet');
-                  // }
-                }}>
-                from wallet
-              </CustomText>
-            </View>
-            <View style={styles.innerContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  setSelectedPaymentMethod('stripe');
-                }}
-                activeOpacity={0.9}
-                style={[
-                  styles.circle,
-                  selectedPaymentMethod == 'stripe' && {
-                    backgroundColor: Color.themeColor1,
-                    borderColor: Color.themeColor1,
-                  },
-                ]}></TouchableOpacity>
-              <CustomText
-                isBold
-                onPress={() => {
-                  setSelectedPaymentMethod('stripe');
-                  setIsVisible(true);
-                }}
-                style={styles.txt2}>
-                pay through stripe
-              </CustomText>
-            </View>
-          </View>
-          {selectedPaymentMethod == 'stripe' && isVisible &&
-          <View style={styles.modal}>
-            <View style={styles.header}>
-              <CustomText
-                isBold
-                style={{
-                  color: Color.white,
-                  fontSize: moderateScale(15, 0.6),
-                }}>
-                Add Card Details
-              </CustomText>
-            </View>
+            {selectedPaymentMethod == 'stripe' && isVisible &&
+              <View style={styles.modal}>
+                <View style={styles.header}>
+                  <CustomText
+                    isBold
+                    style={{
+                      color: Color.white,
+                      fontSize: moderateScale(15, 0.6),
+                    }}>
+                    Add Card Details
+                  </CustomText>
+                </View>
 
 
-            <CardField
-              postalCodeEnabled={false}
-              placeholderColor={Color.darkGray}
-              placeholders={{
-                number: '4242 4242 4242 4242',
-              }}
-              // placeholdersColor={'black'}
-              cardStyle={{
-                backgroundColor: Color.white,
-                borderRadius: moderateScale(15, 0.6),
-                width: windowWidth * 0.4,
-                borderRadius: moderateScale(35, 0.6),
-                // placeholderColor:'red',
-                textColor: 'black',
-                placeholderColor:Color.darkGray,
-              }}
-              style={{
-                width: '85%',
-                height: windowHeight * 0.07,
-                marginVertical: moderateScale(10, 0.3),
-              }}
-              onCardChange={cardDetails => {
+                <CardField
+                  postalCodeEnabled={false}
+                  placeholderColor={Color.darkGray}
+                  placeholders={{
+                    number: '4242 4242 4242 4242',
+                  }}
+                  // placeholdersColor={'black'}
+                  cardStyle={{
+                    backgroundColor: Color.white,
+                    borderRadius: moderateScale(15, 0.6),
+                    width: windowWidth * 0.4,
+                    borderRadius: moderateScale(35, 0.6),
+                    // placeholderColor:'red',
+                    textColor: 'black',
+                    placeholderColor: Color.darkGray,
+                  }}
+                  style={{
+                    width: '85%',
+                    height: windowHeight * 0.07,
+                    marginVertical: moderateScale(10, 0.3),
+                  }}
+                  onCardChange={cardDetails => {
 
-              }}
-              onFocus={focusedField => {
+                  }}
+                  onFocus={focusedField => {
 
-              }}
+                  }}
 
-            />
+                />
+                <CustomButton
+                  textColor={Color.black}
+                  text={
+                    loading ? (
+                      <ActivityIndicator color={'black'} size={'small'} />
+                    ) : (
+                      'add'
+                    )
+                  }
+                  onPress={() => {
+                    strpieToken();
+                  }}
+                  width={windowWidth * 0.35}
+                  height={windowHeight * 0.05}
+                  borderRadius={moderateScale(25, 0.6)}
+                  fontSize={moderateScale(14, 0.3)}
+                  textTransform={'uppercase'}
+                  isGradient={true}
+                  isBold
+                  disabled={isLoading}
+                />
+              </View>}
+
+
             <CustomButton
               textColor={Color.black}
+              onPress={() => {
+                if (finalData?.total > userWallet?.amount && selectedPaymentMethod == 'wallet') {
+                  Platform.OS == 'android'
+                    ? ToastAndroid.show('insufficient amount', ToastAndroid.SHORT)
+                    : alert('insufficient amount');
+                  // navigation.navigate('Purchase')
+                } else {
+                  Booking();
+                }
+              }}
+              width={windowWidth * 0.9}
+              height={windowHeight * 0.06}
               text={
-                loading ? (
-                  <ActivityIndicator color={'black'} size={'small'} />
+                isLoading ? (
+                  <ActivityIndicator color={Color.black} size={'small'} />
                 ) : (
-                  'add'
+                  'Pay now'
                 )
               }
-              onPress={() => {
-                strpieToken();
-              }}
-              width={windowWidth * 0.35}
-              height={windowHeight * 0.05}
-              borderRadius={moderateScale(25, 0.6)}
               fontSize={moderateScale(14, 0.3)}
+              borderRadius={moderateScale(30, 0.4)}
               textTransform={'uppercase'}
               isGradient={true}
               isBold
-              disabled={isLoading}
+              marginTop={moderateScale(30, 0.3)}
+            // disabled={finalData?.total > userWallet?.amount}
             />
-          </View>}
-
-          
-        <CustomButton
-          textColor={Color.black}
-          onPress={() => {
-            if (finalData?.total > userWallet?.amount && selectedPaymentMethod == 'wallet') {
-              Platform.OS == 'android'
-              ? ToastAndroid.show('insufficient amount', ToastAndroid.SHORT)
-              : alert('insufficient amount');
-              // navigation.navigate('Purchase')
-            } else {
-              Booking();
-            }
-          }}
-          width={windowWidth * 0.9}
-          height={windowHeight * 0.06}
-          text={
-            isLoading ? (
-              <ActivityIndicator color={Color.black} size={'small'} />
-            ) : (
-              'Pay now'
-            )
-          }
-          fontSize={moderateScale(14, 0.3)}
-          borderRadius={moderateScale(30, 0.4)}
-          textTransform={'uppercase'}
-          isGradient={true}
-          isBold
-          marginTop={moderateScale(30, 0.3)}
-          // disabled={finalData?.total > userWallet?.amount}
-          />
           </ScrollView>
-          </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
       </LinearGradient>
 
 
@@ -529,7 +529,7 @@ const PaymentScreen = props => {
         setModalIsVisible={setModalIsVisible}
         bookingDate={finalData?.date}
         bookingStartTime={finalData?.time?.time}
-        />
+      />
     </ScreenBoiler>
   );
 };

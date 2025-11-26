@@ -8,19 +8,19 @@ import {
 } from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
-import {windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale} from 'react-native-size-matters';
+import { windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale } from 'react-native-size-matters';
 import Color from '../Assets/Utilities/Color';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomText from './CustomText';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomButton from './CustomButton';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import {useState} from 'react';
-import {set} from 'react-native-reanimated';
+import { useState } from 'react';
+import { set } from 'react-native-reanimated';
 
 const SelectedServicesModal = ({
   item,
@@ -29,7 +29,7 @@ const SelectedServicesModal = ({
   isSelected,
   setIsSelected,
 }) => {
-// console.log('Selected Services Modal ==== >',item)
+  console.log('Selected Services Modal ==== >',item)
   const navigation = useNavigation();
   return (
     <Modal
@@ -62,25 +62,19 @@ const SelectedServicesModal = ({
         </View>
         <ScrollView
           showsVerticalScrollIndicator={true}
-          contentContainerStyle={
-            {
-              // paddingBottom :moderateScale(50,.6)
-            }
-          }
           style={
             {
-              // backgroundColor:'red',
-              marginVertical:moderateScale(10,.6)
+              marginVertical: moderateScale(10, .6)
             }
           }>
           {item?.map((data, index) => {
-            // console.log('heereer ==> ',data)
+            console.log('dataaaaaaaaaaaaaaa', data)
             return (
               <TouchableOpacity
                 onPress={() => {
                   console.log("Pressed", data)
                   if (isSelected?.id == data?.id) {
-                    console.log("DATA ===> ",data)
+                    console.log("DATA ===> ", data)
 
                     setIsSelected({});
                   } else {
@@ -104,8 +98,8 @@ const SelectedServicesModal = ({
                 {isSelected?.id == data?.id && (
                   <View
                     style={{
-                      position : 'absolute',
-                      right : 1,
+                      position: 'absolute',
+                      right: 1,
                       // backgroundColor:'red',
                       alignItems: 'center',
                       justifyContent: 'center',

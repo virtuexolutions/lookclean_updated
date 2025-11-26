@@ -50,7 +50,6 @@ const Support = () => {
     const url = 'auth/admin/info';
     setLoading(true);
     const response = await Get(url, token);
-    console.log(response?.data, '=======================>')
     setLoading(false);
     if (response != undefined) {
       setSupportData(response?.data?.data);

@@ -35,7 +35,6 @@ const Vouchers = props => {
     const url = 'auth/coupon';
     setIsLoading(true);
     const response = await Get(url, token);
-    console.log(response?.data, '===================>')
     setIsLoading(false);
 
     if (response != undefined) {

@@ -42,7 +42,6 @@ const BarberCard = ({
   setSelectedBarber,
   isDetails = true
 }) => {
-  console.log(item, 'item========================>')
   const cartData = useSelector(state => state.commonReducer.cartData);
   const token = useSelector(state => state.authReducer.token);
 
@@ -81,7 +80,6 @@ const BarberCard = ({
   };
   const rating = parseFloat(item?.reviews_avg_rating) || 0;
   const timeAgo = moment(item?.created_at).format('DD MMM YYYY')
-  console.log(timeAgo, '=================>')
   useEffect(() => {
     if (start) {
       setTimeout(() => {

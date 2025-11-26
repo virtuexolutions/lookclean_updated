@@ -92,10 +92,10 @@ const AppNavigator = () => {
     return (
       <NavigationContainer ref={navigationService.navigationRef}>
         <RootNav.Navigator
-          initialRouteName={
-            userData?.role == 'customer' ? customerFirstScreen : secondScreen
-          }
-          // initialRouteName={'WalkThroughScreen'}
+          // initialRouteName={
+          //   userData?.role == 'customer' ? customerFirstScreen : secondScreen
+          // }
+          initialRouteName={'AddService'}
           screenOptions={{ headerShown: false }}>
           <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
           <RootNav.Screen

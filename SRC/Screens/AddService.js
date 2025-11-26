@@ -37,7 +37,7 @@ const AddService = props => {
 
   const userData = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token);
-
+  console.log(token, 'tokeeeeeeeeen')
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -47,30 +47,34 @@ const AddService = props => {
   console.log(isSelected)
   const [isLoading, setIsLoading] = useState(false);
   const [service, setService] = useState([]);
+  console.log('service', service)
   const [serviceArray, setServiceArray] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+  const [selectedService, setSelectedService] = useState(null);
+  const [price, setPrice] = useState('');
+  const [event_type, setEventType] = useState({})
+  console.log(event_type, '================')
 
   const GetServices = async () => {
     const url = `auth/barber/service`;
     setLoading(true);
     const response = await Get(url, token);
-
     setLoading(false);
     if (response != undefined) {
-      console.log(response?.data, '===============>barbaer')
       setIsSelected(response?.data?.data?.find(item => item.main_service == 1));
       setService(response?.data?.data);
     }
   };
 
+
   const GetServicesList = async () => {
-    const url = `auth/service`;
+    const url = `auth/service?level=main`;
     setLoading(true);
     const response = await Get(url, token);
-    console.log(response?.data, '===============>')
     setLoading(false);
     if (response != undefined) {
-      // console.log(response?.data?.data)
-      setServiceArray(response?.data?.data);
+      setServiceArray(response?.data?.data?.data);
     }
   };
 
@@ -79,9 +83,7 @@ const AddService = props => {
     fromSettings && GetServices();
   }, []);
 
-  // POST API START
   const Services = async () => {
-    //  return console.log('selected services ====>' , service)
     if (service.some(item => item?.name == '')) {
       return Platform.OS == 'android'
         ? ToastAndroid.show(
@@ -99,18 +101,17 @@ const AddService = props => {
         : Alert.alert('Please add price for all the services');
     }
     const body = {
-      service_name: serviceArray
+      service_name: event_type?.children
         ?.filter((item, index) => {
           return service?.some(item1 => item?.name == item1?.name);
         })
         ?.map(item => ({
           service_id: item?.id,
           price: service?.find(x => x.name == item.name)?.price,
-          main_service: isSelected?.id == item?.id ? 1 : 0,
         })),
     };
 
-
+    console.log(body, '==================>bodyyyyyyyyyy')
     const url = 'auth/barber/service';
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
@@ -129,7 +130,6 @@ const AddService = props => {
       }
     }
   };
-
 
   return (
     <ScreenBoiler
@@ -184,11 +184,50 @@ const AddService = props => {
             />
           </View>
         )}
+        <CustomText isBold style={[styles.AddService, { marginLeft: moderateScale(16, 0.6) }]}>
+          Add Services
+        </CustomText>
+        <DropDownSingleSelect
+          array={serviceArray}
+          value={selectedCategory}
+          labelField="name"
+          valueField="id"
+          label={'Select Category'}
+          setValue={val => {
+            setSelectedCategory(val);
+            setSelectedSubCategory(null);
+            setSelectedService(null);
+          }}
+          item={event_type}
+          setItem={setEventType}
+          backgroundColor={Color.lightGray}
+          Colors={Color.veryLightGray}
+          fontSize={moderateScale(12, 0.6)}
+          placeholder={'Please Select Service'}
+          width={windowWidth * 0.9}
+          dropdownStyle={{
+            width: windowWidth * 0.92,
+            alignSelf: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: moderateScale(6, 0.6),
+            marginTop: moderateScale(10, 0.6)
+          }}
+          style={{
+            borderWidth: 2,
+            borderRadius: moderateScale(10, 0.4),
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem.name;
+          }}
+          rowTextForSelection={(item, index) => {
+            return item.name;
+          }}
+        />
         <View
           style={{
             width: windowWidth * 0.95,
             paddingVertical: moderateScale(10, 0.6),
-            // backgroundColor: '#fff',
             alignSelf: 'center',
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -230,7 +269,6 @@ const AddService = props => {
           <FlatList
             showsVerticalScrollIndicator={false}
             data={service}
-            // data={[1,2,3,4,5,6]}
             ListEmptyComponent={() => {
               return (
                 <NoData
@@ -250,18 +288,15 @@ const AddService = props => {
                   service={service}
                   setService={setService}
                   item={item}
-                  serviceArray={serviceArray}
+                  serviceArray={event_type?.children}
                 />
-                // <CustomText style={{
-                //   color : 'white'
-                // }}>hello</CustomText>
               );
             }}
           />
         )}
 
         <SelectedServicesModal
-          item={serviceArray?.filter((item, index) => {
+          item={event_type?.children?.filter((item, index) => {
             return service?.some(item1 => item?.name == item1?.name);
           })}
           isVisiable={isVisiable}

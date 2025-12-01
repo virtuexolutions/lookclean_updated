@@ -39,10 +39,12 @@ import { useIsFocused } from '@react-navigation/core';
 import { useNavigation } from '@react-navigation/native';
 
 const PaymentScreen = props => {
+  // console.log('object =========== > propsssssssssssssssss' ,props?.route?.params)
   const navigation = useNavigation();
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const fromStore = props?.route?.params?.fromStore;
   const finalData = props?.route?.params?.finalData;
+  console.log('finalData ', finalData?.services?.members[0]?.selectedService)
 
   const userWallet = useSelector(state => state.commonReducer.userWallet);
 
@@ -124,6 +126,103 @@ const PaymentScreen = props => {
       // navigation.navigate('HomeScreen')
     }
   };
+
+  const GroupBooking = async () => {
+    // return  console.log('object ====================== >>> booking group')
+    try {
+      console.log('Function started');
+      const barber = finalData?.barberDetails;
+      const serviceInfo = finalData?.services;
+      const timeInfo = finalData?.time;
+
+      if (!serviceInfo?.members?.length) {
+        console.log('No members found');
+        return;
+      }
+      const membersArray = (serviceInfo?.members || []).map(member => {
+        const firstService = (member.selectedService || [])[0] || {};
+
+        return {
+          name: member.name || "",
+          service: firstService.name || "",
+          service_id: firstService.service_id || "",
+          any_alergies: member.allergy || "",
+          // add_ons: member.addons ? String(member.addons) : "",
+          // reference_image: member.image || ""
+        };
+      });
+      console.log('Members Array:', membersArray);
+
+      const allServiceIds = finalData?.services?.members?.flatMap(member =>
+        member.selectedService?.map(service => service.service_id) || []
+      );
+
+      console.log('All Service IDs:', allServiceIds);
+
+      const body = {
+        booking_time: timeInfo?.time || "",
+        booking_date: finalData?.date || "",
+        event_type: serviceInfo?.event_type || "",
+        event_date: finalData?.date || "",
+        number_of_people: Number(serviceInfo?.number_of_people) || 0,
+        staff_preference: serviceInfo?.gender_preference || "",
+        service_location: serviceInfo?.service_location || "",
+        number_of_staff_member: Number(serviceInfo?.staff_member) || 0,
+        parking_instructions: serviceInfo?.parking_instruction || "",
+        // add_ons: serviceInfo?.add_ons ? String(serviceInfo.add_ons) : "",
+        preferred_stylist_name: serviceInfo?.preffered_style || "",
+        price: Number(serviceInfo?.totalPrice) || 0,
+        dis_price: serviceInfo?.discount || 0,
+        barber_id: barber?.id || "",
+        service_time_id: timeInfo?.id || "",
+        custom_location: finalData?.location?.name || "",
+        payment_method: selectedPaymentMethod,
+        stripeToken: stripeToken,
+        service_id: allServiceIds,
+        members: membersArray
+      };
+
+      console.log(body, '-------------------------body')
+      setIsLoading(true);
+      const response = await Post('auth/booking-group', body, apiHeader(token));
+      console.log('Booking Body:========= ?>>>>>>>>> ', response?.data);
+      if (response != undefined) {
+        console.log('testing ====== >>>> ', response?.data)
+        Platform.OS === 'android'
+          ? ToastAndroid.show('Booking successful', ToastAndroid.SHORT)
+          : Alert.alert('Booking successful');
+        dispatch(setUserWallet(response?.data?.user_info?.wallet));
+        dispatch(setVoucherData({}));
+        Alert.alert(
+          'save the booking',
+          'you want to save this booking to your calendar ?',
+          [
+
+            {
+              text: 'Cancel',
+              style: 'cancel',
+              onPress: () => {
+                navigationService.navigate('TabNavigation');
+              },
+            },
+            {
+              text: 'Yes',
+              onPress: () => {
+                setModalIsVisible(true);
+              },
+            },
+          ],
+        );
+      }
+      setIsLoading(false);
+      console.log('API response:', response?.data);
+    } catch (err) {
+      setIsLoading(false);
+      console.log('Function Error:', err);
+    }
+  };
+
+
   const strpieToken = async () => {
     setLoading(true);
     const responsetoken = await createToken({
@@ -396,13 +495,9 @@ const PaymentScreen = props => {
                 />
                 <CustomButton
                   textColor={Color.black}
-                  text={
-                    loading ? (
-                      <ActivityIndicator color={'black'} size={'small'} />
-                    ) : (
-                      'add'
-                    )
-                  }
+                  text={'add'}
+                  loader={loading}
+                  loaderColor={'black'}
                   onPress={() => {
                     strpieToken();
                   }}
@@ -425,105 +520,31 @@ const PaymentScreen = props => {
                   Platform.OS == 'android'
                     ? ToastAndroid.show('insufficient amount', ToastAndroid.SHORT)
                     : alert('insufficient amount');
-                  // navigation.navigate('Purchase')
                 } else {
-                  Booking();
+                  if (Array.isArray(finalData?.services?.members) && finalData.services.members.length > 0) {
+                    console.log('Members found:', finalData.services.members);
+                    GroupBooking();
+                  } else {
+                    Booking();
+                  }
                 }
               }}
               width={windowWidth * 0.9}
               height={windowHeight * 0.06}
-              text={
-                isLoading ? (
-                  <ActivityIndicator color={Color.black} size={'small'} />
-                ) : (
-                  'Pay now'
-                )
-              }
+              text={'Pay now'}
+              loader={isLoading}
+              loaderColor={Color.black}
               fontSize={moderateScale(14, 0.3)}
               borderRadius={moderateScale(30, 0.4)}
               textTransform={'uppercase'}
               isGradient={true}
               isBold
               marginTop={moderateScale(30, 0.3)}
-            // disabled={finalData?.total > userWallet?.amount}
             />
           </ScrollView>
         </KeyboardAvoidingView>
       </LinearGradient>
 
-
-      {/* <Modal
-        isVisible={isVisible}
-        onBackdropPress={() => {
-          setIsVisible(false);
-          if (stripeToken == null) {
-            setSelectedPaymentMethod('wallet');
-            }
-            }}> */}
-      {/* <View style={styles.modal}> */}
-      {/* <View style={styles.header}>
-          <CustomText
-          isBold
-          style={{
-            color: Color.white,
-            fontSize: moderateScale(15, 0.6),
-            }}>
-            Add Card Details
-            </CustomText>
-            </View>
-            
-            
-            <CardField
-            postalCodeEnabled={false}
-            placeholders={{
-              number: '4242 4242 4242 4242',
-              }}
-              // placeholdersColor={'black'}
-          cardStyle={{
-            backgroundColor: Color.white,
-            borderRadius: moderateScale(15, 0.6),
-            width: windowWidth * 0.4,
-            borderRadius: moderateScale(35, 0.6),
-            // placeholderColor:'red',
-            textColor: 'black'
-          }}
-          style={{
-            width: '85%',
-            height: windowHeight * 0.07,
-            marginVertical: moderateScale(10, 0.3),
-          }}
-          onCardChange={cardDetails => {
-
-            }}
-            onFocus={focusedField => {
-              
-          }}
-          
-          />
-          <CustomButton
-          textColor={Color.black}
-          text={
-            loading ? (
-              <ActivityIndicator color={'black'} size={'small'} />
-            ) : (
-              'add'
-            )
-          }
-          onPress={() => {
-            strpieToken();
-            }}
-            width={windowWidth * 0.35}
-            height={windowHeight * 0.05}
-          borderRadius={moderateScale(25, 0.6)}
-          fontSize={moderateScale(14, 0.3)}
-          textTransform={'uppercase'}
-          isGradient={true}
-          isBold
-          disabled={isLoading}
-          /> */}
-
-      {/* </View> */}
-      {/* </Modal> */}
       <BookingDateModal
         modalIsVisible={modalIsVisible}
         setModalIsVisible={setModalIsVisible}

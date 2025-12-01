@@ -1,143 +1,122 @@
-import React, {useRef, useState} from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import Color from '../Assets/Utilities/Color';
 import MultiSelect from 'react-native-multiple-select';
-import {moderateScale} from 'react-native-size-matters';
-import {useSelector} from 'react-redux';
+import { moderateScale } from 'react-native-size-matters';
+import { useSelector } from 'react-redux';
 
-const CustomDropDownMultiSelect = props => {
-  const {min, max, item, setItem, array, title} = props;
-  const reduxTextObject = useSelector(state => state.langViewReducer.data);
+const CustomDropDownMultiSelect = ({
+  newArray = [],
+  selectedItems = [],
+  setSelectedItems,
+}) => {
+  const reduxTextObject = useSelector(state => state.langViewReducer?.data);
+
   return (
-    <View style={[styles.container]}>
+    <View style={styles.container}>
       <MultiSelect
-        items={props.newArray}
-        onSelectedItemsChange={selectedItems => {
-          setItem(selectedItems);
-        }}
-        selectedItems={props.selectedItems}
-        selectText={reduxTextObject?.Pick_Items}
-        searchInputPlaceholderText={`${reduxTextObject?.Search_Items}...`}
-        textInputProps={{autoFocus: false}}
-        hideDropdown
-        tagRemoveIconColor={Color.themePurpleLevel4}
-        tagBorderColor={Color.themePurpleLevel4}
-        tagTextColor={Color.themePurpleLevel4}
-        displayKey="name"
+        items={newArray}
         uniqueKey="id"
-        // hideSubmitButton
+        displayKey="name"
+
+        selectedItems={selectedItems}
+        onSelectedItemsChange={setSelectedItems}
+
+        selectText={reduxTextObject?.Pick_Items || "Select"}
+        searchInputPlaceholderText={`${reduxTextObject?.Search_Items || "Search"}...`}
+        hideDropdown
+        submitButtonText={reduxTextObject?.Done || "Done"}
         submitButtonColor={Color.themePurpleLevel4}
-        submitButtonText={reduxTextObject?.Done}
-        styleMainWrapper={{
-          width: Dimensions.get('window').width * 0.9,
-          flexWrap: 'wrap',
-          flexDirection: 'row',
-          borderRadius: 10,
-        }}
-        styleInputGroup={{
-          borderColor: Color.lightGrey,
-          borderTopWidth: 1,
-          borderRightWidth: 1,
-          borderLeftWidth: 1,
-          paddingRight: 10,
-          borderTopEndRadius: 10,
-          borderTopStartRadius: 10,
-          height: moderateScale(50, 0.3),
-          fontSize: moderateScale(20, 0.3),
-        }}
+
+        hideTags={true}
+        fixedHeight={true}
+
+        styleDropdownMenuSubsection={styles.dropdownSection}
+        styleDropdownMenu={styles.dropdownMenu}
+        styleMainWrapper={styles.mainWrapper}
+        styleInputGroup={styles.inputGroup}
+
+        styleItemsContainer={styles.itemsContainer}
+        styleRowList={styles.rowList}
+
+        styleTextDropdown={styles.dropdownText}
+        styleTextDropdownSelected={styles.dropdownText}
+
         selectedItemIconColor={Color.themePurpleLevel3}
         selectedItemTextColor={Color.themePurpleLevel3}
-        styleDropdownMenu={{
-          width: Dimensions.get('window').width * 0.9,
-          paddingHorizontal: 10,
-          borderColor: Color.lightGrey,
-          borderWidth: 1,
-          height: Dimensions.get('window').height * 0.065,
-          borderRadius: 10,
-        }}
-        styleItemsContainer={{
-          backgroundColor: Color.white,
-          width: Dimensions.get('window').width * 0.9,
-          borderColor: Color.lightGrey,
-          borderWidth: 1,
-          maxHeight: Dimensions.get('window').height * 0.2,
-        }}
-        styleTextDropdownSelected={{
-          fontSize: 16,
-          color: Color.gray,
-          fontFamily: 'Inter-Medium',
-        }}
-        styleTextDropdown={{
-          fontSize: 16,
-          color: Color.gray,
-          paddingLeft: Dimensions.get('window').width * 0.0325,
-          fontFamily: 'Inter-Medium',
-        }}
-        styleRowList={{
-          height: moderateScale(40, 0.3),
-          fontSize: moderateScale(20, 0.3),
-          justifyContent: 'center',
-          borderBottomColor: Color.themePurpleLevel1,
-          borderBottomWidth: 1,
-          fontFamily: 'Inter-Medium',
-        }}
-        searchInputStyle={{
-          fontFamily: 'Inter-Medium',
-          color: Color.black,
-        }}
-        selectedItemFontFamily="Inter-Medium"
+
+        searchInputStyle={styles.searchInput}
         fontFamily="Inter-Medium"
-        itemFontFamily="Inter-Medium"
       />
     </View>
   );
 };
 
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   container: {
-    marginTop: Dimensions.get('window').height * 0.01,
-    // backgroundColor: 'red',
-    // width: Dimensions.get('window').width,
-    // height: Dimensions.get('window').height,
-    // position: 'absolute',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: Color.black,
-    marginBottom: Dimensions.get('window').height * 0.01,
-    textTransform: 'capitalize',
+    marginTop: height * 0.01,
   },
 
-  dropDownBtn: {
-    width: Dimensions.get('window').width * 0.9,
-    backgroundColor: Color.white,
+  mainWrapper: {
     borderWidth: 1,
     borderRadius: 10,
     borderColor: Color.lightGrey,
-    height: Dimensions.get('window').height * 0.08,
-    // backgroundColor: 'red',
+    width: width * 0.92,
+    height: height * 0.055,
+    justifyContent: 'center',
+    backgroundColor: Color.white,
+    alignSelf: 'center',
+    marginTop: moderateScale(12, 0.6)
   },
-  dropDownBtnText: {
-    width: Dimensions.get('window').width * 0.9,
+
+  dropdownSection: {
+    paddingHorizontal: 10,
+    backgroundColor: Color.white,
+    borderRadius: 10,
+    height: height * 0.065,
+    alignItems: 'center',
+  },
+
+  dropdownMenu: {
+    borderRadius: 10,
+  },
+
+  inputGroup: {
+    height: height * 0.065,
+    borderWidth: 0,
+    justifyContent: 'center',
+  },
+
+  dropdownText: {
     fontSize: 16,
     color: Color.gray,
-    textAlign: 'center',
-    // fontWeight: 'bold',
-    textTransform: 'capitalize',
+    fontFamily: 'Inter-Medium',
+    paddingLeft: 10,
   },
-  dropDownRow: {
+
+  itemsContainer: {
     backgroundColor: Color.white,
+    borderColor: Color.lightGrey,
+    borderWidth: 1,
+    maxHeight: height * 0.25,
+    width: width * 0.9,
+    borderRadius: 10,
   },
-  dropDownRowText: {
-    width: Dimensions.get('window').width * 0.9,
-    fontSize: 16,
-    color: 'black',
-    textAlign: 'center',
-    textTransform: 'uppercase',
+
+  rowList: {
+    height: moderateScale(40),
+    justifyContent: 'center',
+    paddingLeft: 10,
+    borderBottomWidth: 0.7,
+    borderColor: Color.lightGrey,
+  },
+
+  searchInput: {
+    fontFamily: 'Inter-Medium',
+    color: Color.black,
   },
 });
 

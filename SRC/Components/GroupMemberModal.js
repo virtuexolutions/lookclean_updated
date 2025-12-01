@@ -1,62 +1,63 @@
-import LottieView from 'lottie-react-native';
 import { Icon } from 'native-base';
+import numeral from 'numeral';
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import { moderateScale } from 'react-native-size-matters';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Color from '../Assets/Utilities/Color';
 import { windowHeight, windowWidth } from '../Utillity/utils';
-import CustomText from './CustomText';
 import CustomButton from './CustomButton';
+import CustomText from './CustomText';
 import TextInputWithTitle from './TextInputWithTitle';
-import DropDownSingleSelect from './DropDownSingleSelect';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import ImagePickerModal from './ImagePickerModal';
-import CustomImage from './CustomImage';
 
-const GroupMemberModal = ({ modal, setModal, setType, type, onPress, onAdd }) => {
-    console.log(type, '==============>')
-    const [event_type, setEventType] = useState('')
-    const [name, setName] = useState("");
-    const [allergy, setAllergy] = useState("");
-    const [addons, setAddons] = useState("");
+const GroupMemberModal = ({ modal, setModal, onAdd, service }) => {
+    const [event_type, setEventType] = useState('');
+    const [name, setName] = useState('');
+    const [allergy, setAllergy] = useState('');
+    const [addons, setAddons] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [image, setImage] = useState({});
-    console.log(image, '===================')
+    const [selectedService, setSelectedService] = useState([]);
     const handleAdd = () => {
+        const serviceTotal = selectedService.reduce((sum, item) => {
+            return sum + Number(item?.price || 0);
+        }, 0);
+        console.log(serviceTotal, 'serviceTotal')
         const obj = {
-            name,
-            event_type,
-            allergy,
-            addons,
-            image
+            name: name.trim(),
+            allergy: allergy.trim() || null,
+            addons: addons.trim() || null,
+            image: Object.keys(image).length ? image : null,
+            selectedService: selectedService,
+            totalPrice: serviceTotal
         };
 
         onAdd(obj);
-        setModal(false);
+
         setName('');
         setEventType('');
         setAllergy('');
         setAddons('');
-        setImage({})
+        setImage({});
+        setModal(false);
+        setSelectedService([])
     };
 
     return (
         <Modal
             isVisible={modal}
-            onBackdropPress={() => {
-                setModal(false);
-            }}>
+            onBackdropPress={() => setModal(false)}
+            avoidKeyboard
+        >
             <View style={styles.mainContainer}>
                 <Icon
                     name={'cross'}
                     color={Color.black}
                     as={Entypo}
                     size={moderateScale(30, 0.6)}
-                    onPress={() => {
-                        setModal(!modal);
-                    }}
+                    onPress={() => setModal(false)}
                     style={{
                         position: 'absolute',
                         top: 7,
@@ -64,12 +65,13 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress, onAdd }) =>
                     }}
                 />
                 <CustomText isBold style={styles.heading}>Member Details</CustomText>
+
                 <TextInputWithTitle
                     titleText={'Name : '}
                     secureText={false}
                     placeholder={'Enter Name Here'}
                     setText={setName}
-                    value={name}
+                    value={name || ''}
                     viewHeight={0.06}
                     viewWidth={0.8}
                     inputWidth={0.74}
@@ -85,35 +87,105 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress, onAdd }) =>
                         fontWeight: 'bold'
                     }}
                 />
-                <CustomText isBold
+
+                <CustomText isBold style={styles.labelText}>Choose Service :</CustomText>
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={service}
                     style={{
-                        fontSize: moderateScale(15, 0.6),
-                        paddingTop: moderateScale(10, 0.6),
-                        color: Color.themeColor1,
-                        textAlign: 'left',
-                        width: windowWidth * 0.8
-                    }}>
-                    Choose Service :
-                </CustomText>
-                <DropDownSingleSelect
-                    array={['Birthday', 'Bachelorette Party', 'Bridal Party', 'Prom Group', 'Corporate Event', 'Girls’ Night Out', 'Holiday Event (Thanksgiving, Christmas, New Year)', 'Others']}
-                    backgroundColor={Color.lightGray}
-                    item={event_type}
-                    setItem={setEventType}
-                    Colors={Color.veryLightGray}
-                    fontSize={moderateScale(12, 0.6)}
-                    placeholder={'Please Select Service'}
-                    width={windowWidth * 0.8}
-                    dropdownStyle={{
-                        width: windowWidth * 0.92,
-                        alignSelf: "center",
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginBottom: moderateScale(6, 0.6)
+                        width: windowWidth * 0.85,
+                        height: windowHeight * 0.3,
                     }}
-                    style={{
-                        borderWidth: 0,
-                        borderRadius: moderateScale(10, 0.4),
+                    contentContainerStyle={{
+                        paddingBottom: moderateScale(30, 0.3),
+                        paddingTop: moderateScale(10, 0.3),
+                    }}
+                    ListEmptyComponent={() => {
+                        return (
+                            <View
+                                style={{
+                                    height: windowHeight * 0.1,
+                                    justifyContent: 'center',
+                                    width: windowWidth * 0.84,
+                                    alignSelf: 'center'
+                                }}>
+                                <CustomText
+                                    style={{
+                                        fontSize: moderateScale(15, 0.6),
+                                        color: Color.white,
+                                        textAlign: 'center',
+                                    }}
+                                    isBold>
+                                    No services found
+                                </CustomText>
+                            </View>
+                        );
+                    }}
+                    renderItem={({ item, index }) => {
+                        return (
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => {
+                                    if (
+                                        selectedService?.some(data => data?.name == item?.name)
+                                    ) {
+                                        setSelectedService(
+                                            selectedService?.filter(
+                                                data => data?.name != item?.name,
+                                            ),
+                                        );
+                                    } else {
+                                        setSelectedService(prev => [...prev, item]);
+                                    }
+                                }}
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    marginVertical: moderateScale(10, 0.3),
+                                    width: windowWidth * 0.85,
+                                    paddingRight: moderateScale(10, 0.3),
+                                    alignItems: 'center',
+                                    alignSelf: 'center'
+                                }}>
+                                <Icon
+                                    name={
+                                        selectedService.some(data => {
+                                            return data.name == item?.name;
+                                        })
+                                            ? 'check-circle-o'
+                                            : 'circle-o'
+                                    }
+                                    as={FontAwesome}
+                                    color={
+                                        selectedService.some(data => {
+                                            return data.name == item?.name;
+                                        })
+                                            ? Color.themeColor
+                                            : Color.darkGray
+                                    }
+                                    size={moderateScale(17, 0.3)}
+                                />
+                                <CustomText
+                                    isBold
+                                    style={{
+                                        fontSize: moderateScale(14, 0.3),
+                                        width: windowWidth * 0.45,
+                                        color: Color.black,
+                                        position: 'absolute',
+                                        left: moderateScale(25, 0.3),
+                                    }}>
+                                    {item?.name}
+                                </CustomText>
+                                <CustomText
+                                    isBold
+                                    style={{
+                                        fontSize: moderateScale(14, 0.3),
+                                        color: Color.black,
+                                    }}>
+                                    {numeral(item?.price).format('$0,0.0')}
+                                </CustomText>
+                            </TouchableOpacity>
+                        );
                     }}
                 />
                 <TextInputWithTitle
@@ -121,7 +193,7 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress, onAdd }) =>
                     secureText={false}
                     placeholder={'Yes/No'}
                     setText={setAllergy}
-                    value={allergy}
+                    value={allergy || ''}
                     viewHeight={0.06}
                     viewWidth={0.8}
                     inputWidth={0.74}
@@ -136,12 +208,13 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress, onAdd }) =>
                         fontWeight: 'bold'
                     }}
                 />
+
                 <TextInputWithTitle
                     titleText={'Add-ons (optional) : '}
                     secureText={false}
                     placeholder={'Add-ons (lashes, hair extensions, nail art, etc.)'}
                     setText={setAddons}
-                    value={addons}
+                    value={addons || ''}
                     viewHeight={0.06}
                     viewWidth={0.8}
                     inputWidth={0.74}
@@ -156,38 +229,6 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress, onAdd }) =>
                         fontWeight: 'bold'
                     }}
                 />
-                <CustomText isBold
-                    style={{
-                        fontSize: moderateScale(15, 0.6),
-                        paddingTop: moderateScale(10, 0.6),
-                        color: Color.themeColor1,
-                        textAlign: 'left',
-                        width: windowWidth * 0.8
-                    }}>
-                    Any Reference (optional) :
-                </CustomText>
-                <TouchableOpacity onPress={() => setShowModal(true)} style={{
-                    width: windowWidth * 0.2,
-                    height: windowWidth * 0.24,
-                    backgroundColor: Color.lightGray,
-                    borderRadius: moderateScale(10, 0.6),
-                    alignSelf: 'flex-start',
-                    marginLeft: moderateScale(20, 0.6),
-                    justifyContent: 'center',
-                    alignItems: "center",
-                    marginTop: moderateScale(10, 0.6)
-                }}>
-                    {Object.keys(image).length > 0 ? (
-                        <CustomImage
-                            source={{ uri: image?.uri }}
-                            style={styles.image}
-                        />) :
-                        <Icon name='plus' as={FontAwesome} size={moderateScale(24, 0.6)} color={Color.veryLightGray} style={{
-                            alignSelf: 'center',
-                            marginLeft: moderateScale(3, 0.6)
-                        }} />
-                    }
-                </TouchableOpacity>
                 <CustomButton
                     textColor={Color.black}
                     width={windowWidth * 0.8}
@@ -202,13 +243,9 @@ const GroupMemberModal = ({ modal, setModal, setType, type, onPress, onAdd }) =>
                     onPress={handleAdd}
                 />
             </View>
-            <ImagePickerModal
-                show={showModal}
-                setShow={setShowModal}
-                setFileObject={setImage}
-            />
         </Modal>
     );
+
 };
 
 export default GroupMemberModal;
@@ -228,38 +265,27 @@ const styles = StyleSheet.create({
         fontSize: moderateScale(16, 0.6),
         width: '90%'
     },
-    row_view: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: windowWidth * 0.88,
-        paddingHorizontal: moderateScale(10, 0.6),
+    labelText: {
+        fontSize: moderateScale(15, 0.6),
+        paddingTop: moderateScale(10, 0.6),
+        color: Color.themeColor1,
+        textAlign: 'left',
+        width: windowWidth * 0.8
+    },
+    imagePicker: {
+        width: windowWidth * 0.2,
+        height: windowWidth * 0.24,
+        backgroundColor: Color.lightGray,
+        borderRadius: moderateScale(10, 0.6),
+        alignSelf: 'flex-start',
+        marginLeft: moderateScale(20, 0.6),
+        justifyContent: 'center',
+        alignItems: "center",
         marginTop: moderateScale(10, 0.6)
     },
-    btn_view: {
-        width: windowWidth * 0.4,
-        height: windowHeight * 0.2,
-        backgroundColor: Color.lightGray,
-        borderRadius: moderateScale(10, 0.6),
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.30,
-        shadowRadius: 4.65,
-        elevation: 8,
-    },
-    focused_btn: {
-        width: windowWidth * 0.4,
-        height: windowHeight * 0.2,
-        backgroundColor: Color.lightGray,
-        borderRadius: moderateScale(10, 0.6),
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 3,
-        borderColor: Color.themeColor1
+    image: {
+        width: '100%',
+        height: '100%',
+        borderRadius: moderateScale(10, 0.6)
     }
 });

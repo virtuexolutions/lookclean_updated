@@ -43,19 +43,13 @@ const AddService = props => {
 
   const [isVisiable, setIsVisiable] = useState(false);
   const [Loading, setLoading] = useState(false);
-  const [isSelected, setIsSelected] = useState({});
-  console.log(isSelected)
+  const [isSelected, setIsSelected] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [service, setService] = useState([]);
-  console.log('service', service)
   const [serviceArray, setServiceArray] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-  const [selectedService, setSelectedService] = useState(null);
   const [price, setPrice] = useState('');
   const [event_type, setEventType] = useState({})
-  console.log(event_type, '================')
-
   const GetServices = async () => {
     const url = `auth/barber/service`;
     setLoading(true);
@@ -100,34 +94,37 @@ const AddService = props => {
         )
         : Alert.alert('Please add price for all the services');
     }
+
     const body = {
-      service_name: event_type?.children
-        ?.filter((item, index) => {
-          return service?.some(item1 => item?.name == item1?.name);
-        })
-        ?.map(item => ({
-          service_id: item?.id,
-          price: service?.find(x => x.name == item.name)?.price,
-        })),
+      service_name: service.map(item => {
+        let serviceId;
+        for (let category of serviceArray) {
+          const child = category.children.find(c => c.name === item.name);
+          if (child) {
+            serviceId = child.id;
+            break;
+          }
+        }
+
+        return {
+          service_id: serviceId,
+          price: item.price,
+          main_service: item.name === isSelected?.name ? true : false,
+        };
+      }),
     };
 
-    console.log(body, '==================>bodyyyyyyyyyy')
     const url = 'auth/barber/service';
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
     setIsLoading(false);
 
     if (response != undefined) {
-
       Platform.OS === 'android'
-        ? ToastAndroid.show('Servicess Add', ToastAndroid.SHORT)
-        : Alert.alert('Servicess Add');
-      if (fromSettings) {
-        dispatch(setUserData(response?.data?.data));
-        // navigation.goBack();
-      } else {
-        dispatch(setUserData(response?.data?.data));
-      }
+        ? ToastAndroid.show('Services Added', ToastAndroid.SHORT)
+        : Alert.alert('Services Added');
+
+      dispatch(setUserData(response?.data?.data));
     }
   };
 
@@ -142,50 +139,9 @@ const AddService = props => {
         end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
-        {service?.length > 0 && (
-          <View
-            style={{
-              position: 'absolute',
-              zIndex: 1,
-              right: 0,
-              bottom: moderateScale(70, 0.6),
-              left: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-              // backgroundColor:'white'
-            }}>
-            <CustomButton
-              onPress={() => {
 
-                if ([undefined, null, ''].includes(isSelected) || Object.keys(isSelected).length == 0) {
-
-                  setIsVisiable(true);
-                } else {
-                  Services();
-                }
-              }}
-              text={
-                isLoading ? (
-                  <ActivityIndicator
-                    size={moderateScale(30, 0.6)}
-                    color={'white'}
-                  />
-                ) : (
-                  'Save'
-                )
-              }
-              textColor={Color.white}
-              width={windowWidth * 0.7}
-              height={windowHeight * 0.07}
-              marginTop={moderateScale(50, 0.3)}
-              bgColor={Color.themeColor}
-              borderRadius={moderateScale(25, 0.3)}
-            // isGradient
-            />
-          </View>
-        )}
         <CustomText isBold style={[styles.AddService, { marginLeft: moderateScale(16, 0.6) }]}>
-          Add Services
+          Choose Category
         </CustomText>
         <DropDownSingleSelect
           array={serviceArray}
@@ -195,8 +151,6 @@ const AddService = props => {
           label={'Select Category'}
           setValue={val => {
             setSelectedCategory(val);
-            setSelectedSubCategory(null);
-            setSelectedService(null);
           }}
           item={event_type}
           setItem={setEventType}
@@ -235,7 +189,7 @@ const AddService = props => {
             paddingHorizontal: moderateScale(10, 0.6),
           }}>
           <CustomText isBold style={styles.AddService}>
-            Add Services
+            Choose Services
           </CustomText>
 
           <TouchableOpacity
@@ -294,7 +248,41 @@ const AddService = props => {
             }}
           />
         )}
-
+        {service?.length > 0 && (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: moderateScale(10,0.6)
+            }}>
+            <CustomButton
+              onPress={() => {
+                if ([undefined, null, ''].includes(isSelected) || Object.keys(isSelected).length == 0) {
+                  setIsVisiable(true);
+                } else {
+                  Services();
+                }
+              }}
+              text={
+                isLoading ? (
+                  <ActivityIndicator
+                    size={moderateScale(30, 0.6)}
+                    color={'white'}
+                  />
+                ) : (
+                  'Save'
+                )
+              }
+              textColor={Color.white}
+              width={windowWidth * 0.7}
+              height={windowHeight * 0.07}
+              marginTop={moderateScale(50, 0.3)}
+              bgColor={Color.themeColor}
+              borderRadius={moderateScale(25, 0.3)}
+            // isGradient
+            />
+          </View>
+        )}
         <SelectedServicesModal
           item={event_type?.children?.filter((item, index) => {
             return service?.some(item1 => item?.name == item1?.name);

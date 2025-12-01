@@ -54,7 +54,6 @@ const Homescreen = () => {
     }
   };
 
-  // TIME GET API END
 
   const barberFilter = async () => {
     const url = 'auth/barber/filter';
@@ -65,7 +64,6 @@ const Homescreen = () => {
     };
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
-    //  return  console.log("🚀 ~ retuern  barberFilter ~ response:", response?.data)
     setIsLoading(false);
     if (response != undefined) {
       setBarberData(response?.data?.users);

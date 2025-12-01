@@ -197,7 +197,7 @@ const OrderDetails = props => {
               </CustomText>
               <CustomText isBold style={styles.heading}>
                 {/* {numeral(calculateTotalAmount()).format('$0,0.0')} */}
-                {item?.total_price + ' $'}
+                {item?.total_price ?? '0' + ' $'}
               </CustomText>
             </View>
             <View style={styles.eachRow}>
@@ -350,13 +350,9 @@ const OrderDetails = props => {
                   }}
                   width={windowWidth * 0.75}
                   height={windowHeight * 0.06}
-                  text={
-                    isLoading ? (
-                      <ActivityIndicator color={Color.black} size={'small'} />
-                    ) : (
-                      'Accept'
-                    )
-                  }
+                  text={'Accept'}
+                  loader={isLoading}
+                  loaderColor={Color.black}
                   fontSize={moderateScale(14, 0.3)}
                   textTransform={'uppercase'}
                   isGradient={true}
@@ -375,13 +371,9 @@ const OrderDetails = props => {
                   }}
                   width={windowWidth * 0.75}
                   height={windowHeight * 0.06}
-                  text={
-                    isLoading2 ? (
-                      <ActivityIndicator color={Color.black} size={'small'} />
-                    ) : (
-                      'Reject'
-                    )
-                  }
+                  text={'Reject'}
+                  loader={isLoading2}
+                  loaderColor={Color.black}
                   fontSize={moderateScale(14, 0.3)}
                   textTransform={'uppercase'}
                   isGradient={true}
@@ -405,13 +397,9 @@ const OrderDetails = props => {
                 }}
                 width={windowWidth * 0.75}
                 height={windowHeight * 0.06}
-                text={
-                  isLoading2 ? (
-                    <ActivityIndicator color={Color.black} size={'small'} />
-                  ) : (
-                    'done the job'
-                  )
-                }
+                text={'done the job'}
+                loader={isLoading2}
+                loaderColor={Color.black}
                 fontSize={moderateScale(14, 0.3)}
                 textTransform={'uppercase'}
                 isGradient={true}
@@ -422,37 +410,32 @@ const OrderDetails = props => {
             {item?.status == 'waiting for approval' &&
               user?.role == 'customer' &&
               dateDiff(item?.booking_date, item?.booking_time) <= 0 &&
-              (
-                <CustomButton
-                  bgColor={Color.themeColor}
-                  borderColor={'white'}
-                  borderWidth={1}
-                  textColor={Color.black}
-                  onPress={() => {
-                    accept();
-                    // buttonText == 'review' &&  rbRef.open()
-                  }}
-                  width={windowWidth * 0.75}
-                  height={windowHeight * 0.06}
-                  text={
-                    isLoading2 ? (
-                      <ActivityIndicator color={Color.black} size={'small'} />
-                    ) : (
-                      'Approve complete Request'
-                    )
-                  }
-                  fontSize={moderateScale(14, 0.3)}
-                  textTransform={'uppercase'}
-                  isGradient={true}
-                  isBold
-                  marginTop={moderateScale(30, 0.3)}
-                />
-              )}
+              <CustomButton
+                bgColor={Color.themeColor}
+                borderColor={'white'}
+                borderWidth={1}
+                textColor={Color.black}
+                onPress={() => {
+                  accept();
+                  // buttonText == 'review' &&  rbRef.open()
+                }}
+                width={windowWidth * 0.75}
+                height={windowHeight * 0.06}
+                text={'Approve complete Request'}
+                loader={isLoading2}
+                loaderColor={Color.black}
+                fontSize={moderateScale(14, 0.3)}
+                textTransform={'uppercase'}
+                isGradient={true}
+                isBold
+                marginTop={moderateScale(30, 0.3)}
+              />
+            }
             {item?.status == 'complete' &&
               (user?.role == 'customer' &&
                 item?.review == null &&
                 Object.keys(review).length == 0 ? (
-                <CustomButton
+                <CustomButtos
                   bgColor={Color.themeColor}
                   borderColor={'white'}
                   borderWidth={1}
@@ -462,13 +445,9 @@ const OrderDetails = props => {
                   }}
                   width={windowWidth * 0.75}
                   height={windowHeight * 0.06}
-                  text={
-                    isLoading ? (
-                      <ActivityIndicator color={Color.black} size={'small'} />
-                    ) : (
-                      'review'
-                    )
-                  }
+                  text={'review'}
+                  loader={isLoading}
+                  loaderColor={Color.black}
                   fontSize={moderateScale(14, 0.3)}
                   textTransform={'uppercase'}
                   isGradient={true}
@@ -524,69 +503,61 @@ export default OrderDetails;
 const styles = ScaledSheet.create({
   container: {
     paddingTop: windowHeight * 0.03,
-    // justifyContent: "center",
     height: windowHeight * 0.9,
     width: windowWidth,
     alignItems: 'center',
-    // backgroundColor : Color.green
   },
-  text1: {
-    textTransform: 'uppercase',
-    color: Color.white,
-    textAlign: 'center',
-    fontSize: moderateScale(20, 0.3),
-  },
-  text1Absolute: {
-    textTransform: 'uppercase',
-    color: Color.white,
-    textAlign: 'center',
-    fontSize: moderateScale(16, 0.3),
-  },
-  bannerView: {
-    width: windowWidth * 0.85,
-    height: windowHeight * 0.46,
-    backgroundColor: 'black',
-    marginTop: moderateScale(10, 0.3),
-  },
-  viewAll: {
-    color: Color.white,
-    fontSize: moderateScale(12, 0.3),
-  },
+
   containerCard: {
-    marginTop: windowHeight * 0.08,
     width: windowWidth * 0.9,
-    height: windowHeight * 0.68,
+    alignItems: 'center',
     backgroundColor: Color.white,
     borderRadius: moderateScale(20, 0.3),
-    alignItems: 'center',
+    paddingVertical: moderateScale(20, 0.3),
+    marginTop: moderateScale(20, 0.3),
   },
+
+  text1: {
+    color: Color.white,
+    fontSize: moderateScale(18, 0.3),
+    marginBottom: moderateScale(10, 0.3),
+  },
+
   image: {
-    width: moderateScale(100, 0.3),
-    height: moderateScale(100, 0.3),
-    borderRadius: moderateScale(50, 0.3),
-    overflow: 'hidden',
-    marginTop: moderateScale(-50, 0.3),
+    width: windowWidth * 0.25,
+    height: windowWidth * 0.25,
+    borderRadius: (windowWidth * 0.25) / 2,
+    marginTop: moderateScale(-40, 0.3),
   },
+
   name: {
-    marginTop: moderateScale(5, 0.3),
-    fontSize: moderateScale(20, 0.3),
-  },
-  designation: {
     fontSize: moderateScale(16, 0.3),
-    color: Color.themeColor1
+    color: Color.black,
+    marginTop: moderateScale(5, 0.3),
   },
+
+  designation: {
+    fontSize: moderateScale(12, 0.3),
+    color: Color.darkGray,
+    marginTop: moderateScale(2, 0.3),
+  },
+
   eachRow: {
     flexDirection: 'row',
-    width: '70%',
     alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  heading: {
-    fontSize: moderateScale(13, 0.3),
-    color: Color.darkGray
-  },
-  mapView: {
+    marginTop: moderateScale(10, 0.3),
     width: windowWidth * 0.7,
-    height: windowHeight * 0.2,
+  },
+
+  heading: {
+    color: Color.black,
+    fontSize: moderateScale(13, 0.3),
+  },
+
+  mapView: {
+    width: windowWidth * 0.8,
+    height: windowHeight * 0.18,
+    borderRadius: moderateScale(10, 0.3),
+    marginTop: moderateScale(15, 0.3),
   },
 });

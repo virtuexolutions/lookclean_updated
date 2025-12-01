@@ -66,7 +66,7 @@ const AppNavigator = () => {
   const isWelcome = useSelector(state => state.commonReducer.isWelcome);
   const token = useSelector(state => state.authReducer.token);
   const walkThrough = useSelector(state => state.authReducer.userWalkThrough);
-  console.log("🚀 ~ AppNavigator ~ isWelcome:", isWelcome)
+  console.log("🚀 ~ AppNavigator ~ isWelcome:", token)
 
   const RootNav = createNativeStackNavigator();
 
@@ -92,10 +92,10 @@ const AppNavigator = () => {
     return (
       <NavigationContainer ref={navigationService.navigationRef}>
         <RootNav.Navigator
-          // initialRouteName={
-          //   userData?.role == 'customer' ? customerFirstScreen : secondScreen
-          // }
-          initialRouteName={'AddService'}
+          initialRouteName={
+            userData?.role == 'customer' ? customerFirstScreen : secondScreen
+          }
+          // initialRouteName={'AddService'}
           screenOptions={{ headerShown: false }}>
           <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
           <RootNav.Screen

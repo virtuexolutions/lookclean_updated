@@ -202,7 +202,9 @@ const dateDiff = (date, time) => {
         borderColor={Color.white}
         width={windowWidth * 0.2}
         height={windowHeight * 0.04}
-        text={isLoadding ? <ActivityIndicator size={'small'} color={'white'}/> :'cancel'}
+        text={'cancel'}
+        loader={isLoadding}
+        loaderColor={'white'}
         fontSize={moderateScale(13, 0.3)}
         onPress={() =>{
           cancelBooking()

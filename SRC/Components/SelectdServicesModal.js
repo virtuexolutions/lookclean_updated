@@ -29,7 +29,6 @@ const SelectedServicesModal = ({
   isSelected,
   setIsSelected,
 }) => {
-  console.log('Selected Services Modal ==== >',item)
   const navigation = useNavigation();
   return (
     <Modal
@@ -68,14 +67,10 @@ const SelectedServicesModal = ({
             }
           }>
           {item?.map((data, index) => {
-            console.log('dataaaaaaaaaaaaaaa', data)
             return (
               <TouchableOpacity
                 onPress={() => {
-                  console.log("Pressed", data)
                   if (isSelected?.id == data?.id) {
-                    console.log("DATA ===> ", data)
-
                     setIsSelected({});
                   } else {
                     setIsSelected(data);
@@ -87,7 +82,6 @@ const SelectedServicesModal = ({
                     if (isSelected?.id == data?.id) {
                       setIsSelected({});
                     } else {
-                      console.log("Selected Data === > ", data)
                       setIsSelected(data);
                     }
                   }}

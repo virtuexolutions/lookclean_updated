@@ -1,5 +1,5 @@
 // export const baseUrl = "https://zen-mendel.23-106-85-134.plesk.page";
-export const baseUrl = "https://82db0911dc46.ngrok-free.app";
+export const baseUrl = "https://55d649790a90.ngrok-free.app";
 export const imageUrl = `${baseUrl}/api/images/`;
 export const profilePicUrl = `${baseUrl}/uploads`
 

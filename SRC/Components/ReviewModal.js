@@ -124,13 +124,9 @@ const ReviewModal = ({item, setRef, rbRef, setClientReview}) => {
         />
 
         <CustomButton
-          text={
-            loading ? (
-              <ActivityIndicator size={'small'} color={'white'} />
-            ) : (
-              'send review'
-            )
-          }
+          text={'send review'}
+          loader={loading}
+          loaderColor={'white'}
           textColor={Color.black}
           width={windowWidth * 0.38}
           height={windowHeight * 0.06}

@@ -145,7 +145,10 @@ const CustomButton = (props) => {
               />
             </View>
           }
-          <CustomText
+          {React.isValidElement(text) ? (
+            text
+          ) : (
+            <CustomText
             style={[
               styles.text,
               {
@@ -160,7 +163,8 @@ const CustomButton = (props) => {
             isBold={isBold ? true : false}
           >
             {text}
-          </CustomText>
+           </CustomText>
+          )}
         </LinearGradient>
       ) : (
         <>
@@ -178,7 +182,10 @@ const CustomButton = (props) => {
               style={[styles.iconCustom, iconStyle && iconStyle]}
             />
           )}
-          <CustomText
+          {React.isValidElement(text) ? (
+            text
+          ) : (
+            <CustomText
             style={[
               styles.text,
               {
@@ -197,7 +204,8 @@ const CustomButton = (props) => {
             isBold={isBold ? true : false}
           >
             {text}
-          </CustomText>
+           </CustomText>
+          )}
         </>
       )}
     </TouchableOpacity>

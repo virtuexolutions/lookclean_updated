@@ -361,7 +361,7 @@ const BarberServicesScreen = props => {
               }}
               contentContainerStyle={{
                 paddingBottom: moderateScale(80, 0.3),
-                paddingTop: moderateScale(20, 0.3),
+                paddingTop: moderateScale(10, 0.3),
               }}
               ListEmptyComponent={() => {
                 return (
@@ -384,56 +384,21 @@ const BarberServicesScreen = props => {
               }}
               renderItem={({ item, index }) => {
                 return (
-                  <TouchableOpacity
-                    activeOpacity={0.9}
-                    onPress={() => {
-                      if (
-                        selectedService?.some(data => data?.name == item?.name)
-                      ) {
-                        setSelectedService(
-                          selectedService?.filter(
-                            data => data?.name != item?.name,
-                          ),
-                        );
-                      } else {
-                        setSelectedService(prev => [...prev, item]);
-                      }
-                    }}
+                  <View
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                      marginVertical: moderateScale(10, 0.3),
-                      width: windowWidth,
+                      marginVertical: moderateScale(6, 0.3),
+                      width: windowWidth * 0.96,
                       paddingRight: moderateScale(20, 0.3),
                       alignItems: 'center',
                     }}>
-                    <Icon
-                      name={
-                        selectedService.some(data => {
-                          return data.name == item?.name;
-                        })
-                          ? 'check-circle-o'
-                          : 'circle-o'
-                      }
-                      as={FontAwesome}
-                      color={
-                        selectedService.some(data => {
-                          return data.name == item?.name;
-                        })
-                          ? Color.themeColor
-                          : Color.white
-                      }
-                      size={moderateScale(17, 0.3)}
-                      style={{}}
-                    />
                     <CustomText
                       isBold
                       style={{
                         fontSize: moderateScale(14, 0.3),
                         width: windowWidth * 0.45,
                         color: Color.white,
-                        position: 'absolute',
-                        left: moderateScale(40, 0.3),
                       }}>
                       {item?.name}
                     </CustomText>
@@ -445,12 +410,15 @@ const BarberServicesScreen = props => {
                       }}>
                       {numeral(item?.price).format('$0,0.0')}
                     </CustomText>
-                  </TouchableOpacity>
+                  </View>
                 );
               }}
               ListFooterComponent={() => {
                 return (
-                  <>
+                  <View style={{
+                    // backgroundColor:'red',
+                    width: windowWidth * 0.92
+                  }}>
                     {fromConsultationVideo != true && (
                       <CustomButton
                         textColor={Color.black}
@@ -507,16 +475,17 @@ const BarberServicesScreen = props => {
                       // borderWidth={1}
                       textColor={Color.black}
                       onPress={() => {
-                        if (selectedService.length > 0) {
-                          setShow(true)
-                        } else {
-                          Platform.OS == 'android'
-                            ? ToastAndroid.show(
-                              'Choose any service first to proceed',
-                              ToastAndroid.SHORT,
-                            )
-                            : Alert.alert('Choose any service first to proceed');
-                        }
+                        setShow(true)
+                        // if (selectedService.length > 0) {
+                        //   setShow(true)
+                        // } else {
+                        //   Platform.OS == 'android'
+                        //     ? ToastAndroid.show(
+                        //       'Choose any service first to proceed',
+                        //       ToastAndroid.SHORT,
+                        //     )
+                        //     : Alert.alert('Choose any service first to proceed');
+                        // }
                       }}
                       width={windowWidth * 0.75}
                       height={windowHeight * 0.06}
@@ -529,35 +498,42 @@ const BarberServicesScreen = props => {
                       borderRadius={moderateScale(35, 0.6)}
                       disabled={totalPrice > userWallet?.amount}
                     />
-                  </>
+                  </View>
                 );
               }}
             />
           )}
-          {/* <VideoRecorderModal 
-        /> */}
-          {/* <ImagePickerModal
-          show={showModal}
-          setShow={setShowModal}
-          setFileObject={setVideo}
-          type={'video'}
-        /> */}
           <BookingCategory
             onPress={() => {
-              type === 'individual' ?
-                navigationService.navigate('ChooseDate', {
-                  data: selectedService,
-                  barber: barberDetails,
-                })
-                : navigationService.navigate('GroupServices', {
-                  data: selectedService,
-                  barber: barberDetails,
-                })
+              if (type) {
+                type === 'individual' ?
+                  navigationService.navigate('ChooseDate', {
+                    data: selectedService,
+                    barber: barberDetails,
+                  })
+                  : navigationService.navigate('GroupServices', {
+                    data: selectedService,
+                    barber: barberDetails,
+                  })
+              } else {
+                Platform.OS == 'android'
+                  ? ToastAndroid.show(
+                    'Please Select Type First',
+                    ToastAndroid.SHORT,
+                  )
+                  : Alert.alert(
+                    'Please Select Type First',
+                  );
+              }
             }}
             modal={show}
             setModal={setShow}
             type={type}
             setType={setType}
+            services={barberDetails?.services}
+            selectedService={selectedService}
+            setSelectedService={setSelectedService}
+            barberDetails={barberDetails}
           />
           <ShowReview
             barberDetails={barberDetails?.review}

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import {
+    Alert,
+    Platform,
     ScrollView,
+    ToastAndroid,
     TouchableOpacity,
     View
 } from 'react-native';
@@ -22,18 +25,66 @@ import CustomButton from '../Components/CustomButton';
 import navigationService from '../navigationService';
 
 const GroupServices = props => {
-    const detail = props?.route?.params?.detail;
+    const barber = props?.route?.params?.barber;
     const fromConsultationVideo = props?.route?.params?.fromConsultationVideo;
     const userData = useSelector(state => state.commonReducer.userData);
     const userWallet = useSelector(state => state.commonReducer.userWallet);
     const token = useSelector(state => state.authReducer.token);
     const [event_type, setEventType] = useState('')
-    const [event_date, setEventDate] = useState('')
+    const [event_date, setEventDate] = useState(new Date())
     const [number_of_people, setNumberOfPeople] = useState(0)
     const [endTime, setEndTime] = useState(moment().format('HH:mm'));
     const [gender_preference, setGenderPreference] = useState('')
     const [timePickerModalVisible, setTimePickerModalVisible] = useState(false)
     const [service_location, setServiceLocation] = useState('')
+    const [staff_member, setStaffMember] = useState('')
+    const [parking_instruction, setParkingInstruction] = useState('')
+    const [add_ons, setAddOns] = useState('')
+    const [preffered_style, setPrefferedStyle] = useState('')
+
+    const submitBooking = () => {
+        // if (!event_type) {
+        //     return Platform.OS === 'android'
+        //         ? ToastAndroid.show('Event type is required', ToastAndroid.SHORT)
+        //         : Alert.alert('Event type is required');
+        // }
+        // if (!event_date) {
+        //     return Platform.OS === 'android'
+        //         ? ToastAndroid.show('Event date is required', ToastAndroid.SHORT)
+        //         : Alert.alert('Event date is required');
+        // }
+        // if (!number_of_people || number_of_people <= 0) {
+        //     return Platform.OS === 'android'
+        //         ? ToastAndroid.show('Total number of members is required', ToastAndroid.SHORT)
+        //         : Alert.alert('Total number of members is required');
+        // }
+        // if (!service_location) {
+        //     return Platform.OS === 'android'
+        //         ? ToastAndroid.show('Service location is required', ToastAndroid.SHORT)
+        //         : Alert.alert('Service location is required');
+        // }
+        // if (!staff_member) {
+        //     return Platform.OS === 'android'
+        //         ? ToastAndroid.show('Staff member is required', ToastAndroid.SHORT)
+        //         : Alert.alert('Staff member is required');
+        // }
+
+        const body = {
+            event_type,
+            number_of_people,
+            service_location,
+            staff_member,
+            end_time: endTime,
+            gender_preference: gender_preference || null,
+            parking_instruction: parking_instruction || null,
+            add_ons: add_ons || null,
+            preffered_style: preffered_style || null,
+        };
+
+        console.log(body, 'Booking body');
+        navigationService.navigate('GroupMemberDetails', { data: body, barber: barber })
+    };
+
     return (
         <ScreenBoiler
             showHeader={true}
@@ -53,16 +104,12 @@ const GroupServices = props => {
                             marginTop: moderateScale(10, 0.3),
                         }}>
                         <CustomText isBold
-                            style={{
-                                fontSize: moderateScale(15, 0.6),
-                                paddingVertical: moderateScale(6, 0.6),
-                                color: Color.themeColor1,
-                            }}>
+                            style={styles.text}>
                             Event Type :
                         </CustomText>
                         <DropDownSingleSelect
                             array={['Birthday', 'Bachelorette Party', 'Bridal Party', 'Prom Group', 'Corporate Event', 'Girls’ Night Out', 'Holiday Event (Thanksgiving, Christmas, New Year)', 'Others']}
-                            backgroundColor={Color.white}
+                            backgroundColor={Color.lightGrey}
                             item={event_type}
                             setItem={setEventType}
                             Color={Color.darkGray}
@@ -74,37 +121,35 @@ const GroupServices = props => {
                             }}
                         />
                     </View>
-                    <CustomText isBold
-                        style={{
-                            fontSize: moderateScale(15, 0.6),
-                            paddingVertical: moderateScale(10, 0.6),
-                            color: Color.themeColor1,
-
-                        }}>
-                        Event Type :
+                    {/* <CustomText isBold
+                        style={styles.text}>
+                        Event Date :
                     </CustomText>
-                    <TouchableOpacity onPress={() => setTimePickerModalVisible(true)} style={{
-                        width: windowWidth * 0.92,
-                        height: windowHeight * 0.06,
-                        backgroundColor: Color.lightGray,
-                        borderRadius: moderateScale(10, 0.6),
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        paddingHorizontal: moderateScale(12, 0.6),
-                        flexDirection: "row",
-                    }}>
-                        <CustomText>Select Event Date</CustomText>
-                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => setTimePickerModalVisible(true)}
+                        style={{
+                            width: windowWidth * 0.92,
+                            height: windowHeight * 0.06,
+                            backgroundColor: Color.lightGrey,
+                            borderRadius: moderateScale(10, 0.6),
+                            justifyContent: 'center',
+                            paddingHorizontal: moderateScale(12, 0.6),
+                        }}
+                    >
+                        <CustomText style={{ color: Color.darkGray }}>
+                            {event_date ? moment(event_date).format('YYYY-MM-DD') : 'Select Event Date'}
+                        </CustomText>
+                    </TouchableOpacity> */}
                     <TextInputWithTitle
                         titleText={'Total number of people in the group'}
                         secureText={false}
                         placeholder={'Total Number of People'}
-                        // setText={setFirstName}
-                        // value={firstName}
+                        setText={setNumberOfPeople}
+                        value={number_of_people}
                         viewHeight={0.06}
                         viewWidth={0.92}
                         inputWidth={0.74}
-                        backgroundColor={Color.lightGray}
+                        backgroundColor={Color.lightGrey}
                         marginTop={moderateScale(12, 0.3)}
                         color={Color.themeColor}
                         placeholderColor={Color.themeLightGray}
@@ -112,7 +157,7 @@ const GroupServices = props => {
                         textStyle={{
                             fontSize: moderateScale(15, 0.6),
                             paddingVertical: moderateScale(6, 0.6),
-                            color: Color.themeColor1,
+                            color: Color.white,
                             fontWeight: 'bold'
                         }}
                     />
@@ -120,7 +165,7 @@ const GroupServices = props => {
                         style={{
                             fontSize: moderateScale(15, 0.6),
                             paddingVertical: moderateScale(12, 0.6),
-                            color: Color.themeColor1,
+                            color: Color.white,
                         }}>
                         Staff/Gender preference :
                     </CustomText>
@@ -171,11 +216,7 @@ const GroupServices = props => {
                         />
                     </View>
                     <CustomText isBold
-                        style={{
-                            fontSize: moderateScale(15, 0.6),
-                            paddingVertical: moderateScale(12, 0.6),
-                            color: Color.themeColor1,
-                        }}>
+                        style={styles.text}>
                         Service Location :
                     </CustomText>
                     <View style={[styles.row, {
@@ -190,7 +231,7 @@ const GroupServices = props => {
                                 backgroundColor: service_location === 'in_salon' ? Color.themeColor1 : Color.lightGray,
                                 borderRadius: windowWidth,
                                 borderWidth: 1.5,
-                                borderColor: Color.lightGray
+                                borderColor: Color.lightGrey
                             }} />
                             <CustomText isBold style={{
                                 fontSize: moderateScale(14, 0.6),
@@ -220,8 +261,8 @@ const GroupServices = props => {
                         titleText={'Number of Staff Member Required :'}
                         secureText={false}
                         placeholder={'Number of Staff Member Required'}
-                        // setText={setFirstName}
-                        // value={firstName}
+                        setText={setStaffMember}
+                        value={staff_member}
                         viewHeight={0.06}
                         viewWidth={0.92}
                         inputWidth={0.74}
@@ -233,7 +274,7 @@ const GroupServices = props => {
                         textStyle={{
                             fontSize: moderateScale(15, 0.6),
                             paddingVertical: moderateScale(6, 0.6),
-                            color: Color.themeColor1,
+                            color: Color.white,
                             fontWeight: 'bold'
                         }}
                     />
@@ -241,8 +282,8 @@ const GroupServices = props => {
                         titleText={'Parking/Access Instructions (optional):'}
                         secureText={false}
                         placeholder={'Parking/Access Instructions'}
-                        // setText={setFirstName}
-                        // value={firstName}
+                        setText={setParkingInstruction}
+                        value={parking_instruction}
                         viewHeight={0.06}
                         viewWidth={0.92}
                         inputWidth={0.74}
@@ -254,7 +295,7 @@ const GroupServices = props => {
                         textStyle={{
                             fontSize: moderateScale(15, 0.6),
                             paddingVertical: moderateScale(6, 0.6),
-                            color: Color.themeColor1,
+                            color: Color.white,
                             fontWeight: 'bold'
                         }}
                     />
@@ -262,8 +303,8 @@ const GroupServices = props => {
                         titleText={'Add-ons (optional) :'}
                         secureText={false}
                         placeholder={'Add-ons (lashes, hair extensions, nail art, etc)'}
-                        // setText={setFirstName}
-                        // value={firstName}
+                        setText={setAddOns}
+                        value={add_ons}
                         viewHeight={0.06}
                         viewWidth={0.92}
                         inputWidth={0.74}
@@ -275,7 +316,7 @@ const GroupServices = props => {
                         textStyle={{
                             fontSize: moderateScale(15, 0.6),
                             paddingVertical: moderateScale(6, 0.6),
-                            color: Color.themeColor1,
+                            color: Color.white,
                             fontWeight: 'bold'
                         }}
                     />
@@ -284,8 +325,8 @@ const GroupServices = props => {
                         titleText={'Preferred stylist (optional) :'}
                         secureText={false}
                         placeholder={'Preferred stylist Name'}
-                        // setText={setFirstName}
-                        // value={firstName}
+                        setText={setPrefferedStyle}
+                        value={preffered_style}
                         viewHeight={0.06}
                         viewWidth={0.92}
                         inputWidth={0.74}
@@ -297,7 +338,7 @@ const GroupServices = props => {
                         textStyle={{
                             fontSize: moderateScale(15, 0.6),
                             paddingVertical: moderateScale(6, 0.6),
-                            color: Color.themeColor1,
+                            color: Color.white,
                             fontWeight: 'bold'
                         }}
                     />
@@ -313,7 +354,7 @@ const GroupServices = props => {
                         marginTop={moderateScale(40, 0.3)}
                         marginBottom={moderateScale(40, 0.6)}
                         elevation
-                        onPress={() => navigationService.navigate('GroupMemberDetails')}
+                        onPress={() => submitBooking()}
                         style={{
                             marginRight: moderateScale(10, 0.6)
                         }}
@@ -321,14 +362,15 @@ const GroupServices = props => {
                 </ScrollView>
 
                 <DateTimePickerModal
-                    date={new Date}
+                    date={event_date}
                     isVisible={timePickerModalVisible}
                     mode="date"
                     onConfirm={(selectedDate) => {
-                        setEventDate(moment(selectedDate).format('YYYY-MM-DD'));
+                        setEventDate(selectedDate);
+                        setTimePickerModalVisible(false);
                     }}
-                    textColor={Color.themeColor1}
                     onCancel={() => setTimePickerModalVisible(false)}
+                    textColor={Color.themeColor1}
                 />
 
             </LinearGradient>
@@ -362,6 +404,11 @@ const styles = ScaledSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    text: {
+        fontSize: moderateScale(15, 0.6),
+        paddingVertical: moderateScale(6, 0.6),
+        color: Color.white,
     }
 });
 

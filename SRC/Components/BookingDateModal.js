@@ -283,9 +283,9 @@ const BookingDateModal = ({
 
               <CustomButton
                 bgColor={Color.themeColor}
-                text={
-                  isLoading ? <ActivityIndicator color={'white'} size={26}/> :
-                  'Create EVent'}
+                text={'Create EVent'}
+                loader={isLoading}
+                loaderColor={'white'}
                 width={windowWidth * 0.7}
                 height={windowHeight * 0.06}
                 textColor="white"

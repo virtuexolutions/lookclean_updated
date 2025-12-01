@@ -107,10 +107,9 @@ const OrderCard = ({item}) => {
             width: windowWidth * 0.16,
             fontSize: moderateScale(12, 0.3),
           }}>
-          Amount :{' '}
+          Amount :
         </CustomText>
         <CustomText style={styles.heading}>
-          {/* {numeral(calculateTotalAmount()).format('$0,0.0')} */}
           {numeral(item?.total_price).format('$0,0.00')}
         </CustomText>
       </View>
@@ -121,7 +120,7 @@ const OrderCard = ({item}) => {
             width: windowWidth * 0.16,
             fontSize: moderateScale(12, 0.3),
           }}>
-          Services :{' '}
+          Services :
         </CustomText>
         <CustomText numberOfLines={1} style={styles.heading}>
           {servicesText}

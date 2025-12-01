@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ImageBackground,
   View,
@@ -11,20 +11,20 @@ import {
 } from 'react-native';
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomButton from '../Components/CustomButton';
 import moment from 'moment/moment';
 import CustomTextWithMask from '../Components/CustomTextWithMask';
-import {Calendar} from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import navigationService from '../navigationService';
 import DropDownSingleSelect from '../Components/DropDownSingleSelect';
-import {Get, Post} from '../Axios/AxiosInterceptorFunction';
-import {useSelector} from 'react-redux';
-import {useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import { Get, Post } from '../Axios/AxiosInterceptorFunction';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 const ChooseDate = props => {
   const token = useSelector(state => state.authReducer.token);
 
@@ -33,7 +33,7 @@ const ChooseDate = props => {
   const image = props?.route?.params?.image;
 
   const navigation = useNavigation();
- 
+
   const [location, setLocation] = useState('');
   const [date, setDate] = useState('');
   const [selectedTiming, setSelectedTiming] = useState({});
@@ -45,15 +45,17 @@ const ChooseDate = props => {
   const getTimings = async () => {
     const url = `auth/barber/available_services/${barberDetails?.id}`;
     setLoading(true);
-    const response = await Post(url, {date: date}, apiHeader(token));
+    const response = await Post(url, { date: date }, apiHeader(token));
     setLoading(false);
     if (response != undefined) {
-     
+
       setBookingResponse(
         response?.data?.user_detail?.filter(item => item?.booking == null),
       );
     }
   };
+
+
   useEffect(() => {
     getTimings();
   }, [date]);
@@ -66,8 +68,8 @@ const ChooseDate = props => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <ScrollView
@@ -142,8 +144,8 @@ const ChooseDate = props => {
           />
 
           {Loading ? (
-            <View style={{height: windowHeight * 0.1, justifyContent:'center'}}>
-             
+            <View style={{ height: windowHeight * 0.1, justifyContent: 'center' }}>
+
               <ActivityIndicator color={Color.themeColor} size={'large'} />
             </View>
           ) : (
@@ -168,8 +170,8 @@ const ChooseDate = props => {
                         borderRadius: moderateScale(30, 0.4),
                         // borderRadius: moderateScale(30, 0.3),
                       }}
-                      start={{x: 0.2, y: 0.6}}
-                      end={{x: 1, y: 0}}
+                      start={{ x: 0.2, y: 0.6 }}
+                      end={{ x: 1, y: 0 }}
                       colors={
                         item == selectedTiming
                           ? Color.btnColor
@@ -261,9 +263,9 @@ const ChooseDate = props => {
               ) {
                 return Platform.OS === 'android'
                   ? ToastAndroid.show(
-                      'Please select date, time, location and services',
-                      ToastAndroid.SHORT,
-                    )
+                    'Please select date, time, location and services',
+                    ToastAndroid.SHORT,
+                  )
                   : alert('Please select date, time, location and services');
               } else if (location == 'shop') {
                 navigationService.navigate('CheckoutScreen', {
@@ -271,8 +273,9 @@ const ChooseDate = props => {
                     services: selectedServices,
                     date: date,
                     time: selectedTiming,
-                    location: {name: 'barber shop'},
+                    location: { name: 'barber shop' },
                     image: image,
+                    barberDetails: barberDetails,
                   },
                 });
               } else {
@@ -282,31 +285,14 @@ const ChooseDate = props => {
                     date: date,
                     time: selectedTiming,
                     image: image,
+                    barberDetails, barberDetails
                   },
                 });
               }
             }}
-            // onPress={() => {
-            //   if (date.length > 0 && selectedTiming != '') {
-            //     navigationService.navigate('CheckoutScreen', {
-            //       finalData: {
-            //         services: selectedServices,
-            //         date: date,
-            //         time: selectedTiming,
-            //       },
-            //     });
-            //   } else {
-            //     Platform.OS == 'android'
-            //       ? ToastAndroid.show(
-            //           'Please Select any schedule first',
-            //           ToastAndroid.SHORT,
-            //         )
-            //       : alert('Please Select any schedule first');
-            //   }
-            // }}
             width={windowWidth * 0.8}
             height={windowHeight * 0.06}
-            borderRadius={moderateScale(30,0.4)}
+            borderRadius={moderateScale(30, 0.4)}
             text={'Next'}
             fontSize={moderateScale(14, 0.3)}
             // borderRadius={moderateScale(30, 0.3)}

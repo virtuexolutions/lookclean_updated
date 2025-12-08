@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { ImageBackground, View, ScrollView, FlatList } from 'react-native';
-import Color from '../Assets/Utilities/Color';
-import CustomText from '../Components/CustomText';
-import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
-import { moderateScale, ScaledSheet } from 'react-native-size-matters';
-import ScreenBoiler from '../Components/ScreenBoiler';
-import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
 import moment from 'moment/moment';
-import OrderCard from '../Components/OrderCard';
-import CustomImage from '../Components/CustomImage';
+import { Icon } from 'native-base';
+import numeral from 'numeral';
+import React, { useState } from 'react';
+import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import ImageView from 'react-native-image-viewing';
+import LinearGradient from 'react-native-linear-gradient';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import numeral from 'numeral';
-import { Icon } from 'native-base';
-import CustomButton from '../Components/CustomButton';
-import { Get, Post } from '../Axios/AxiosInterceptorFunction';
 import { useSelector } from 'react-redux';
-import { ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import ImageView from 'react-native-image-viewing';
-import ReviewModal from '../Components/ReviewModal';
+import Color from '../Assets/Utilities/Color';
+import { Post } from '../Axios/AxiosInterceptorFunction';
+import CustomButton from '../Components/CustomButton';
+import CustomImage from '../Components/CustomImage';
+import CustomText from '../Components/CustomText';
 import ReviewCard from '../Components/ReviewCard';
+import ReviewModal from '../Components/ReviewModal';
+import ScreenBoiler from '../Components/ScreenBoiler';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 
 const OrderDetails = props => {
   const item = props?.route?.params?.item;
@@ -38,7 +35,8 @@ const OrderDetails = props => {
   const [review, setReview] = useState(
     item?.review == null ? {} : item?.review,
   );
-
+  const [selected_group_member, setSelectedGroupMember] = useState({})
+  console.log('seselected_group_member', selected_group_member)
   const dateDiff = (date, time) => {
 
     return moment(date + ' ' + moment(time, 'h:mm A').format('HH:mm:ss')).diff(
@@ -46,7 +44,6 @@ const OrderDetails = props => {
       'minute',
     )
   };
-
 
   const calculateTotalAmount = () => {
 
@@ -147,9 +144,7 @@ const OrderDetails = props => {
               <CustomText
                 isBold
                 style={{
-                  // width: windowWidth * 0.16,
                   fontSize: moderateScale(14, 0.3),
-                  // backgroundColor : 'red'
                 }}>
                 Date :{' '}
               </CustomText>
@@ -157,11 +152,13 @@ const OrderDetails = props => {
                 {item?.booking_date}
               </CustomText>
             </View>
+
+
+
             <View style={styles.eachRow}>
               <CustomText
                 isBold
                 style={{
-                  // width: windowWidth * 0.16,
                   fontSize: moderateScale(14, 0.3),
                 }}>
                 Booking time :{' '}
@@ -170,22 +167,6 @@ const OrderDetails = props => {
                 {item?.booking_time}
               </CustomText>
             </View>
-
-            {item?.dis_price && (
-              <View style={styles.eachRow}>
-                <CustomText
-                  isBold
-                  style={{
-                    // width: windowWidth * 0.16,
-                    fontSize: moderateScale(14, 0.3),
-                  }}>
-                  Voucher :{' '}
-                </CustomText>
-                <CustomText style={styles.heading}>
-                  {numeral(item?.dis_price).format('$0,0.0')} OFF
-                </CustomText>
-              </View>
-            )}
             <View style={styles.eachRow}>
               <CustomText
                 isBold
@@ -196,7 +177,6 @@ const OrderDetails = props => {
                 Total Amount :{' '}
               </CustomText>
               <CustomText isBold style={styles.heading}>
-                {/* {numeral(calculateTotalAmount()).format('$0,0.0')} */}
                 {item?.total_price ?? '0' + ' $'}
               </CustomText>
             </View>
@@ -204,7 +184,6 @@ const OrderDetails = props => {
               <CustomText
                 isBold
                 style={{
-                  // width: windowWidth * 0.16,
                   fontSize: moderateScale(14, 0.3),
                 }}>
                 Service Location :{' '}
@@ -213,66 +192,180 @@ const OrderDetails = props => {
                 {item?.custom_location}
               </CustomText>
             </View>
-            {item?.dis_price && (
-              <View style={styles.eachRow}>
+            <View style={styles.eachRow}>
+              <CustomText
+                isBold
+                style={{
+                  fontSize: moderateScale(14, 0.3),
+                }}>
+                Event Type :{' '}
+              </CustomText>
+              <CustomText style={styles.heading}>
+                {item?.event_type}
+              </CustomText>
+            </View>
+            <View style={styles.eachRow}>
+              <CustomText
+                isBold
+                style={{
+                  fontSize: moderateScale(14, 0.3),
+                }}>
+                Event Date :{' '}
+              </CustomText>
+              <CustomText style={styles.heading}>
+                {item?.event_date}
+              </CustomText>
+            </View>
+            <View style={styles.eachRow}>
+              <CustomText
+                isBold
+                style={{
+                  fontSize: moderateScale(14, 0.3),
+                }}>
+                Number of People :
+              </CustomText>
+              <CustomText style={styles.heading}>
+                {' ' + item?.number_of_people}
+              </CustomText>
+            </View>
+            <View style={styles.eachRow}>
+              <CustomText
+                isBold
+                style={{
+                  fontSize: moderateScale(14, 0.3),
+                }}>
+                Number of Staff Members :
+              </CustomText>
+              <CustomText style={styles.heading}>
+                {' ' + item?.number_of_staff_member}
+              </CustomText>
+            </View>
+            <View style={styles.eachRow}>
+              <CustomText
+                isBold
+                style={{
+                  fontSize: moderateScale(14, 0.3),
+                }}>
+                staff preference :
+              </CustomText>
+              <CustomText style={styles.heading}>
+                {' ' + item?.staff_preference}
+              </CustomText>
+            </View>
+            {(Array.isArray(item?.group_members) && item.group_members.length > 0) ?
+              <>
                 <CustomText
                   isBold
                   style={{
-                    // width: windowWidth * 0.16,
+                    marginTop: moderateScale(20, 0.3),
+                    width: windowWidth * 0.8,
+                    fontSize: moderateScale(16, 0.3),
+                  }}>
+                  Group Members :
+                </CustomText>
+                <FlatList
+                  data={item?.group_members}
+                  showsVerticalScrollIndicator={false}
+                  // style={{
+                  //   height: windowHeight * 0.3
+                  // }}
+                  renderItem={({ item, index }) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => setSelectedGroupMember(item)}
+                        style={{
+                          width: windowWidth * 0.8,
+                          height: windowHeight * 0.09,
+                          backgroundColor: Color.lightGray,
+                          marginTop: moderateScale(10, 0.6),
+                          borderRadius: moderateScale(5, 0.6),
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          paddingHorizontal: moderateScale(10, 0.6),
+                        }}>
+                        <View>
+                          <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'flex-start'
+                          }}>
+                            <CustomText isBold style={{
+                              fontSize: moderateScale(12, 0.6),
+                              color: Color.themeColor1
+                            }}>Name : </CustomText>
+                            <CustomText isBold style={{
+                              fontSize: moderateScale(12, 0.6),
+                              color: Color.darkGray,
+                            }}>{item?.name}</CustomText>
+                          </View>
+                          <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'flex-start'
+                          }}>
+                            <CustomText isBold style={{
+                              fontSize: moderateScale(12, 0.6),
+                              color: Color.themeColor1
+                            }}>service name : </CustomText>
+                            <CustomText isBold style={{
+                              fontSize: moderateScale(12, 0.6),
+                              color: Color.darkGray,
+                            }}>{item?.service_info?.name}</CustomText>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    )
+                  }}
+
+                />
+              </>
+              : <>
+                <CustomText
+                  isBold
+                  style={{
+                    marginTop: moderateScale(20, 0.3),
+                    width: windowWidth * 0.7,
                     fontSize: moderateScale(14, 0.3),
                   }}>
-                  After discount :{' '}
+                  Services Chose :{' '}
                 </CustomText>
-                <CustomText style={styles.heading}>
-                  {numeral(item?.total_price).format('$0,0.0')}
-                </CustomText>
-              </View>
-            )}
-
-            <CustomText
-              isBold
-              style={{
-                marginTop: moderateScale(20, 0.3),
-                width: windowWidth * 0.7,
-                // width: windowWidth * 0.16,
-                fontSize: moderateScale(14, 0.3),
-              }}>
-              Services Chose :{' '}
-            </CustomText>
-            {Array.isArray(item?.booking_detail) &&
-              item.booking_detail.length > 0 ? (
-              item.booking_detail.map(booking => {
-                console.log('serviceeeeeeeeeeeee _info  > > > >  >  ', booking)
-                return (
-                  <View
-                    key={booking?.id}
-                    style={{
-                      width: windowWidth * 0.7,
-                      flexDirection: 'row',
-                      paddingVertical: moderateScale(5, 0.3),
-                      alignItems: 'center',
-                    }}>
-                    <Icon
-                      name="dot-circle-o"
-                      as={FontAwesome}
-                      size={moderateScale(14, 0.3)}
-                      color={Color.themeColor}
-                    />
-                    {booking?.service_info && (
-                      <CustomText
+                {Array.isArray(item?.booking_detail) &&
+                  item.booking_detail.length > 0 ? (
+                  item.booking_detail.map(booking => {
+                    console.log('serviceeeeeeeeeeeee _info  > > > >  >  ', booking)
+                    return (
+                      <View
+                        key={booking?.id}
                         style={{
-                          marginLeft: moderateScale(5, 0.3),
-                          color: Color.black,
+                          width: windowWidth * 0.7,
+                          flexDirection: 'row',
+                          paddingVertical: moderateScale(5, 0.3),
+                          alignItems: 'center',
                         }}>
-                        {booking.service_info.name}
-                      </CustomText>
-                    )}
-                  </View>
-                );
-              })
-            ) : (
-              <CustomText style={{ color: 'red' }}>No services chosen</CustomText>
-            )}
+                        <Icon
+                          name="dot-circle-o"
+                          as={FontAwesome}
+                          size={moderateScale(14, 0.3)}
+                          color={Color.themeColor}
+                        />
+                        {booking?.service_info && (
+                          <CustomText
+                            style={{
+                              marginLeft: moderateScale(5, 0.3),
+                              color: Color.black,
+                            }}>
+                            {booking.service_info.name}
+                          </CustomText>
+                        )}
+                      </View>
+                    );
+                  })
+                ) : (
+                  <CustomText style={{ color: 'red' }}>No services chosen</CustomText>
+                )}
+              </>
+            }
 
             {item?.image && (
               <View
@@ -287,9 +380,6 @@ const OrderDetails = props => {
                   }}
                   isBold
                   style={{
-                    // marginTop: moderateScale(20, 0.3),
-                    // width: windowWidth * 0.7,
-                    // width: windowWidth * 0.16,
                     fontSize: moderateScale(14, 0.3),
                   }}>
                   Attachments{' '}
@@ -311,7 +401,6 @@ const OrderDetails = props => {
                 style={{
                   marginTop: moderateScale(20, 0.3),
                   width: windowWidth * 0.7,
-                  // width: windowWidth * 0.16,
                   fontSize: moderateScale(14, 0.3),
                 }}>
                 location :{' '}
@@ -327,7 +416,6 @@ const OrderDetails = props => {
                 style={{
                   marginTop: moderateScale(20, 0.3),
                   width: windowWidth * 0.7,
-                  // width: windowWidth * 0.16,
                   fontSize: moderateScale(14, 0.3),
                 }}>
                 Attachments :{' '}
@@ -393,7 +481,6 @@ const OrderDetails = props => {
                 textColor={Color.black}
                 onPress={() => {
                   accept();
-                  // buttonText == 'review' &&  rbRef.open()
                 }}
                 width={windowWidth * 0.75}
                 height={windowHeight * 0.06}
@@ -417,7 +504,6 @@ const OrderDetails = props => {
                 textColor={Color.black}
                 onPress={() => {
                   accept();
-                  // buttonText == 'review' &&  rbRef.open()
                 }}
                 width={windowWidth * 0.75}
                 height={windowHeight * 0.06}
@@ -435,7 +521,7 @@ const OrderDetails = props => {
               (user?.role == 'customer' &&
                 item?.review == null &&
                 Object.keys(review).length == 0 ? (
-                <CustomButtos
+                <CustomButton
                   bgColor={Color.themeColor}
                   borderColor={'white'}
                   borderWidth={1}
@@ -546,10 +632,11 @@ const styles = ScaledSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: moderateScale(10, 0.3),
-    width: windowWidth * 0.7,
+    width: windowWidth * 0.75,
   },
 
   heading: {
+
     color: Color.black,
     fontSize: moderateScale(13, 0.3),
   },

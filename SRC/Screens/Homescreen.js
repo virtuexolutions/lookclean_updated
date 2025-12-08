@@ -28,6 +28,7 @@ import ScreenBoiler from '../Components/ScreenBoiler';
 import navigationService from '../navigationService';
 import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 
+
 const Homescreen = () => {
   const user = useSelector(state => state.commonReducer.userData);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +41,7 @@ const Homescreen = () => {
   const focused = useIsFocused();
 
   const token = useSelector(state => state.authReducer.token);
-
+  console.log(token, 'tokeennnnnnn')
   const [index, setIndex] = useState(0);
 
   const GetBarberBooking = async () => {
@@ -406,7 +407,7 @@ const Homescreen = () => {
               </CustomText>
               <CustomText
                 onPress={() => {
-                  navigationService.navigate('UpComingScreen');
+                  navigationService.navigate('UpComingScreen', { data: orderData });
                 }}
                 style={styles.viewAll}>
                 View all
@@ -430,7 +431,7 @@ const Homescreen = () => {
                     />
                   );
                 }}
-                showsHorizontalScrollIndicator={false}
+                showsHorizontalScrollIndicator={true}
                 style={{
                   marginTop: moderateScale(10, 0.3),
                 }}

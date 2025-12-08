@@ -1,18 +1,18 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
-import {windowHeight, windowWidth} from '../Utillity/utils';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
+import { windowHeight, windowWidth } from '../Utillity/utils';
 import Color from '../Assets/Utilities/Color';
 import CustomImage from './CustomImage';
 import CustomText from './CustomText';
 import numeral from 'numeral';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomButton from './CustomButton';
 import navigationService from '../navigationService';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const OrderCard = ({item}) => {
+const OrderCard = ({ item }) => {
   const user = useSelector(state => state.commonReducer.userData);
 
   const amount = () => {
@@ -26,8 +26,6 @@ const OrderCard = ({item}) => {
 
   const calculateTotalAmount = () => {
     const bookingDetail = item?.booking_detail;
-    // const amount = item?.booking_detail.reduce((a,b)=> a+b)
-
     if (!Array.isArray(bookingDetail) || bookingDetail.length === 0) {
       return 0;
     }
@@ -56,15 +54,14 @@ const OrderCard = ({item}) => {
                   ? item?.status.toLowerCase() == 'reject'
                     ? 'rgba(255,0,0,0.6)'
                     : item?.status.toLowerCase() == 'accept'
-                    ? 'rgba(0,255,0,0.6)'
-                    : item?.status.toLowerCase() == 'complete'
-                    ? 'rgba(0,255,255,0.6)'
-                    : 'rgba(233,255,0,0.6)'
+                      ? 'rgba(0,255,0,0.6)'
+                      : item?.status.toLowerCase() == 'complete'
+                        ? 'rgba(0,255,255,0.6)'
+                        : 'rgba(233,255,0,0.6)'
                   : 'rgba(4, 7, 166, 0.8)',
             },
           ]}>
           <CustomText isBold style={styles.status}>
-            {' '}
             {item?.review == null ? item?.status : 'Reviewed'}
           </CustomText>
         </View>
@@ -133,7 +130,7 @@ const OrderCard = ({item}) => {
           borderWidth={1}
           textColor={Color.black}
           onPress={() => {
-            navigationService.navigate('OrderDetails', {item: item});
+            navigationService.navigate('OrderDetails', { item: item });
           }}
           borderRadius={moderateScale(30, 0.4)}
           width={windowWidth * 0.15}
@@ -176,7 +173,7 @@ const styles = ScaledSheet.create({
   status: {
     textAlign: 'center',
     fontSize: moderateScale(10, 0.6),
-    color : Color.white
+    color: Color.white
   },
   image: {
     width: moderateScale(40, 0.3),

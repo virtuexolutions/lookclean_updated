@@ -253,7 +253,7 @@ const AddService = props => {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              marginBottom: moderateScale(10,0.6)
+              marginBottom: moderateScale(10, 0.6)
             }}>
             <CustomButton
               onPress={() => {

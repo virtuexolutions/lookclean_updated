@@ -24,7 +24,6 @@ const OrderDetails = props => {
   const item = props?.route?.params?.item;
   console.log(item, 'itemmmmmmmmmmmmmmmmmm')
   const user = useSelector(state => state.commonReducer.userData);
-
   const token = useSelector(state => state.authReducer.token);
   console.log(token, 'tokeeeeeeeeeeeeeeen')
   const navigation = useNavigation();
@@ -37,6 +36,7 @@ const OrderDetails = props => {
   );
   const [selected_group_member, setSelectedGroupMember] = useState({})
   console.log('seselected_group_member', selected_group_member)
+
   const dateDiff = (date, time) => {
 
     return moment(date + ' ' + moment(time, 'h:mm A').format('HH:mm:ss')).diff(
@@ -152,9 +152,6 @@ const OrderDetails = props => {
                 {item?.booking_date}
               </CustomText>
             </View>
-
-
-
             <View style={styles.eachRow}>
               <CustomText
                 isBold

@@ -385,7 +385,7 @@ const BarberCard = ({
               {item?.first_name + ' ' + item?.last_name}
             </CustomText>
             <View style={[styles.absoluteContainer, { paddingHorizontal: moderateScale(7, 0.6) }]}>
-              <CustomText
+              <CustomText numberOfLines={1}
                 isBold
                 style={{
                   color: Color.themeColor1,

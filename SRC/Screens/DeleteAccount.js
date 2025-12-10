@@ -39,12 +39,12 @@ const DeleteAccount = () => {
                 source={{ uri: "https://zen-mendel.23-106-85-134.plesk.page/delete-account" }}
                 onLoadStart={() => setLoading(true)}
                 onLoadEnd={() => setLoading(false)}
-                injectedJavaScript={`
-    (function() {
-      const bodyText = document.body.innerText;
-      window.ReactNativeWebView.postMessage(bodyText);
-    })();
-  `}
+                injectedJavaScript={
+                    `(function() {
+                    const bodyText = document.body.innerText;
+                    window.ReactNativeWebView.postMessage(bodyText);
+                 })();`
+                }
                 onMessage={(event) => {
                     const content = event.nativeEvent.data;
                     console.log("Page Content:", content);

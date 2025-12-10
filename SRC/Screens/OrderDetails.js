@@ -46,7 +46,6 @@ const OrderDetails = props => {
   };
 
   const calculateTotalAmount = () => {
-
     const totalAmount = item?.booking_detail?.reduce((sum, booking) => {
       const bookingTotal =
         booking?.service_info?.price !== undefined
@@ -55,8 +54,6 @@ const OrderDetails = props => {
 
       return sum + bookingTotal;
     }, 0);
-
-
     return numeral(totalAmount).format('$0,0.0');
   };
 
@@ -189,66 +186,71 @@ const OrderDetails = props => {
                 {item?.custom_location}
               </CustomText>
             </View>
-            <View style={styles.eachRow}>
-              <CustomText
-                isBold
-                style={{
-                  fontSize: moderateScale(14, 0.3),
-                }}>
-                Event Type :{' '}
-              </CustomText>
-              <CustomText style={styles.heading}>
-                {item?.event_type}
-              </CustomText>
-            </View>
-            <View style={styles.eachRow}>
-              <CustomText
-                isBold
-                style={{
-                  fontSize: moderateScale(14, 0.3),
-                }}>
-                Event Date :{' '}
-              </CustomText>
-              <CustomText style={styles.heading}>
-                {item?.event_date}
-              </CustomText>
-            </View>
-            <View style={styles.eachRow}>
-              <CustomText
-                isBold
-                style={{
-                  fontSize: moderateScale(14, 0.3),
-                }}>
-                Number of People :
-              </CustomText>
-              <CustomText style={styles.heading}>
-                {' ' + item?.number_of_people}
-              </CustomText>
-            </View>
-            <View style={styles.eachRow}>
-              <CustomText
-                isBold
-                style={{
-                  fontSize: moderateScale(14, 0.3),
-                }}>
-                Number of Staff Members :
-              </CustomText>
-              <CustomText style={styles.heading}>
-                {' ' + item?.number_of_staff_member}
-              </CustomText>
-            </View>
-            <View style={styles.eachRow}>
-              <CustomText
-                isBold
-                style={{
-                  fontSize: moderateScale(14, 0.3),
-                }}>
-                staff preference :
-              </CustomText>
-              <CustomText style={styles.heading}>
-                {' ' + item?.staff_preference}
-              </CustomText>
-            </View>
+            {item?.event_type != null &&
+              <>
+                <View style={styles.eachRow}>
+                  <CustomText
+                    isBold
+                    style={{
+                      fontSize: moderateScale(14, 0.3),
+                    }}>
+                    Event Type :{' '}
+                  </CustomText>
+                  <CustomText style={styles.heading}>
+                    {item?.event_type}
+                  </CustomText>
+                </View>
+                <View style={styles.eachRow}>
+                  <CustomText
+                    isBold
+                    style={{
+                      fontSize: moderateScale(14, 0.3),
+                    }}>
+                    Event Date :{' '}
+                  </CustomText>
+                  <CustomText style={styles.heading}>
+                    {item?.event_date}
+                  </CustomText>
+                </View>
+                <View style={styles.eachRow}>
+                  <CustomText
+                    isBold
+                    style={{
+                      fontSize: moderateScale(14, 0.3),
+                    }}>
+                    Number of People :
+                  </CustomText>
+                  <CustomText style={styles.heading}>
+                    {' ' + item?.number_of_people}
+                  </CustomText>
+                </View>
+                <View style={styles.eachRow}>
+                  <CustomText
+                    isBold
+                    style={{
+                      fontSize: moderateScale(14, 0.3),
+                    }}>
+                    Number of Staff Members :
+                  </CustomText>
+                  <CustomText style={styles.heading}>
+                    {' ' + item?.number_of_staff_member}
+                  </CustomText>
+                </View>
+                <View style={styles.eachRow}>
+                  <CustomText
+                    isBold
+                    style={{
+                      fontSize: moderateScale(14, 0.3),
+                    }}>
+                    staff preference :
+                  </CustomText>
+                  <CustomText style={styles.heading}>
+                    {' ' + item?.staff_preference}
+                  </CustomText>
+                </View>
+              </>
+            }
+
             {(Array.isArray(item?.group_members) && item.group_members.length > 0) ?
               <>
                 <CustomText

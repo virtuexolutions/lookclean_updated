@@ -1,51 +1,39 @@
+import { Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
-  ImageBackground,
-  View,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  Platform,
-  ToastAndroid,
-  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  ToastAndroid,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import Color from '../Assets/Utilities/Color';
-import CustomText from '../Components/CustomText';
-import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
-import { moderateScale, ScaledSheet } from 'react-native-size-matters';
-import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import CustomButton from '../Components/CustomButton';
-import { Icon } from 'native-base';
-import navigationService from '../navigationService';
-import CustomImage from '../Components/CustomImage';
-import Modal from 'react-native-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setUserData,
-  setUserWallet,
-  setVoucherData,
-  setWholeCart,
-} from '../Store/slices/common';
+import Color from '../Assets/Utilities/Color';
 import { Post } from '../Axios/AxiosInterceptorFunction';
 import BookingDateModal from '../Components/BookingDateModal';
-// import { CardField } from '@stripe/stripe-react-native';
-import { CardField, createToken } from '@stripe/stripe-react-native';
-import TextInputWithTitle from '../Components/TextInputWithTitle';
-import { useIsFocused } from '@react-navigation/core';
+import CustomButton from '../Components/CustomButton';
+import CustomImage from '../Components/CustomImage';
+import CustomText from '../Components/CustomText';
+import ScreenBoiler from '../Components/ScreenBoiler';
+import navigationService from '../navigationService';
+import {
+  setUserWallet,
+  setVoucherData
+} from '../Store/slices/common';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 import { useNavigation } from '@react-navigation/native';
+import { CardField, createToken } from '@stripe/stripe-react-native';
 
 const PaymentScreen = props => {
-  // console.log('object =========== > propsssssssssssssssss' ,props?.route?.params)
   const navigation = useNavigation();
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const fromStore = props?.route?.params?.fromStore;
   const finalData = props?.route?.params?.finalData;
-  console.log('finalData ', finalData?.services?.members[0]?.selectedService)
-
   const userWallet = useSelector(state => state.commonReducer.userWallet);
 
   const dispatch = useDispatch();

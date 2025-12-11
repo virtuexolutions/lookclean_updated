@@ -412,9 +412,9 @@ const BarberCard = ({
                     <Icon name='location' as={EvilIcons} size={moderateScale(18, 0.6)} color={Color.themeColor1} />
                     <CustomText numberOfLines={1} style={{
                       fontSize: moderateScale(10, 0.6),
-                      color: Color.lightGrey,
+                      color: Color.lightGrey,                                               
                       textAlign: 'left',
-                    }}>{item?.distance?.toFixed(2)} km
+                    }}>{item?.distance?.toFixed(2)} miles
                     </CustomText>
                   </View>
                   <View style={[styles.absoluteContainer, { width: '30%' }]}>

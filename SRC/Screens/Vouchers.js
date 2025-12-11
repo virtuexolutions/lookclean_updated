@@ -36,7 +36,6 @@ const Vouchers = props => {
     setIsLoading(true);
     const response = await Get(url, token);
     setIsLoading(false);
-
     if (response != undefined) {
 
       setVoucherData(response?.data?.data);

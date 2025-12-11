@@ -12,7 +12,7 @@ import CustomImage from '../Components/CustomImage';
 import CustomText from '../Components/CustomText';
 import Color from '../Assets/Utilities/Color';
 import { setWalkThrough } from '../Store/slices/auth';
-import { windowHeight, windowWidth } from '../Utillity/utils';
+import { windowHeight } from '../Utillity/utils';
 
 const WalkThroughScreen = () => {
   const dispatch = useDispatch();
@@ -23,19 +23,19 @@ const WalkThroughScreen = () => {
       key: '1',
       title: 'Discover Top Service Providers',
       text: 'Explore top-rated salons and skilled individual service providers around your location. View detailed profiles, services, ratings, and portfolio styles so you can easily find the perfect match for your grooming needs.',
-      image: require('../Assets/Images/walkthrough.jpg'),
+      image: require('../Assets/Images/image2.jpg'),
     },
     {
       key: '2',
       title: 'Book Appointments Instantly',
       text: 'Check real-time availability and book your appointments at the time that suits you best. With just a few taps, your booking is confirmed no waiting, no extra steps, just a smooth and hassle-free experience.',
-      image: require('../Assets/Images/walkthrough3.jpeg'),
+      image: require('../Assets/Images/image1.jpg'),
     },
     {
       key: '3',
       title: 'Pay & Manage',
       text: 'Make secure in-app payments and keep all your appointments organized in one place. Track upcoming bookings, view your history, and manage everything effortlessly with complete convenience.',
-      image: require('../Assets/Images/walkthrough3.jpeg'),
+      image: require('../Assets/Images/image3.jpg'),
     },
   ];
 
@@ -50,7 +50,6 @@ const WalkThroughScreen = () => {
         </View>
 
         <CustomText style={styles.title}>{item.title}</CustomText>
-
         <CustomText style={styles.description}>{item.text}</CustomText>
       </LinearGradient>
     );
@@ -136,11 +135,10 @@ const styles = StyleSheet.create({
 
   imageWrapper: {
     width: '100%',
-    height: windowHeight * 0.45,
+    height: windowHeight * 0.6,
     // borderRadius: moderateScale(20),
     overflow: 'hidden',
-    borderBottomRightRadius: windowWidth,
-    borderBottomLeftRadius: windowWidth
+
   },
 
   image: { width: '100%', height: '100%' },

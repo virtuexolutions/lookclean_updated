@@ -1,43 +1,32 @@
-import {View, Text, Alert, TouchableOpacity , TextInput} from 'react-native';
-import React, {useState} from 'react';
-import {windowHeight, windowWidth} from '../Utillity/utils';
-import {ScaledSheet, moderateScale} from 'react-native-size-matters';
-import CustomButton from './CustomButton';
-import Color from '../Assets/Utilities/Color';
-import DropDownSingleSelect from './DropDownSingleSelect';
-import Entypo from 'react-native-vector-icons/Entypo';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
+import React from 'react';
+import { Alert, TextInput, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-// import {TextInput} from 'react-native-gesture-handler';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ScaledSheet, moderateScale } from 'react-native-size-matters';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Color from '../Assets/Utilities/Color';
+import { windowHeight, windowWidth } from '../Utillity/utils';
+import { Platform, ToastAndroid } from 'react-native';
 import CustomImage from './CustomImage';
-import CustomText from './CustomText';
 import TextInputWithTitle from './TextInputWithTitle';
-import {Platform} from 'react-native';
-import {ToastAndroid} from 'react-native';
 
-const ServiceComponent = ({setService, service, item, serviceArray}) => {
+const ServiceComponent = ({ setService, service, item, serviceArray }) => {
   console.log('item ======= >>>>>>', item?.name, item?.price);
 
   return (
-    // <CustomText style={{
-    //   color : 'white'
-    // }}>hello</CustomText>
     <View
       style={{
         flexDirection: 'row',
         paddingHorizontal: moderateScale(10, 0.6),
         width: windowWidth * 0.95,
         justifyContent: 'space-between',
-        // backgroundColor : 'red',
         alignItems: 'center',
       }}>
       {item?.name == '' ? (
         <SelectDropdown
-          data={serviceArray.map(item => {
+          data={serviceArray?.map(item => {
             return item?.name;
           })}
-          // defaultValue={item?.name}
           dropdownStyle={{
             width: windowWidth * 0.6,
             borderRadius: moderateScale(10, 0.3),
@@ -48,7 +37,6 @@ const ServiceComponent = ({setService, service, item, serviceArray}) => {
           rowStyle={{
             backgroundColor: Color.white,
             width: windowWidth * 0.6,
-            // marginTop : 10,
           }}
           rowTextStyle={{
             width: windowWidth * 0.75,
@@ -83,9 +71,9 @@ const ServiceComponent = ({setService, service, item, serviceArray}) => {
             if (service.some(item => item?.name == selectedItem)) {
               return Platform.OS == 'android'
                 ? ToastAndroid.show(
-                    'Service already added!',
-                    ToastAndroid.SHORT,
-                  )
+                  'Service already added!',
+                  ToastAndroid.SHORT,
+                )
                 : Alert.alert('Service already added!');
             } else {
               setService(prev => [...prev], (item.name = selectedItem));
@@ -93,7 +81,7 @@ const ServiceComponent = ({setService, service, item, serviceArray}) => {
           }}
           backgroundColor={Color.white}
         />
-       
+
       ) : (
         <TextInputWithTitle
           value={item?.name}
@@ -107,7 +95,7 @@ const ServiceComponent = ({setService, service, item, serviceArray}) => {
           borderRadius={moderateScale(25, 0.3)}
           disable
         />
-      
+
       )}
 
       <TextInput
@@ -123,7 +111,6 @@ const ServiceComponent = ({setService, service, item, serviceArray}) => {
       <CustomImage
         onPress={() => {
           let tempData = [...service];
-
           tempData.splice(
             service?.findIndex(x => x?.name == item?.name),
             1,
@@ -154,13 +141,11 @@ const styles = ScaledSheet.create({
     borderBottomWidth: moderateScale(1, 0.3),
     borderColor: 'lightgrey',
     marginTop: moderateScale(6, 0.3),
-    // borderRadius: moderateScale(20, 0.3),
     paddingLeft: moderateScale(32, 0.3),
     width: windowWidth * 0.81,
   },
   dropDownBtnText: {
     width: windowWidth * 0.75,
-    // marginLeft: 38,
     fontSize: moderateScale(15, 0.3),
     color: Color.themeLightGray,
     textAlign: 'left',
@@ -173,9 +158,8 @@ const styles = ScaledSheet.create({
     borderRadius: 25,
     height: windowHeight * 0.05,
     paddingHorizontal: 15,
-    // textAlign:'center',
     paddingTop: 10,
-    color:Color.black
+    color: Color.black
   },
   dropDownRow: {
     backgroundColor: Color.white,

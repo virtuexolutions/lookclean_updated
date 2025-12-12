@@ -1,15 +1,13 @@
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {windowHeight, windowWidth} from '../Utillity/utils';
-import Color from '../Assets/Utilities/Color';
-import CustomText from './CustomText';
+import { useIsFocused } from '@react-navigation/core';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
-import ReviewCard from './ReviewCard';
-import {moderateScale} from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
+import { useSelector } from 'react-redux';
+import Color from '../Assets/Utilities/Color';
+import { Get } from '../Axios/AxiosInterceptorFunction';
+import { windowHeight, windowWidth } from '../Utillity/utils';
 import CompletedOrderCard from './CompletedOrderCard';
-import {Get, Post} from '../Axios/AxiosInterceptorFunction';
-import {useSelector} from 'react-redux';
-import {useIsFocused} from '@react-navigation/core';
 import NoData from './NoData';
 
 const BookingHistoryModal = ({

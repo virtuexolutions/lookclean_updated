@@ -1,24 +1,17 @@
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
 import {
-  ScrollView,
   StyleSheet,
-  Text,
-  View,
-  Platform,
-  OS,
-  ToastAndroid,
+  View
 } from 'react-native';
-import React, {useState} from 'react';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import Color from '../Assets/Utilities/Color';
-import {moderateScale} from 'react-native-size-matters';
-import {useSelector} from 'react-redux';
 import Modal from 'react-native-modal';
-import CustomText from './CustomText';
-import CustomButton from './CustomButton';
+import { moderateScale } from 'react-native-size-matters';
+import { useSelector } from 'react-redux';
+import Color from '../Assets/Utilities/Color';
 import navigationService from '../navigationService';
-import {Post} from '../Axios/AxiosInterceptorFunction';
-import {useNavigation} from '@react-navigation/native';
-import VideoReplyScreen from '../Screens/VideoReplyScreen';
+import { windowHeight, windowWidth } from '../Utillity/utils';
+import CustomButton from './CustomButton';
+import CustomText from './CustomText';
 
 const ConsultationModal = ({modalVisible, setModalVisible ,item}) => {
  

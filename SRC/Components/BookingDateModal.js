@@ -1,31 +1,30 @@
 // import { View, Text } from 'react-native'
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
+  Alert,
+  Platform,
   StyleSheet,
   ToastAndroid,
   TouchableOpacity,
-  Platform,
-  Alert,
-  ActivityIndicator,
+  View
 } from 'react-native';
 import CustomText from './CustomText';
 
 import CustomButton from './CustomButton';
 import TextInputWithTitle from './TextInputWithTitle';
 
-import {Icon} from 'native-base';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Icon } from 'native-base';
 import Modal from 'react-native-modal';
-import {windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale} from 'react-native-size-matters';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { moderateScale } from 'react-native-size-matters';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { windowHeight, windowWidth } from '../Utillity/utils';
 
-import Color from '../Assets/Utilities/Color';
+import moment from 'moment';
 import RNCalendarEvents from 'react-native-calendar-events';
-import moment, {locale} from 'moment';
+import Color from '../Assets/Utilities/Color';
 import navigationService from '../navigationService';
 
 const BookingDateModal = ({

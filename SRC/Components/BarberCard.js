@@ -1,31 +1,26 @@
-import {
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  ToastAndroid,
-  Platform,
-  Alert,
-  View,
-} from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
-import CustomImage from './CustomImage';
-import Color from '../Assets/Utilities/Color';
-import CustomText from './CustomText';
-import { moderateScale } from 'react-native-size-matters';
-import Lottie from 'lottie-react-native';
+import moment from 'moment';
 import { Icon } from 'native-base';
 import numeral from 'numeral';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Alert,
+  Platform,
+  Pressable,
+  StyleSheet,
+  ToastAndroid,
+  View
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { moderateScale } from 'react-native-size-matters';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import Color from '../Assets/Utilities/Color';
 import { Post } from '../Axios/AxiosInterceptorFunction';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import CustomImage from './CustomImage';
+import CustomText from './CustomText';
 import HolidayModal from './HolidayModal';
-import LottieView from 'lottie-react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { mode } from 'native-base/lib/typescript/theme/tools';
-import { color } from 'native-base/lib/typescript/theme/styled-system';
-import moment from 'moment';
 
 
 const BarberCard = ({
@@ -412,7 +407,7 @@ const BarberCard = ({
                     <Icon name='location' as={EvilIcons} size={moderateScale(18, 0.6)} color={Color.themeColor1} />
                     <CustomText numberOfLines={1} style={{
                       fontSize: moderateScale(10, 0.6),
-                      color: Color.lightGrey,                                               
+                      color: Color.lightGrey,
                       textAlign: 'left',
                     }}>{item?.distance?.toFixed(2)} miles
                     </CustomText>

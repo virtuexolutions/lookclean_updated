@@ -1,12 +1,11 @@
+import { Icon } from "native-base";
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import Color from "../Assets/Utilities/Color";
+import { Dimensions, View } from "react-native";
 import Modal from "react-native-modal";
-import CustomButton from "./CustomButton";
 import { moderateScale, ScaledSheet } from "react-native-size-matters";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { Icon } from "native-base";
-import { useSelector } from "react-redux";
+import Color from "../Assets/Utilities/Color";
+import CustomButton from "./CustomButton";
 import CustomText from "./CustomText";
 
 const width = Dimensions.get("window").width;

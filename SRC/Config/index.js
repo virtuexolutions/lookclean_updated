@@ -1,5 +1,5 @@
 // export const baseUrl = "https://zen-mendel.23-106-85-134.plesk.page";
-export const baseUrl = "https://look-clean-test.cstmpanel.com";
+export const baseUrl = "https://app.lookclean.us";
 export const imageUrl = `${baseUrl}/api/images/`;
 export const profilePicUrl = `${baseUrl}/uploads`
 

@@ -1,19 +1,18 @@
-import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, { useState } from 'react';
-import CustomImage from './CustomImage';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale} from 'react-native-size-matters';
-import CustomText from './CustomText';
-import Color from '../Assets/Utilities/Color';
-import {Icon} from 'native-base';
-import FontAwesone5 from 'react-native-vector-icons/FontAwesome5';
-import CustomButton from './CustomButton';
-import {useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import navigationService from '../navigationService';
-import numeral from 'numeral';
+import { useNavigation } from '@react-navigation/native';
 import moment from 'moment/moment';
+import { Icon } from 'native-base';
+import numeral from 'numeral';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
+import FontAwesone5 from 'react-native-vector-icons/FontAwesome5';
+import { useSelector } from 'react-redux';
+import Color from '../Assets/Utilities/Color';
 import { Get } from '../Axios/AxiosInterceptorFunction';
+import { windowHeight, windowWidth } from '../Utillity/utils';
+import CustomButton from './CustomButton';
+import CustomImage from './CustomImage';
+import CustomText from './CustomText';
 
 const CompletedOrderCard = ({
   item,

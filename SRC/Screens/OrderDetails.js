@@ -327,7 +327,7 @@ const OrderDetails = props => {
                     width: windowWidth * 0.7,
                     fontSize: moderateScale(14, 0.3),
                   }}>
-                  Services Chose :{' '}
+                  Services Choose :{' '}
                 </CustomText>
                 {Array.isArray(item?.booking_detail) &&
                   item.booking_detail.length > 0 ? (

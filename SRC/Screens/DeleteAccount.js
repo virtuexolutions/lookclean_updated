@@ -36,7 +36,7 @@ const DeleteAccount = () => {
         <SafeAreaView style={{ flex: 1 }}>
             <WebView
                 ref={webviewRef}
-                source={{ uri: "https://zen-mendel.23-106-85-134.plesk.page/delete-account" }}
+                source={{ uri: "https://app.lookclean.us/delete-account" }}
                 onLoadStart={() => setLoading(true)}
                 onLoadEnd={() => setLoading(false)}
                 injectedJavaScript={

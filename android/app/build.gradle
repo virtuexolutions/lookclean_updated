@@ -80,8 +80,8 @@ android {
         applicationId "com.lookclean"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 6
+        versionName "1.0.3"
     }
     signingConfigs {
          release {

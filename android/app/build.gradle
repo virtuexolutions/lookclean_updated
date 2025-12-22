@@ -71,18 +71,23 @@ def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
-    ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
     namespace "com.lookclean"
-    
+    ndkVersion "26.1.10909125"
+
     defaultConfig {
         applicationId "com.lookclean"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
+        versionCode 9
         versionName "1.0.3"
     }
+    packagingOptions {
+      jniLibs {
+        useLegacyPackaging = true
+      }
+  }
     signingConfigs {
          release {
             if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {

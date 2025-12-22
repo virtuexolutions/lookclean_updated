@@ -9,11 +9,11 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
-import {ScaledSheet, moderateScale} from 'react-native-size-matters';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
+import { ScaledSheet, moderateScale } from 'react-native-size-matters';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 import CustomText from '../Components/CustomText';
 import Modal from 'react-native-modal';
 import CustomButton from '../Components/CustomButton';
@@ -22,11 +22,11 @@ import BookingHistoryModal from '../Components/BookingHistoryModal';
 import TextInputWithTitle from '../Components/TextInputWithTitle';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CustomImage from '../Components/CustomImage';
-import {CardField, createToken} from '@stripe/stripe-react-native';
-import {Post} from '../Axios/AxiosInterceptorFunction';
-import {useDispatch, useSelector} from 'react-redux';
-import {setUserData, setUserWallet} from '../Store/slices/common';
-import {useNavigation} from '@react-navigation/native';
+import { CardField, createToken } from '@stripe/stripe-react-native';
+import { Post } from '../Axios/AxiosInterceptorFunction';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData, setUserWallet } from '../Store/slices/common';
+import { useNavigation } from '@react-navigation/native';
 
 const Purchase = () => {
   const dispatch = useDispatch();
@@ -42,17 +42,14 @@ const Purchase = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const coinsConfig = [
-    {id: '1', coin: 10},
-    {id: '2', coin: 20},
-    {id: '3', coin: 30},
-    {id: '4', coin: 40},
-    {id: '5', coin: 50},
+    { id: '1', coin: 10 },
+    { id: '2', coin: 20 },
+    { id: '3', coin: 30 },
+    { id: '4', coin: 40 },
+    { id: '5', coin: 50 },
     {
       id: '6',
       coin: 'Other...',
-      //   onPress: () => {
-      //     setIsVisible(true);
-      //   },
     },
   ];
 
@@ -60,7 +57,7 @@ const Purchase = () => {
     const responsetoken = await createToken({
       type: 'Card',
     });
-
+    console.log(responsetoken, 'responsetoken')
     if (responsetoken != undefined) {
       const body = {
         amount: selectedCoins == 'Other...' ? otherCoins : selectedCoins,
@@ -68,7 +65,7 @@ const Purchase = () => {
         type: 'debit',
         pm_id: responsetoken?.token?.id,
       };
-    // return  console.log("🚀 ~ addTransaction ~ body:", body)
+      console.log("🚀 ~ addTransaction ~ body:", body)
       for (let key in body) {
         console.log('keyyyyyyyyyyyyyyyyy', key);
         if (body[key] === '') {
@@ -105,8 +102,8 @@ const Purchase = () => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.1, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.1, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <KeyboardAvoidingView
@@ -151,7 +148,7 @@ const Purchase = () => {
                       width: '100%',
                     }}
                     source={require('../Assets/Images/Coins-main.png')}
-                    // resizeMode={'cover'}
+                  // resizeMode={'cover'}
                   />
                 </View>
                 <CustomText
@@ -176,7 +173,7 @@ const Purchase = () => {
                   numColumns={2}
                   data={coinsConfig}
                   keyExtractor={item => item.id}
-                  renderItem={({item}) => (
+                  renderItem={({ item }) => (
                     <CustomButton
                       textColor={Color.black}
                       onPress={() => {
@@ -257,8 +254,8 @@ const Purchase = () => {
                       height: windowHeight * 0.07,
                       marginVertical: moderateScale(10, 0.3),
                     }}
-                    onCardChange={cardDetails => {}}
-                    onFocus={focusedField => {}}
+                    onCardChange={cardDetails => { }}
+                    onFocus={focusedField => { }}
                   />
                   {/* </View> */}
                   <CustomButton

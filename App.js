@@ -17,12 +17,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import RNCalendarEvents from 'react-native-calendar-events';
 
 const App = () => {
-  LogBox.ignoreLogs([
-    'Warning: ...',
-    'VirtualizedLists should never be nested',
-  ]);
-  LogBox.ignoreAllLogs();
-  
+  // LogBox.ignoreLogs([
+  //   'Warning: ...',
+  //   'VirtualizedLists should never be nested',
+  // ]);
+  // LogBox.ignoreAllLogs();
+
   return (
     <StripeProvider
       publishableKey={"pk_live_51P9XFVE0duL4FerOlgZZZu31QkZerkL5IFURa8jAmOVVPidjMLZ5CIGjto5cG0Fs5tXdh33mBvAZYkxGZXYGLfjr00vWU9iqMA"}

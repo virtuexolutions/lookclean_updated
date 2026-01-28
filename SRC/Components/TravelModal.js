@@ -233,6 +233,10 @@ const HolidayModal = ({
           <DateTimePickerModal
             isVisible={isTimePickerVisible}
             mode="date"
+            display='calendar'
+            // date={new Date()}
+            
+            minimumDate={new Date().setHours(0, 0, 0, 0)}
             onConfirm={data => {
               dateType == 'from'
                 ? setDateFrom(moment(data).format('DD-MM-YYYY'))

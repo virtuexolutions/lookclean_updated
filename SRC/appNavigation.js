@@ -60,6 +60,7 @@ import DeleteAccount from './Screens/DeleteAccount';
 import GreetingScreen from './Screens/GreetingScreen';
 import GroupServices from './Screens/GroupService';
 import GroupMemberDetails from './Screens/GroupMemberDetails';
+import BarberProfile from './Screens/BarberProfile';
 
 const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
@@ -95,7 +96,7 @@ const AppNavigator = () => {
           initialRouteName={
             userData?.role == 'customer' ? customerFirstScreen : secondScreen
           }
-          // initialRouteName={'AddService'}
+          // initialRouteName={'BarberProfile'}
           screenOptions={{ headerShown: false }}>
           <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
           <RootNav.Screen
@@ -123,6 +124,10 @@ const AppNavigator = () => {
           <RootNav.Screen
             name="CustomerBookingDetail"
             component={CustomerBookingDetails}
+          />
+          <RootNav.Screen
+            name="BarberProfile"
+            component={BarberProfile}
           />
           <RootNav.Screen name="TabNavigation" component={TabNavigation} />
           <RootNav.Screen name="CheckoutScreen" component={CheckoutScreen} />

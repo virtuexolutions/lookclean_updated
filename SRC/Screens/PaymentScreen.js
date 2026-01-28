@@ -216,7 +216,7 @@ const PaymentScreen = props => {
     const responsetoken = await createToken({
       type: 'Card',
     });
-
+// return console.log("======> ", responsetoken);
     if (responsetoken != undefined) {
       setStripeToken(responsetoken?.token?.id);
       setLoading(false);
@@ -280,7 +280,7 @@ const PaymentScreen = props => {
                 <CustomText
                   isBold
                   style={{
-                    fontSize: moderateScale(12, 0.3),
+                    fontSize: moderateScale(14, 0.3),
                     width: windowWidth * 0.4,
                     color: Color.black,
                   }}>
@@ -288,7 +288,7 @@ const PaymentScreen = props => {
                 </CustomText>
                 <CustomText
                   style={{
-                    fontSize: moderateScale(11, 0.3),
+                    fontSize: moderateScale(13, 0.3),
                     width: windowWidth * 0.4,
                     color: Color.themeLightGray,
                   }}>
@@ -414,7 +414,9 @@ const PaymentScreen = props => {
                   from wallet
                 </CustomText>
               </View>
-              <View style={styles.innerContainer}>
+              <View style={[styles.innerContainer, {
+                    marginLeft:moderateScale(10,0.2),
+              }]}>
                 <TouchableOpacity
                   onPress={() => {
                     setSelectedPaymentMethod('stripe');
@@ -434,7 +436,8 @@ const PaymentScreen = props => {
                     setIsVisible(true);
                   }}
                   style={styles.txt2}>
-                  pay through stripe
+                  {/* pay through stripe */}
+                 {" Debit or Credit Card"}
                 </CustomText>
               </View>
             </View>
@@ -445,7 +448,7 @@ const PaymentScreen = props => {
                     isBold
                     style={{
                       color: Color.white,
-                      fontSize: moderateScale(15, 0.6),
+                      fontSize: moderateScale(17, 0.6),
                     }}>
                     Add Card Details
                   </CustomText>
@@ -474,12 +477,12 @@ const PaymentScreen = props => {
                     marginVertical: moderateScale(10, 0.3),
                   }}
                   onCardChange={cardDetails => {
-
+                        console.log("===========> ", cardDetails)
                   }}
                   onFocus={focusedField => {
 
                   }}
-
+on
                 />
                 <CustomButton
                   textColor={Color.black}
@@ -492,7 +495,7 @@ const PaymentScreen = props => {
                   width={windowWidth * 0.35}
                   height={windowHeight * 0.05}
                   borderRadius={moderateScale(25, 0.6)}
-                  fontSize={moderateScale(14, 0.3)}
+                  fontSize={moderateScale(16, 0.3)}
                   textTransform={'uppercase'}
                   isGradient={true}
                   isBold
@@ -522,7 +525,7 @@ const PaymentScreen = props => {
               text={'Pay now'}
               loader={isLoading}
               loaderColor={Color.black}
-              fontSize={moderateScale(14, 0.3)}
+              fontSize={moderateScale(16, 0.3)}
               borderRadius={moderateScale(30, 0.4)}
               textTransform={'uppercase'}
               isGradient={true}
@@ -556,7 +559,7 @@ const styles = ScaledSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(20, 0.3),
+    fontSize: moderateScale(22, 0.3),
   },
   container1: {
     backgroundColor: Color.white,
@@ -571,7 +574,7 @@ const styles = ScaledSheet.create({
   },
   subHeading: {
     color: Color.white,
-    fontSize: moderateScale(12, 0.3),
+    fontSize: moderateScale(14, 0.3),
     marginTop: moderateScale(20, 0.3),
   },
   addCardContainer: {
@@ -594,9 +597,10 @@ const styles = ScaledSheet.create({
   innerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+
   },
   txt2: {
-    fontSize: moderateScale(12, 0.3),
+    fontSize: moderateScale(14, 0.3),
     color: Color.themeColor,
   },
   circle: {

@@ -44,7 +44,7 @@ const ImageUpload = props => {
         </CustomText>
 
         <CustomText style={styles.text1}>
-        Upload a clear image of your desired hairstyle or look. This helps your barber understand your preferences and deliver the perfect grooming experience.
+        Upload a clear image of your desired hairstyle or look. This helps your provider understand your preferences and deliver the perfect grooming experience.
         </CustomText>
 
         {/* <Icon
@@ -84,7 +84,7 @@ const ImageUpload = props => {
           width={windowWidth * 0.85}
           height={windowHeight * 0.06}
           text={'Choose Image'}
-          fontSize={moderateScale(14, 0.3)}
+          fontSize={moderateScale(16, 0.3)}
           isGradient={true}
           borderRadius={moderateScale(30, 0.4)}
           isBold
@@ -128,13 +128,13 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(21, 0.3),
+    fontSize: moderateScale(23, 0.3),
   },
 
   text1: {
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(10, 0.3),
+    fontSize: moderateScale(12, 0.3),
     width: windowWidth * 0.8,
     lineHeight: 16,
     marginTop: moderateScale(20),

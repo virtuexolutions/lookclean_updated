@@ -197,7 +197,7 @@ const BarberServicesScreen = props => {
               <CustomTextWithMask
                 data={`${detail?.first_name} ${detail?.last_name}`}
                 isBold
-                size={moderateScale(20, 0.3)}
+                size={moderateScale(22, 0.3)}
                 textStyle={{
                   textTransform: 'uppercase',
                 }}
@@ -228,7 +228,7 @@ const BarberServicesScreen = props => {
               <CustomText
                 style={{
                   color: Color.themeLightGray,
-                  fontSize: moderateScale(10, 0.3),
+                  fontSize: moderateScale(12, 0.3),
                 }}>
                 {barberDetails?.review?.length} Review
               </CustomText>
@@ -249,14 +249,14 @@ const BarberServicesScreen = props => {
                 isBold
                 style={{
                   color: Color.themeColor,
-                  fontSize: moderateScale(15, 0.3),
+                  fontSize: moderateScale(17, 0.3),
                 }}>
                 designation
               </CustomText>
               <CustomText
                 style={{
                   color: Color.white,
-                  fontSize: moderateScale(15, 0.3),
+                  fontSize: moderateScale(16, 0.3),
                   // paddingHorizontal :moderateScale(10,.6)
                 }}>
                 nails
@@ -269,7 +269,7 @@ const BarberServicesScreen = props => {
               // size={moderateScale(30, 0.3)}
               style={{
                 color: Color.themeColor,
-                fontSize: moderateScale(18, 0.3),
+                fontSize: moderateScale(20, 0.3),
               }}>
               Ambiance
             </CustomText>
@@ -291,11 +291,12 @@ const BarberServicesScreen = props => {
                       width: windowWidth,
                       paddingVertical: moderateScale(5, 0.6),
                       flexDirection: 'row',
+                      // backgroundColor:'red'
                     }}>
                     <CustomText
                       isBold
                       style={{
-                        fontSize: moderateScale(13, 0.3),
+                        fontSize: moderateScale(15, 0.3),
                         width: windowWidth * 0.8,
                         // backgroundColor: 'red',
                         color: Color.white,
@@ -331,7 +332,7 @@ const BarberServicesScreen = props => {
             isBold
             size={moderateScale(30, 0.3)}
             textStyle={{
-              fontSize: moderateScale(18, 0.3),
+              fontSize: moderateScale(20, 0.3),
             }}
             containerStyle={{
               marginTop: moderateScale(20, 0.3),
@@ -372,7 +373,7 @@ const BarberServicesScreen = props => {
                     }}>
                     <CustomText
                       style={{
-                        fontSize: moderateScale(15, 0.6),
+                        fontSize: moderateScale(17, 0.6),
                         color: Color.white,
                         textAlign: 'center',
                       }}
@@ -396,7 +397,7 @@ const BarberServicesScreen = props => {
                     <CustomText
                       isBold
                       style={{
-                        fontSize: moderateScale(14, 0.3),
+                        fontSize: moderateScale(16, 0.3),
                         width: windowWidth * 0.45,
                         color: Color.white,
                       }}>
@@ -405,7 +406,7 @@ const BarberServicesScreen = props => {
                     <CustomText
                       isBold
                       style={{
-                        fontSize: moderateScale(14, 0.3),
+                        fontSize: moderateScale(16, 0.3),
                         color: Color.white,
                       }}>
                       {numeral(item?.price).format('$0,0.0')}
@@ -429,7 +430,7 @@ const BarberServicesScreen = props => {
                         width={windowWidth * 0.75}
                         height={windowHeight * 0.06}
                         text={'Get your consultancy'}
-                        fontSize={moderateScale(14, 0.3)}
+                        fontSize={moderateScale(15, 0.3)}
                         textTransform={'uppercase'}
                         isGradient={true}
                         isBold
@@ -461,7 +462,7 @@ const BarberServicesScreen = props => {
                       width={windowWidth * 0.75}
                       height={windowHeight * 0.06}
                       text={'customize your trimming'}
-                      fontSize={moderateScale(14, 0.3)}
+                      fontSize={moderateScale(15, 0.3)}
                       textTransform={'uppercase'}
                       isGradient={true}
                       isBold
@@ -490,7 +491,7 @@ const BarberServicesScreen = props => {
                       width={windowWidth * 0.75}
                       height={windowHeight * 0.06}
                       text={'Book Now'}
-                      fontSize={moderateScale(14, 0.3)}
+                      fontSize={moderateScale(15, 0.3)}
                       textTransform={'uppercase'}
                       isGradient={true}
                       isBold
@@ -559,13 +560,13 @@ const styles = ScaledSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(20, 0.3),
+    fontSize: moderateScale(22, 0.3),
   },
   text1Absolute: {
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(16, 0.3),
+    fontSize: moderateScale(18, 0.3),
   },
   bannerView: {
     width: windowWidth * 0.85,

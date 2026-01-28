@@ -112,7 +112,7 @@ const dateDiff = (date, time) => {
       <View>
         <View style={styles.row}>
           <CustomText isBold style={styles.heading}>
-            {user?.role == 'customer' ? 'Barber name' : 'Customer name'} :
+            {user?.role == 'customer' ? 'Provider name' : 'Customer name'} :
           </CustomText>
           <CustomText
             numberOfLines={1}

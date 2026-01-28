@@ -271,7 +271,7 @@ const Signup = ({ navigation }) => {
                   marginTop: moderateScale(10, 0.3),
                 }}>
                 <CustomText
-                  style={{ fontSize: moderateScale(13, 0.6), color: Color.white }}>
+                  style={{ fontSize: moderateScale(15, 0.6), color: Color.white }}>
                   Category
                 </CustomText>
                 <DropDownSingleSelect
@@ -280,7 +280,7 @@ const Signup = ({ navigation }) => {
                   item={designation}
                   setItem={setDesignation}
                   Color={Color.darkGray}
-                  fontSize={moderateScale(14, 0.6)}
+                  fontSize={moderateScale(16, 0.6)}
                   placeholder={'Choose Specialty Category'}
                   width={windowWidth * 0.75}
                   // buttonStyle={{backgroundColor :Color.white}}
@@ -394,7 +394,7 @@ const Signup = ({ navigation }) => {
                   'Sign Up'
                 )
               }
-              fontSize={moderateScale(14, 0.3)}
+              fontSize={moderateScale(16, 0.3)}
               textTransform={'uppercase'}
               isGradient={true}
               isBold
@@ -409,7 +409,7 @@ const Signup = ({ navigation }) => {
               isBold
               style={{
                 color: 'rgb(227,196,136)',
-                fontSize: moderateScale(15, 0.3),
+                fontSize: moderateScale(17, 0.3),
                 textTransform: 'uppercase',
                 marginTop: moderateScale(10, 0.3),
                 zIndex: 1,
@@ -510,7 +510,7 @@ const styles = ScaledSheet.create({
   },
   txt4: {
     color: Color.themeColor,
-    fontSize: moderateScale(14, 0.6),
+    fontSize: moderateScale(16, 0.6),
     borderBottomWidth: 1,
     borderColor: Color.themeColor,
     marginBottom: moderateScale(5, 0.3),
@@ -518,7 +518,7 @@ const styles = ScaledSheet.create({
   txt5: {
     color: Color.themeLightGray,
 
-    fontSize: moderateScale(12, 0.6),
+    fontSize: moderateScale(14, 0.6),
   },
   circle: {
     height: moderateScale(13, 0.3),
@@ -530,7 +530,7 @@ const styles = ScaledSheet.create({
     marginLeft: moderateScale(15, 0.3),
   },
   txt2: {
-    fontSize: moderateScale(12, 0.3),
+    fontSize: moderateScale(14, 0.3),
     color: Color.themeColor,
     // fontWeight : 'bold'
     // backgroundColor : 'red'

@@ -71,7 +71,7 @@ const BarberCompersion = props => {
           style={{
             width: windowWidth,
           }}>
-          <CustomText isBold style={{ color: Color.white, fontSize: moderateScale(20, 0.6), textAlign: 'left', width: windowWidth * 0.9, marginBottom: moderateScale(10, 0.6) }}>Explore Professionals :</CustomText>
+          <CustomText isBold style={{ color: Color.white, fontSize: moderateScale(22, 0.6), textAlign: 'left', width: windowWidth * 0.9, marginBottom: moderateScale(10, 0.6) }}>Explore Professionals :</CustomText>
           {isLoading ? (
             <View
               style={{
@@ -93,7 +93,7 @@ const BarberCompersion = props => {
                       width: windowWidth * 0.6,
                       alignItems: 'center',
                     }}
-                    text={'No barber found'}
+                    text={'No provider found'}
                   />
                 );
               }}
@@ -129,7 +129,7 @@ const BarberCompersion = props => {
                         ]}>
                         <CustomText
                           style={{
-                            fontSize: moderateScale(12, 0.6),
+                            fontSize: moderateScale(14, 0.6),
                           }}>
                           name :
                         </CustomText>
@@ -141,7 +141,7 @@ const BarberCompersion = props => {
                       <View style={styles.row}>
                         <CustomText
                           style={{
-                            fontSize: moderateScale(12, 0.6),
+                            fontSize: moderateScale(14, 0.6),
                           }}>
                           ratings :
                         </CustomText>
@@ -167,13 +167,13 @@ const BarberCompersion = props => {
                       <View style={styles.row}>
                         <CustomText
                           style={{
-                            fontSize: moderateScale(12, 0.6),
+                            fontSize: moderateScale(14, 0.6),
                           }}>
                           total reviews :
                         </CustomText>
                         <CustomText
                           style={{
-                            fontSize: moderateScale(12, 0.6),
+                            fontSize: moderateScale(14, 0.6),
                             paddingHorizontal: moderateScale(5, 0.6),
                           }}>
                           {item?.reviews_count}
@@ -183,7 +183,7 @@ const BarberCompersion = props => {
                       <View style={styles.row}>
                         <CustomText
                           style={{
-                            fontSize: moderateScale(12, 0.6),
+                            fontSize: moderateScale(14, 0.6),
                           }}>
                           price :
                         </CustomText>
@@ -196,7 +196,7 @@ const BarberCompersion = props => {
                       width={windowWidth * 0.3}
                       height={windowHeight * 0.045}
                       text={'book now'}
-                      fontSize={moderateScale(14, 0.3)}
+                      fontSize={moderateScale(16, 0.3)}
                       onPress={() => {
                         navigation.navigate('BarberServicesScreen', {
                           detail: item,
@@ -232,17 +232,17 @@ const styles = ScaledSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(20, 0.3),
+    fontSize: moderateScale(22, 0.3),
   },
   h1: {
-    fontSize: moderateScale(12, 0.6),
+    fontSize: moderateScale(14, 0.6),
     paddingHorizontal: moderateScale(5, 0.6),
   },
   text1Absolute: {
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(16, 0.3),
+    fontSize: moderateScale(17, 0.3),
   },
   bannerView: {
     width: windowWidth * 0.85,

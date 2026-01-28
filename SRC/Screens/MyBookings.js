@@ -170,13 +170,13 @@ const styles = ScaledSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(20, 0.3),
+    fontSize: moderateScale(22, 0.3),
   },
   text1Absolute: {
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(16, 0.3),
+    fontSize: moderateScale(18, 0.3),
     },
   bannerView: {
     width: windowWidth * 0.85,
@@ -186,6 +186,6 @@ const styles = ScaledSheet.create({
   },
   viewAll: {
     color: Color.white,
-    fontSize: moderateScale(12, 0.3),
+    fontSize: moderateScale(14, 0.3),
   },
 });

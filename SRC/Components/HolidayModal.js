@@ -75,7 +75,7 @@ const HolidayModal = ({item, isHolidayMode, setIsHolidayMode}) => {
             paddingBottom: moderateScale(5, 0.3),
           }}
           isBold>
-          barber is not taking order currently
+          provider is not taking order currently
         </CustomText>
         <View
           style={{
@@ -95,7 +95,7 @@ const HolidayModal = ({item, isHolidayMode, setIsHolidayMode}) => {
                 setIsHolidayMode(false);
               }
               else{
-                set
+                // set
               }
               // navigation.goBack()
             }}

@@ -36,9 +36,9 @@ const ShowReview = ({modal, setModal, barberDetails }) => {
                 justifyContent:'center'
               }}>
                 <CustomText  style={[styles.heading ,{
-                  fontSize:moderateScale(15,.6)
+                  fontSize:moderateScale(17,.6)
                 }]}>
-                  barber have no review yet
+                  Provider have no review yet
                 </CustomText>
               </View>
             );
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Color.black,
     paddingTop: moderateScale(15, 0.6),
-    fontSize: moderateScale(20, 0.6),
+    fontSize: moderateScale(22, 0.6),
   },
 });

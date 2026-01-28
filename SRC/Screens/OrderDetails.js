@@ -129,11 +129,11 @@ const OrderDetails = props => {
               <CustomText
                 isBold
                 style={{
-                  fontSize: moderateScale(14, 0.3),
+                  fontSize: moderateScale(16, 0.3),
                 }}>
                 Booking Number :{' '}
               </CustomText>
-              <CustomText style={[styles.heading, { fontSize: moderateScale(11, 0.6), color: Color.darkGray }]}>
+              <CustomText style={[styles.heading, { fontSize: moderateScale(14, 0.6), color: Color.darkGray }]}>
                 {item?.order_no}
               </CustomText>
             </View>
@@ -141,7 +141,7 @@ const OrderDetails = props => {
               <CustomText
                 isBold
                 style={{
-                  fontSize: moderateScale(14, 0.3),
+                  fontSize: moderateScale(16, 0.3),
                 }}>
                 Date :{' '}
               </CustomText>
@@ -153,7 +153,7 @@ const OrderDetails = props => {
               <CustomText
                 isBold
                 style={{
-                  fontSize: moderateScale(14, 0.3),
+                  fontSize: moderateScale(16, 0.3),
                 }}>
                 Booking time :{' '}
               </CustomText>
@@ -166,7 +166,7 @@ const OrderDetails = props => {
                 isBold
                 style={{
                   // width: windowWidth * 0.16,
-                  fontSize: moderateScale(14, 0.3),
+                  fontSize: moderateScale(16, 0.3),
                 }}>
                 Total Amount :{' '}
               </CustomText>
@@ -178,7 +178,7 @@ const OrderDetails = props => {
               <CustomText
                 isBold
                 style={{
-                  fontSize: moderateScale(14, 0.3),
+                  fontSize: moderateScale(16, 0.3),
                 }}>
                 Service Location :{' '}
               </CustomText>
@@ -192,7 +192,7 @@ const OrderDetails = props => {
                   <CustomText
                     isBold
                     style={{
-                      fontSize: moderateScale(14, 0.3),
+                      fontSize: moderateScale(16, 0.3),
                     }}>
                     Event Type :{' '}
                   </CustomText>
@@ -204,7 +204,7 @@ const OrderDetails = props => {
                   <CustomText
                     isBold
                     style={{
-                      fontSize: moderateScale(14, 0.3),
+                      fontSize: moderateScale(16, 0.3),
                     }}>
                     Event Date :{' '}
                   </CustomText>
@@ -216,7 +216,7 @@ const OrderDetails = props => {
                   <CustomText
                     isBold
                     style={{
-                      fontSize: moderateScale(14, 0.3),
+                      fontSize: moderateScale(16, 0.3),
                     }}>
                     Number of People :
                   </CustomText>
@@ -228,7 +228,7 @@ const OrderDetails = props => {
                   <CustomText
                     isBold
                     style={{
-                      fontSize: moderateScale(14, 0.3),
+                      fontSize: moderateScale(16, 0.3),
                     }}>
                     Number of Staff Members :
                   </CustomText>
@@ -240,7 +240,7 @@ const OrderDetails = props => {
                   <CustomText
                     isBold
                     style={{
-                      fontSize: moderateScale(14, 0.3),
+                      fontSize: moderateScale(16, 0.3),
                     }}>
                     staff preference :
                   </CustomText>
@@ -258,7 +258,7 @@ const OrderDetails = props => {
                   style={{
                     marginTop: moderateScale(20, 0.3),
                     width: windowWidth * 0.8,
-                    fontSize: moderateScale(16, 0.3),
+                    fontSize: moderateScale(18, 0.3),
                   }}>
                   Group Members :
                 </CustomText>
@@ -290,11 +290,11 @@ const OrderDetails = props => {
                             justifyContent: 'flex-start'
                           }}>
                             <CustomText isBold style={{
-                              fontSize: moderateScale(12, 0.6),
+                              fontSize: moderateScale(14, 0.6),
                               color: Color.themeColor1
                             }}>Name : </CustomText>
                             <CustomText isBold style={{
-                              fontSize: moderateScale(12, 0.6),
+                              fontSize: moderateScale(14, 0.6),
                               color: Color.darkGray,
                             }}>{item?.name}</CustomText>
                           </View>
@@ -304,11 +304,11 @@ const OrderDetails = props => {
                             justifyContent: 'flex-start'
                           }}>
                             <CustomText isBold style={{
-                              fontSize: moderateScale(12, 0.6),
+                              fontSize: moderateScale(14, 0.6),
                               color: Color.themeColor1
                             }}>service name : </CustomText>
                             <CustomText isBold style={{
-                              fontSize: moderateScale(12, 0.6),
+                              fontSize: moderateScale(14, 0.6),
                               color: Color.darkGray,
                             }}>{item?.service_info?.name}</CustomText>
                           </View>
@@ -325,7 +325,7 @@ const OrderDetails = props => {
                   style={{
                     marginTop: moderateScale(20, 0.3),
                     width: windowWidth * 0.7,
-                    fontSize: moderateScale(14, 0.3),
+                    fontSize: moderateScale(16, 0.3),
                   }}>
                   Services Choose :{' '}
                 </CustomText>
@@ -379,7 +379,7 @@ const OrderDetails = props => {
                   }}
                   isBold
                   style={{
-                    fontSize: moderateScale(14, 0.3),
+                    fontSize: moderateScale(16, 0.3),
                   }}>
                   Attachments{' '}
                 </CustomText>
@@ -400,7 +400,7 @@ const OrderDetails = props => {
                 style={{
                   marginTop: moderateScale(20, 0.3),
                   width: windowWidth * 0.7,
-                  fontSize: moderateScale(14, 0.3),
+                  fontSize: moderateScale(16, 0.3),
                 }}>
                 location :{' '}
               </CustomText>
@@ -415,7 +415,7 @@ const OrderDetails = props => {
                 style={{
                   marginTop: moderateScale(20, 0.3),
                   width: windowWidth * 0.7,
-                  fontSize: moderateScale(14, 0.3),
+                  fontSize: moderateScale(16, 0.3),
                 }}>
                 Attachments :{' '}
               </CustomText>
@@ -440,7 +440,7 @@ const OrderDetails = props => {
                   text={'Accept'}
                   loader={isLoading}
                   loaderColor={Color.black}
-                  fontSize={moderateScale(14, 0.3)}
+                  fontSize={moderateScale(16, 0.3)}
                   textTransform={'uppercase'}
                   isGradient={true}
                   isBold
@@ -461,7 +461,7 @@ const OrderDetails = props => {
                   text={'Reject'}
                   loader={isLoading2}
                   loaderColor={Color.black}
-                  fontSize={moderateScale(14, 0.3)}
+                  fontSize={moderateScale(16, 0.3)}
                   textTransform={'uppercase'}
                   isGradient={true}
                   isBold
@@ -486,7 +486,7 @@ const OrderDetails = props => {
                 text={'done the job'}
                 loader={isLoading2}
                 loaderColor={Color.black}
-                fontSize={moderateScale(14, 0.3)}
+                fontSize={moderateScale(16, 0.3)}
                 textTransform={'uppercase'}
                 isGradient={true}
                 isBold
@@ -509,7 +509,7 @@ const OrderDetails = props => {
                 text={'Approve complete Request'}
                 loader={isLoading2}
                 loaderColor={Color.black}
-                fontSize={moderateScale(14, 0.3)}
+                fontSize={moderateScale(16, 0.3)}
                 textTransform={'uppercase'}
                 isGradient={true}
                 isBold
@@ -533,7 +533,7 @@ const OrderDetails = props => {
                   text={'review'}
                   loader={isLoading}
                   loaderColor={Color.black}
-                  fontSize={moderateScale(14, 0.3)}
+                  fontSize={moderateScale(16, 0.3)}
                   textTransform={'uppercase'}
                   isGradient={true}
                   isBold
@@ -545,7 +545,7 @@ const OrderDetails = props => {
                   <CustomText
                     isBold
                     style={{
-                      fontSize: moderateScale(16, 0.6),
+                      fontSize: moderateScale(18, 0.6),
                       color: Color.black,
                       marginTop: moderateScale(10, 0.6),
                     }}>
@@ -557,7 +557,7 @@ const OrderDetails = props => {
                 <CustomText
                   isBold
                   style={{
-                    fontSize: moderateScale(16, 0.6),
+                    fontSize: moderateScale(18, 0.6),
                     color: Color.black,
                     marginTop: moderateScale(40, 0.6),
                   }}>
@@ -604,7 +604,7 @@ const styles = ScaledSheet.create({
 
   text1: {
     color: Color.white,
-    fontSize: moderateScale(18, 0.3),
+    fontSize: moderateScale(20, 0.3),
     marginBottom: moderateScale(10, 0.3),
   },
 
@@ -616,13 +616,13 @@ const styles = ScaledSheet.create({
   },
 
   name: {
-    fontSize: moderateScale(16, 0.3),
+    fontSize: moderateScale(18, 0.3),
     color: Color.black,
     marginTop: moderateScale(5, 0.3),
   },
 
   designation: {
-    fontSize: moderateScale(12, 0.3),
+    fontSize: moderateScale(14, 0.3),
     color: Color.darkGray,
     marginTop: moderateScale(2, 0.3),
   },
@@ -637,7 +637,7 @@ const styles = ScaledSheet.create({
   heading: {
 
     color: Color.black,
-    fontSize: moderateScale(13, 0.3),
+    fontSize: moderateScale(15, 0.3),
   },
 
   mapView: {

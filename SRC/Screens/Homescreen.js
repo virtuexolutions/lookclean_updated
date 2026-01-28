@@ -175,7 +175,7 @@ const Homescreen = () => {
                           borderRadius: moderateScale(20, 0.6),
                           padding: moderateScale(7, 0.6),
                           marginHorizontal: moderateScale(5, 0.3),
-                          fontSize: moderateScale(13, 0.6),
+                          fontSize: moderateScale(15, 0.6),
                           marginVertical: moderateScale(5, 0.3),
                         }}>
                         {item}
@@ -217,7 +217,7 @@ const Homescreen = () => {
               isVisible={isVisible}
               setIsVisible={setIsVisible}
             />
-
+{/* 
             <CustomText isBold style={styles.text1}>
               New HairStyle Trends
             </CustomText>
@@ -251,7 +251,6 @@ const Homescreen = () => {
                         height: '100%',
                       }}
                     />
-                    {/* <View style={{position : 'absolute' , bottom : 0}}> */}
                     <LinearGradient
                       start={{ x: 0, y: 0 }}
                       end={{ x: 0, y: 1 }}
@@ -297,11 +296,10 @@ const Homescreen = () => {
                         })}
                       </View>
                     </LinearGradient>
-                    {/* </View> */}
                   </View>
                 );
               }}
-            />
+            /> */}
 
             <CustomText
               isBold
@@ -309,9 +307,9 @@ const Homescreen = () => {
                 styles.text1,
                 {
                   width: windowWidth * 0.9,
-                  fontSize: moderateScale(16, 0.3),
+                  fontSize: moderateScale(18, 0.3),
                   textAlign: 'left',
-                  marginTop: moderateScale(10, 0.3),
+                  marginTop: moderateScale(20, 0.3),
                 },
               ]}>
               Recommended
@@ -331,7 +329,7 @@ const Homescreen = () => {
                   return (
                     <NoData
                       style={styles.no_data}
-                      text={'No barber found'}
+                      text={'No provider found'}
                     />
                   );
                 }}
@@ -388,7 +386,7 @@ const Homescreen = () => {
                 textStyle={[
                   styles.text1,
                   {
-                    fontSize: moderateScale(30, 0.3),
+                    fontSize: moderateScale(32, 0.3),
                   },
                 ]}
                 isBold
@@ -505,13 +503,13 @@ const styles = ScaledSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(20, 0.3),
+    fontSize: moderateScale(22, 0.3),
   },
   text1Absolute: {
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(16, 0.3),
+    fontSize: moderateScale(18, 0.3),
   },
   bannerView: {
     width: windowWidth * 0.85,
@@ -521,7 +519,7 @@ const styles = ScaledSheet.create({
   },
   viewAll: {
     color: Color.white,
-    fontSize: moderateScale(12, 0.3),
+    fontSize: moderateScale(15, 0.3),
   },
   mapview: {
     width: windowWidth * 0.76,
@@ -530,7 +528,7 @@ const styles = ScaledSheet.create({
     paddingVertical: moderateScale(5, 0.6),
   },
   h1: {
-    fontSize: moderateScale(15, 0.3),
+    fontSize: moderateScale(17, 0.3),
     width: windowWidth,
     marginTop: moderateScale(10, 0.3),
     color: Color.white,
@@ -542,7 +540,7 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
   },
   up_coming: {
-    fontSize: moderateScale(15, 0.3),
+    fontSize: moderateScale(17, 0.3),
     color: Color.white,
   },
   up_con: {

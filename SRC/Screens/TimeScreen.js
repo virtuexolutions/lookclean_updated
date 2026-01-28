@@ -227,7 +227,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: moderateScale(10, 0.6),
   },
   addService: {
-    fontSize: moderateScale(16, 0.6),
+    fontSize: moderateScale(18, 0.6),
     color: Color.white,
   },
   plusButton: {
@@ -257,7 +257,7 @@ const styles = ScaledSheet.create({
   },
   selectedTimeText: {
     color: Color.white,
-    fontSize: moderateScale(16, 0.6),
+    fontSize: moderateScale(18, 0.6),
   },
   removeButton: {
     padding: moderateScale(10, 0.3),

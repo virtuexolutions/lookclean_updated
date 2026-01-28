@@ -265,7 +265,7 @@ const ImageScreen = props => {
               width={windowWidth * 0.8}
               height={windowHeight * 0.06}
               text={'Hair'}
-              fontSize={moderateScale(14, 0.3)}
+              fontSize={moderateScale(16, 0.3)}
               isGradient={true}
               isBold
               onPress={() => {
@@ -285,7 +285,7 @@ const ImageScreen = props => {
               width={windowWidth * 0.8}
               height={windowHeight * 0.06}
               text={'Beard'}
-              fontSize={moderateScale(14, 0.3)}
+              fontSize={moderateScale(16, 0.3)}
               isGradient={true}
               isBold
               onPress={() => {
@@ -305,7 +305,7 @@ const ImageScreen = props => {
               width={windowWidth * 0.8}
               height={windowHeight * 0.06}
               text={'Mustaches'}
-              fontSize={moderateScale(14, 0.3)}
+              fontSize={moderateScale(16, 0.3)}
               borderRadius={moderateScale(30, 0.4)}
               isGradient={true}
               isBold
@@ -326,7 +326,7 @@ const ImageScreen = props => {
                 borderRadius={moderateScale(30, 0.4)}
                 text={'Proceed'}
 
-                fontSize={moderateScale(14, 0.3)}
+                fontSize={moderateScale(16, 0.3)}
                 isGradient={true}
                 isBold
                 onPress={() => {
@@ -372,7 +372,7 @@ const ImageScreen = props => {
                 }}
               />
               <CustomText
-                style={{color: Color.white, fontSize: moderateScale(15, 0.6)}}
+                style={{color: Color.white, fontSize: moderateScale(17, 0.6)}}
                 isBold>
                 {selectedCat}
               </CustomText>
@@ -445,7 +445,7 @@ const ImageScreen = props => {
                     <CustomText
                       style={{
                         width: windowWidth * 0.15,
-                        fontSize: moderateScale(15, 0.6),
+                        fontSize: moderateScale(17, 0.6),
                         color: Color.white,
                       }}
                       isBold>
@@ -475,7 +475,7 @@ const ImageScreen = props => {
                     <CustomText
                       style={{
                         width: windowWidth * 0.15,
-                        fontSize: moderateScale(15, 0.6),
+                        fontSize: moderateScale(17, 0.6),
                         color: Color.white,
                       }}
                       isBold>
@@ -502,7 +502,7 @@ const ImageScreen = props => {
                     width={windowWidth * 0.8}
                     height={windowHeight * 0.06}
                     text={'Save'}
-                    fontSize={moderateScale(14, 0.3)}
+                    fontSize={moderateScale(16, 0.3)}
               borderRadius={moderateScale(30, 0.4)}
 
                     isGradient={true}
@@ -561,6 +561,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(21, 0.3),
+    fontSize: moderateScale(23, 0.3),
   },
 });

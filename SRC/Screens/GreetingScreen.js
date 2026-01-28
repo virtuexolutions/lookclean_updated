@@ -46,25 +46,25 @@ const GreetingScreen = () => {
                         marginTop: windowWidth * 0.1
                     }}>
                         <CustomText isBold style={{
-                            fontSize: moderateScale(35, 0.6),
+                            fontSize: moderateScale(37, 0.6),
                             color: Color.white,
                             textTransform: 'uppercase',
                         }}>Welcome</CustomText>
                         <CustomText style={{
-                            fontSize: moderateScale(20, 0.6),
+                            fontSize: moderateScale(22, 0.6),
                             color: Color.themeColor1,
                             textAlign: 'center',
                             width: windowWidth * 0.9,
                             marginTop: moderateScale(3, 0.6)
-                        }}>Book expert barbers & beauty services with ease.</CustomText>
+                        }}>Book expert providers & beauty services with ease.</CustomText>
                         <CustomText style={{
-                            fontSize: moderateScale(12, 0.6),
+                            fontSize: moderateScale(14, 0.6),
                             color: Color.lightGray,
                             textAlign: 'center',
                             width: windowWidth * 0.92,
                             marginTop: moderateScale(10, 0.6),
 
-                        }}>LookClean brings professional grooming and beauty services right to your fingertips. Browse skilled barbers and stylists, compare services, read reviews, and book appointments in just a few taps. Enjoy a smooth, modern salon experience with secure bookings, instant confirmations, and trusted service providers ready to elevate your look.</CustomText>
+                        }}>LookClean brings professional grooming and beauty services right to your fingertips. Browse skilled providers and stylists, compare services, read reviews, and book appointments in just a few taps. Enjoy a smooth, modern salon experience with secure bookings, instant confirmations, and trusted service providers ready to elevate your look.</CustomText>
                         <CustomButton
                             textColor={Color.black}
                             width={windowWidth * 0.8}

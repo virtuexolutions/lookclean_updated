@@ -313,8 +313,8 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
           textColor={Color.black}
           width={windowWidth * 0.8}
           height={windowHeight * 0.07}
-          text={'appoint this barber'}
-          fontSize={moderateScale(14, 0.3)}
+          text={'appoint this provider'}
+          fontSize={moderateScale(15, 0.3)}
           onPress={() => {
             navigation.navigate('BarberServicesScreen', {
               detail: item?.barber_info,
@@ -336,7 +336,7 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
             height={windowHeight * 0.06}
             borderRadius={moderateScale(10, 0.4)}
             text={'reply'}
-            fontSize={moderateScale(15, 0.3)}
+            fontSize={moderateScale(16, 0.3)}
             onPress={() => {
               openCamera();
             }}
@@ -353,7 +353,7 @@ const MediaPlayer = ({uri, item, userRole, replied, text}) => {
             height={windowHeight * 0.06}
             borderRadius={moderateScale(10, 0.4)}
             text={'Denied'}
-            fontSize={moderateScale(15, 0.3)}
+            fontSize={moderateScale(16, 0.3)}
             onPress={() => {
               isLoading ? (
                 <ActivityIndicator size={'small'} color={Color.white} />
@@ -425,7 +425,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: moderateScale(20, 0.6),
   },
   text: {
-    fontSize: moderateScale(10, 0.6),
+    fontSize: moderateScale(12, 0.6),
     color: '#fff',
   },
   buttonRow: {

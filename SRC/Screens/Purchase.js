@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
-import { ScaledSheet, moderateScale } from 'react-native-size-matters';
+import { ScaledSheet, moderateScale, scale } from 'react-native-size-matters';
 import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 import CustomText from '../Components/CustomText';
 import Modal from 'react-native-modal';
@@ -27,6 +27,7 @@ import { Post } from '../Axios/AxiosInterceptorFunction';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData, setUserWallet } from '../Store/slices/common';
 import { useNavigation } from '@react-navigation/native';
+import { position } from 'native-base/lib/typescript/theme/styled-system';
 
 const Purchase = () => {
   const dispatch = useDispatch();
@@ -138,27 +139,31 @@ const Purchase = () => {
                 }}>
                 <View
                   style={{
-                    //   backgroundColor:'red',
+                    // marginTop:moderateScale(20,0.2),
+                      // backgroundColor:'red',
                     height: windowHeight * 0.3,
+
                     width: windowWidth * 0.6,
                   }}>
                   <CustomImage
                     style={{
                       height: '100%',
                       width: '100%',
+                      // position:"absolute",
+                      resizeMode:"stretch"
                     }}
-                    source={require('../Assets/Images/Coins-main.png')}
+                    source={require('../Assets/Images/coins-stack.png')}
                   // resizeMode={'cover'}
                   />
                 </View>
                 <CustomText
                   style={{
-                    marginHorizontal: moderateScale(40, 0.6),
+                    // marginHorizontal: moderateScale(40, 0.6),
                     fontSize: moderateScale(60, 0.6),
                     color: Color.themeColor,
                     position: 'absolute',
-                    bottom: 0,
-                    right: 10,
+                    bottom: scale(30),
+                    right: scale(20),
                     // backgroundColor: 'red',
                   }}>
                   {/* hfsdhfg */}

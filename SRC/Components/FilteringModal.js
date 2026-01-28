@@ -18,7 +18,7 @@ const FilteringModal = ({
   barberFilter,
 }) => {
   const dummyArray = [
-    'featured barber',
+    'featured provider',
     'nearest to me',
     'earliest',
    

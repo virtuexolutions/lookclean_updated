@@ -163,7 +163,7 @@ const styles = ScaledSheet.create({
   },
   viewAll: {
     color: Color.white,
-    fontSize: moderateScale(12, 0.3),
+    fontSize: moderateScale(14, 0.3),
   },
   activityImage: {
     height: windowHeight * 0.2,

@@ -113,7 +113,7 @@ const GroupServices = props => {
                             item={event_type}
                             setItem={setEventType}
                             Color={Color.darkGray}
-                            fontSize={moderateScale(14, 0.6)}
+                            fontSize={moderateScale(16, 0.6)}
                             placeholder={'Choose Event Type'}
                             width={windowWidth * 0.92}
                             dropdownStyle={{
@@ -155,7 +155,7 @@ const GroupServices = props => {
                         placeholderColor={Color.themeLightGray}
                         borderRadius={moderateScale(10, 0.4)}
                         textStyle={{
-                            fontSize: moderateScale(15, 0.6),
+                            fontSize: moderateScale(17, 0.6),
                             paddingVertical: moderateScale(6, 0.6),
                             color: Color.white,
                             fontWeight: 'bold'
@@ -163,7 +163,7 @@ const GroupServices = props => {
                     />
                     <CustomText isBold
                         style={{
-                            fontSize: moderateScale(15, 0.6),
+                            fontSize: moderateScale(17, 0.6),
                             paddingVertical: moderateScale(12, 0.6),
                             color: Color.white,
                         }}>
@@ -185,7 +185,7 @@ const GroupServices = props => {
                             borderRadius={moderateScale(10, 0.1)}
                             borderWidth={1.5}
                             isBold
-                            fontSize={moderateScale(12, 0.6)}
+                            fontSize={moderateScale(14, 0.6)}
                             onPress={() => setGenderPreference('Male')}
                         />
                         <CustomButton
@@ -195,7 +195,7 @@ const GroupServices = props => {
                             borderRadius={moderateScale(10, 0.1)}
                             borderWidth={1.5}
                             isBold
-                            fontSize={moderateScale(12, 0.6)}
+                            fontSize={moderateScale(14, 0.6)}
                             onPress={() => setGenderPreference('Female')}
                             bgColor={gender_preference === 'Female' ? Color.white : 'transparent'}
                             textColor={gender_preference === 'Female' ? Color.themeColor1 : "white"}
@@ -207,7 +207,7 @@ const GroupServices = props => {
                             height={windowHeight * 0.05}
                             borderRadius={moderateScale(10, 0.1)}
                             borderWidth={1.5}
-                            fontSize={moderateScale(12, 0.6)}
+                            fontSize={moderateScale(14, 0.6)}
                             isBold
                             onPress={() => setGenderPreference('Both')}
                             bgColor={gender_preference === 'Both' ? Color.white : 'transparent'}
@@ -234,7 +234,7 @@ const GroupServices = props => {
                                 borderColor: Color.lightGrey
                             }} />
                             <CustomText isBold style={{
-                                fontSize: moderateScale(14, 0.6),
+                                fontSize: moderateScale(16, 0.6),
                                 marginLeft: moderateScale(8, 0.6),
                                 color: Color.white
                             }}>In salon</CustomText>
@@ -251,7 +251,7 @@ const GroupServices = props => {
                                 borderColor: Color.lightGray
                             }} />
                             <CustomText isBold style={{
-                                fontSize: moderateScale(14, 0.6),
+                                fontSize: moderateScale(16, 0.6),
                                 marginLeft: moderateScale(8, 0.6),
                                 color: Color.white
                             }}>On-Site</CustomText>
@@ -272,7 +272,7 @@ const GroupServices = props => {
                         placeholderColor={Color.themeLightGray}
                         borderRadius={moderateScale(10, 0.4)}
                         textStyle={{
-                            fontSize: moderateScale(15, 0.6),
+                            fontSize: moderateScale(17, 0.6),
                             paddingVertical: moderateScale(6, 0.6),
                             color: Color.white,
                             fontWeight: 'bold'
@@ -406,7 +406,7 @@ const styles = ScaledSheet.create({
         alignItems: 'center',
     },
     text: {
-        fontSize: moderateScale(15, 0.6),
+        fontSize: moderateScale(17, 0.6),
         paddingVertical: moderateScale(6, 0.6),
         color: Color.white,
     }

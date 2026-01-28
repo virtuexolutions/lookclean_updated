@@ -71,8 +71,10 @@ const BookingDateModal = ({
 
   const checkCalendarPermission = async () => {
     const result = await RNCalendarEvents.checkPermissions((readOnly = false));
+    // return console.log("result  === >" , result);
+    let askPermission;
     if (result != 'authorized') {
-      const askPermission = await RNCalendarEvents.requestPermissions(
+       askPermission = await RNCalendarEvents.requestPermissions(
         (readOnly = false),
       );
 
@@ -86,12 +88,21 @@ const BookingDateModal = ({
       }
     } else {
       const CalendersAvailble = await RNCalendarEvents.findCalendars();
+      console.log("============> ", CalendersAvailble);
       setCalendarsInDevice(CalendersAvailble);
     }
   };
 
   const saveEvent = async () => {
-    console.log("SAVE EVENT EXCecuting ...........")
+    const startDate = moment(
+      `${moment(bookingDate).format('YYYY-MM-DD')} ${startTime.replace(/\s+/g, '')}`,
+      'YYYY-MM-DD hh:mmA'
+    );
+    
+    const endDate = moment(
+      `${moment(bookingDate).format('YYYY-MM-DD')} ${endTime.replace(/\s+/g, '')}`,
+      'YYYY-MM-DD hh:mmA'
+    );
     try {
       const body = {
         eventName: eventName,
@@ -101,29 +112,27 @@ const BookingDateModal = ({
       for (let key in body) {
         if ([null, undefined, ''].includes(body[key])) {
           return Platform.OS == 'android'
-            ? ToastAndroid.show('Required field is empty', ToastAndroid.SHORT)
-            : alert('Required field is empty');
+          ? ToastAndroid.show('Required field is empty', ToastAndroid.SHORT)
+          : alert('Required field is empty');
         }
       }
-     console.log("Body =======> ", body,moment(startTime))
-
       setIsLoading(true);
+      
       const response = await RNCalendarEvents.saveEvent(eventName, {
-        startDate: `${new Date(startTime).toISOString()}`,
-        endDate: `${new Date(endTime).toISOString()}`,
+        startDate: `${startDate.toISOString()}`,
+        endDate: `${endDate.toISOString()}`,
       });
       setIsLoading(false);
-      console.log("response =======> ", response?.data)
 
       if (response != undefined) {
-        navigationService.navigate('TabNavigation');
-
         Platform.OS == 'android'
           ? ToastAndroid.show(
               'Event Saved in device calendar',
               ToastAndroid.SHORT,
             )
           : alert('Event Saved in device calendar');
+        navigationService.navigate('TabNavigation');
+
       }
     } catch (error) {}
   };
@@ -157,7 +166,7 @@ const BookingDateModal = ({
               <CustomText
                 style={{
                   color: Color.white,
-                  fontSize: moderateScale(16, 0.2),
+                  fontSize: moderateScale(18, 0.2),
                   textAlign: 'center',
                 }}>
                 Add New Event
@@ -388,11 +397,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dropdownItemTxtStyle: {
-    fontSize: 18,
+    fontSize: 20,
     color: 'black',
   },
   dropdownItemIconStyle: {
-    fontSize: 28,
+    fontSize: 30,
     marginRight: 8,
   },
 

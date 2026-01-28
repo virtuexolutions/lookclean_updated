@@ -137,7 +137,7 @@ const CompareBaberScreen = () => {
                       width: windowWidth * 0.6,
                       alignItems: 'center',
                     }}
-                    text={'No barber found'}
+                    text={'No provider found'}
                   />
                 );
               }}
@@ -229,7 +229,7 @@ const styles = ScaledSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(16, 0.3),
+    fontSize: moderateScale(17, 0.3),
     // position : 'absolute',
     // bottom : moderateScale(10,0.3),
     // marginTop : moderateScale(10,0.3),

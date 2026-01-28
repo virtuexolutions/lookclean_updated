@@ -132,7 +132,7 @@ const Support = () => {
             <CustomText isBold style={styles.text1}>
               Support and Help
             </CustomText>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={[
                 styles?.ContactInfoContainer,
                 { marginTop: moderateScale(20, 0.3) },
@@ -154,7 +154,7 @@ const Support = () => {
                     ? supportData?.phone
                     : 'no contact added yet'}
               </CustomText>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={[
                 styles?.ContactInfoContainer,

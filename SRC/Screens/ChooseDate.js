@@ -83,7 +83,7 @@ const ChooseDate = props => {
             width: windowWidth,
           }}>
           <CustomText isBold style={styles.text1}>
-            schedule barber
+            schedule provider
           </CustomText>
 
           <CustomTextWithMask
@@ -245,7 +245,7 @@ const ChooseDate = props => {
                   setLocation('shop');
                 }}
                 style={styles.txt2}>
-                Barber shop
+                Provider shop
               </CustomText>
             </View>
           </View>
@@ -273,7 +273,7 @@ const ChooseDate = props => {
                     services: selectedServices,
                     date: date,
                     time: selectedTiming,
-                    location: { name: 'barber shop' },
+                    location: { name: 'provider shop' },
                     image: image,
                     barberDetails: barberDetails,
                   },

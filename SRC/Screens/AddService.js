@@ -11,7 +11,7 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import { ScaledSheet, moderateScale } from 'react-native-size-matters';
+import { ScaledSheet, moderateScale, verticalScale } from 'react-native-size-matters';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Color from '../Assets/Utilities/Color';
 import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
@@ -40,7 +40,7 @@ const AddService = props => {
   console.log(token, 'tokeeeeeeeeen')
   const dispatch = useDispatch();
   const navigation = useNavigation();
-console.log('userData',userData)
+
   const [isVisiable, setIsVisiable] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [isSelected, setIsSelected] = useState([]);
@@ -223,6 +223,8 @@ console.log('userData',userData)
           <FlatList
             showsVerticalScrollIndicator={false}
             data={service}
+            contentContainerStyle={{
+              paddingBottom:moderateScale(40,0.2)}}
             ListEmptyComponent={() => {
               return (
                 <NoData
@@ -253,7 +255,7 @@ console.log('userData',userData)
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              marginBottom: moderateScale(10, 0.6)
+              marginBottom: moderateScale(70, 0.6)
             }}>
             <CustomButton
               onPress={() => {

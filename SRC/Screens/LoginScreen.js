@@ -44,6 +44,7 @@ const LoginScreen = () => {
           : Alert.alert(`${key} is required`);
       }
     }
+
     setLoading(true);
     const response = await Post(url, body, apiHeader(token));
     console.log("🚀 ~ login ~ response:", response?.data)

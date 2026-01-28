@@ -63,7 +63,7 @@ const Settings = () => {
     ...(UserData?.role == 'customer'
       ? [
         {
-          name: 'compare barber',
+          name: 'compare provider',
           onPress: () => {
             navigationService.navigate('CompareBaberScreen');
           },
@@ -165,7 +165,7 @@ const Settings = () => {
                 borderRadius={moderateScale(25, 0.6)}
                 text={item?.name}
                 // borderRadius={moderateScale(30,0.4)}s
-                fontSize={moderateScale(14, 0.3)}
+                fontSize={moderateScale(16, 0.3)}
                 textTransform={'uppercase'}
                 isGradient={true}
                 isBold
@@ -200,7 +200,7 @@ const Settings = () => {
                 <CustomText
                   isBold
                   style={{
-                    fontSize: moderateScale(14, 0.3),
+                    fontSize: moderateScale(16, 0.3),
                     color: Color.white,
                     textAlign: 'center',
                     marginTop: moderateScale(5, 0.4),
@@ -216,7 +216,7 @@ const Settings = () => {
                   }}>
                   <CustomText
                     style={{
-                      fontSize: moderateScale(13, 0.3),
+                      fontSize: moderateScale(15, 0.3),
                       color: Color.white,
                       textAlign: 'center',
                     }}>
@@ -225,7 +225,7 @@ const Settings = () => {
                   {UserData?.role == 'barber' && (
                     <CustomText
                       style={{
-                        fontSize: moderateScale(13, 0.3),
+                        fontSize: moderateScale(15, 0.3),
                         color: Color.white,
                       }}>
                       ({UserData.designation})
@@ -279,7 +279,7 @@ const Settings = () => {
             </View>
             <CustomText isBold style={{
               color: Color.black,
-              fontSize: moderateScale(15, 0.6),
+              fontSize: moderateScale(16, 0.6),
               width: '80%',
               textAlign: 'center',
             }}>Are You SUre want to Delete your Account</CustomText>
@@ -298,7 +298,7 @@ const Settings = () => {
                 height={windowHeight * 0.055}
                 borderRadius={moderateScale(25, 0.6)}
                 text={'Cancel'}
-                fontSize={moderateScale(14, 0.3)}
+                fontSize={moderateScale(16, 0.3)}
                 textTransform={'uppercase'}
                 isBold
                 onPress={() => setDeleteAccount(false)}
@@ -313,7 +313,7 @@ const Settings = () => {
                 height={windowHeight * 0.055}
                 borderRadius={moderateScale(25, 0.6)}
                 text={'Delete'}
-                fontSize={moderateScale(14, 0.3)}
+                fontSize={moderateScale(16, 0.3)}
                 textTransform={'uppercase'}
                 isGradient={true}
                 isBold
@@ -343,7 +343,7 @@ const styles = ScaledSheet.create({
     textTransform: 'uppercase',
     color: Color.white,
     textAlign: 'center',
-    fontSize: moderateScale(20, 0.3),
+    fontSize: moderateScale(21, 0.3),
     // marginTop : moderateScale(10,0.3),
     // lineHeight: moderateScale(32, 0.3),
   },

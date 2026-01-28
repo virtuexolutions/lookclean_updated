@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Icon} from 'native-base';
 import {View, Platform, Dimensions, TouchableOpacity} from 'react-native';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import {moderateScale, scale, ScaledSheet} from 'react-native-size-matters';
 import Color from '../Assets/Utilities/Color';
 import {windowHeight, windowWidth} from '../Utillity/utils';
 import CustomText from './CustomText';
@@ -80,10 +80,12 @@ const Header = props => {
       )}
       <CustomImage
         source={require('../Assets/Images/Logo.png')}
-        resizeMode={'stretch'}
+        resizeMode={'contain'}
         style={{
-          width: windowWidth * 0.3,
-          height: windowHeight * 0.1,
+          // width: windowWidth * 0.33,
+          // height: windowWidth * 0.33,
+width:scale(150),
+height:scale(150),
           marginTop: moderateScale( 20, 0.3),
           alignSelf: 'center',
           

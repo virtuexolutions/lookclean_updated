@@ -102,7 +102,7 @@ let Post = async (route, data, headers, showAlert = true) => {
         // <NetworkErrorAlert/>
 
       } else {
-      console.log("error sdfds fd", error.response?.data?.message);
+      console.log("error", error.response?.data?.message);
 // alert(error.response?.data?.message)
         Alert.alert(
           "Submission Errors",

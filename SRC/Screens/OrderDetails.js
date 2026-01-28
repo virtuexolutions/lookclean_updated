@@ -22,7 +22,8 @@ import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 
 const OrderDetails = props => {
   const item = props?.route?.params?.item;
-  console.log(item, 'itemmmmmmmmmmmmmmmmmm')
+  console.log("🚀 ~ OrderDetails ~ item:", item?.booking_date)
+
   const user = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token);
   console.log(token, 'tokeeeeeeeeeeeeeeen')
@@ -84,6 +85,8 @@ const OrderDetails = props => {
 
     }
   };
+ const date = dateDiff()
+ console.log("🚀 ~ OrderDetails ~ date:", date)
 
   return (
     <ScreenBoiler

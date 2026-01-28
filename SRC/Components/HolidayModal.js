@@ -95,7 +95,7 @@ const HolidayModal = ({item, isHolidayMode, setIsHolidayMode}) => {
                 setIsHolidayMode(false);
               }
               else{
-                set
+                
               }
               // navigation.goBack()
             }}

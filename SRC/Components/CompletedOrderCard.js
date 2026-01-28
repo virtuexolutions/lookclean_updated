@@ -182,7 +182,7 @@ const dateDiff = (date, time) => {
         borderWidth={1}
         borderRadius={moderateScale(15, 0.6)}
         borderColor={Color.white}
-        width={windowWidth * 0.2}
+        width={windowWidth * 0.17}
         height={windowHeight * 0.04}
         text={'details'}
         fontSize={moderateScale(13, 0.3)}

@@ -106,7 +106,7 @@ const Homescreen = () => {
     <ScreenBoiler
       showHeader={true}
       showback={true}
-      showUser={true}
+      // showUser={true}
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient

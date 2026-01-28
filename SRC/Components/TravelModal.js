@@ -43,11 +43,16 @@ const HolidayModal = ({
   const [isTimePickerVisible, setTimePickerVisible] = useState(false);
   const [selectedTimes, setSelectedDate] = useState([]); // const dispatch =useDispatch()
   const [dateType, setdateType] = useState('');
+  console.log(travelDateFrom , travelDateTo, 
+    moment(travelDateFrom).isSameOrBefore(
+      travelDateTo,
+    ),
+    
+  );
 
   const hideTimePicker = () => {
     setTimePickerVisible(false);
   };
-  
 
   return (
     <Modal
@@ -70,7 +75,7 @@ const HolidayModal = ({
         //       )
         //     : alert('Required Field is empty');
         // } else {
-          setIsVisibleModal(false);
+        setIsVisibleModal(false);
         // }
       }}>
       <View
@@ -94,7 +99,6 @@ const HolidayModal = ({
               placeholderTextColor: '#5d5d5d',
             }}
             onPress={(data, details = null) => {
-              
               setLocation({
                 name: data?.description,
                 lat: details?.geometry?.location?.lat,
@@ -167,27 +171,27 @@ const HolidayModal = ({
               setdateType('to');
               setTimePickerVisible(true);
             }}>
-          <TextInputWithTitle
-            iconName={'date'}
-            iconType={Fontisto}
-            titleText={'Phone'}
-            secureText={false}
-            placeholder={'Travel Date To'}
-            setText={setDateTo}
-            value={travelDateTo}
-            viewHeight={0.06}
-            viewWidth={0.75}
-            inputWidth={0.6}
-            multiline={true}
-            borderBottomWidth={2}
-            borderColor={Color.themeColor}
-            backgroundColor={'#FFFFFF'}
-            marginBottom={moderateScale(12, 0.3)}
-            color={Color.themeColor}
-            placeholderColor={Color.themeLightGray}
-            borderRadius={moderateScale(30, 0.4)}
-            disable={true}
-          />
+            <TextInputWithTitle
+              iconName={'date'}
+              iconType={Fontisto}
+              titleText={'Phone'}
+              secureText={false}
+              placeholder={'Travel Date To'}
+              setText={setDateTo}
+              value={travelDateTo}
+              viewHeight={0.06}
+              viewWidth={0.75}
+              inputWidth={0.6}
+              multiline={true}
+              borderBottomWidth={2}
+              borderColor={Color.themeColor}
+              backgroundColor={'#FFFFFF'}
+              marginBottom={moderateScale(12, 0.3)}
+              color={Color.themeColor}
+              placeholderColor={Color.themeLightGray}
+              borderRadius={moderateScale(30, 0.4)}
+              disable={true}
+            />
           </TouchableOpacity>
           <CustomButton
             bgColor={Color.themeColor}
@@ -207,18 +211,15 @@ const HolidayModal = ({
                       ToastAndroid.SHORT,
                     )
                   : alert('Required Field is empty');
-              } 
-              else if(moment(travelDateFrom).isSameOrBefore(travelDateTo)) {
-                setIsVisibleModal(false)
-              }
-
-              else {
+              } else if (moment(travelDateFrom).isSameOrBefore(travelDateTo)) {
+                setIsVisibleModal(false);
+              } else {
                 Platform.OS == 'android'
-                ? ToastAndroid.show(
-                    'From Date can not  be greater than To Date',
-                    ToastAndroid.SHORT,
-                  )
-                : alert('From Date can not  be greater than To Date');
+                  ? ToastAndroid.show(
+                      'From Date can not  be greater than To Date',
+                      ToastAndroid.SHORT,
+                    )
+                  : alert('From Date can not  be greater than To Date');
               }
             }}
             width={windowWidth * 0.75}
@@ -233,9 +234,9 @@ const HolidayModal = ({
           <DateTimePickerModal
             isVisible={isTimePickerVisible}
             mode="date"
-            display='calendar'
+            display="calendar"
             // date={new Date()}
-            
+
             minimumDate={new Date().setHours(0, 0, 0, 0)}
             onConfirm={data => {
               dateType == 'from'

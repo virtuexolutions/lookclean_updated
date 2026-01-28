@@ -211,6 +211,7 @@ const TextInputWithTitle = props => {
             placeholderTextColor={
               props.placeholderColor ? props.placeholderColor : Color.white
             }
+            maxLength={props?.maxLength}
             keyboardType={props.keyboardType}
             multiline={props.multiline || false}
             numberOfLines={props.numberOfLines || 1}

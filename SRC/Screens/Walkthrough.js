@@ -49,10 +49,6 @@ const WalkThroughScreen = () => {
           <CustomImage source={item.image} style={styles.image} />
         </View>
 
-<<<<<<< HEAD
-        <CustomText style={styles.title}>{item.title}</CustomText>
-        <CustomText style={styles.description}>{item.text}</CustomText>
-=======
                         <CustomText style={{
                           fontSize : moderateScale(15,0.6),
                           // position:'absolute',
@@ -64,7 +60,6 @@ const WalkThroughScreen = () => {
                           color:Color.white
                           // marginHorizontal:moderateScale(50,.3)
                         }}>{item?.text}</CustomText>
->>>>>>> a135d2fedeba09cd595dc813e654ea56d0e05d8c
       </LinearGradient>
     );
   };

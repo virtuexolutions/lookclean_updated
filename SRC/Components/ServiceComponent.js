@@ -105,7 +105,7 @@ const ServiceComponent = ({ setService, service, item, serviceArray }) => {
         onChangeText={text => {
           setService(prev => [...prev], (item.price = text));
         }}
-        value={item.price}
+        value={`$ ${item.price}`}
       />
 
       <CustomImage

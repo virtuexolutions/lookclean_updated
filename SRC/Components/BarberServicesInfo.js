@@ -1,117 +1,120 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import TitleWithDescription from './TitleWithDescription'
-import Color from '../Assets/Utilities/Color'
-import IconWithText from './IconWithText'
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import TitleWithDescription from './TitleWithDescription';
+import Color from '../Assets/Utilities/Color';
+import IconWithText from './IconWithText';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters'
-import { Divider } from 'native-base'
-import CustomText from './CustomText'
-import { windowHeight, windowWidth } from '../Utillity/utils'
-import CustomImage from './CustomImage'
-const BarberServicesInfo = ({ data }) => {
-    return (
-        <View style={styles.servicesInfo}>
-            <View style={styles.column}>
-                <TitleWithDescription
-                    title='Primary Credential'
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import {Divider} from 'native-base';
+import CustomText from './CustomText';
+import {windowHeight, windowWidth} from '../Utillity/utils';
+import CustomImage from './CustomImage';
+import {useSelector} from 'react-redux';
+const BarberServicesInfo = ({data}) => {
+  const user = useSelector(state => state.commonReducer.userData);
+  return (
+    <View style={styles.servicesInfo}>
+      <View style={styles.column}>
+        <CustomText
+          isBold={true}
+          style={[styles.txt11, styles.title]}
+          children={'Offered Services'}
+        />
+        {user?.services?.map((item, index) => {
+          return <CustomText style={styles.text2} children={item?.name} />;
+        })}
+        {/* <TitleWithDescription
+                    title='Offered Services'
                     titleStyle={styles.title}
-                    description='Primary License'
-                />
-                <Divider/>
-                <TitleWithDescription
-                    title='Services Record'
-                    titleStyle={styles.title}
-                    description='256 Services Completed'
-                    />
-                    <Divider/>
-                <TitleWithDescription
-                    title="Rating & Tier"
-                    titleStyle={styles.title}
-                    description={<IconWithText
-                        iconName={"star"}
-                        iconType={AntDesign}
-                        iconColor={Color.themeColor}
-                        text='Gold Provider'
-                        textStyle={styles.text2}
-                    />}
-
-                />
-                <TitleWithDescription
-                    titleIsBold={false}
-                    title="Cerrtification: Certified Provider"
-                    titleStyle={styles.text1}
-                />
-            </View>
-            <Divider
-                orientation='vertical'
-                height={windowHeight * 0.15}
+                    description={`${user?.services[0]?.name}`}
+                /> */}
+        <Divider />
+        <TitleWithDescription
+          title="Completed Services Record"
+          titleStyle={styles.title}
+          description={`${user?.completed_bookings_count} services completed`}
+        />
+        <Divider />
+        <TitleWithDescription
+          title="Rating & Tier"
+          titleStyle={styles.title}
+          description={
+            <IconWithText
+              iconName={'star'}
+              iconType={AntDesign}
+              iconColor={Color.themeColor}
+              text={`${user?.reviews_count} / 5`}
+              textStyle={styles.text2}
             />
-            <View style={styles.column}>
-                <TitleWithDescription
-                    title="Service Record"
-                    titleStyle={styles.title}
-                    description={<IconWithText
-                        iconName={"star"}
-                        iconType={AntDesign}
-                        iconColor={Color.themeColor}
-                        text='Gold Provider'
-                        textStyle={styles.text2}
-                    />}
-                />
-                <TitleWithDescription
-                    titleIsBold={false}
-                    title="Cerrtification: Certified Provider"
-                    titleStyle={styles.text1}
-                />
-                <View style={styles.serviceImage}>
+          }
+        />
+        <TitleWithDescription
+          titleIsBold={false}
+          title={'$$$'}
+          titleStyle={styles.text1}
+        />
+      </View>
+      <Divider orientation="vertical" height={windowHeight * 0.35} />
+      <View style={styles.column}>
+        <TitleWithDescription
+          title="Certifications"
+          titleStyle={styles.title}
+          description={
+            ['', null, undefined].includes(user?.any_certification)
+              ? 'No certifications yet'
+              : user?.any_certification
+          }
+        />
 
-                    <CustomImage
-                        style={styles.image}
-                        source={require("../Assets/Images/bannerImage2.png")}
-                    />
-                </View>
-
-
-
-
-            </View>
+        <View style={styles.serviceImage}>
+          <CustomImage
+            style={styles.image}
+            source={require('../Assets/Images/bannerImage2.png')}
+          />
         </View>
-    )
-}
+      </View>
+    </View>
+  );
+};
 
-export default BarberServicesInfo
+export default BarberServicesInfo;
 
 const styles = StyleSheet.create({
-    servicesInfo: {
-        paddingTop: verticalScale(6),
-        flexDirection: "row",
-        gap: scale(10),
-    },
-    column: {
-        gap: scale(10),
-        paddingTop: verticalScale(8)
-    },
-    title: {
-        textTransform: "capitalize",
-    },
-    text1: {
-        fontWeight: "light",
-        width: windowWidth * 0.3
-    },
-    serviceImage: {
-        top: verticalScale(-20),
-        width: windowWidth * 0.35,
-        height: windowWidth * 0.25,
-        overflow: "hidden",
-        borderRadius: moderateScale(10, 0.2)
-    },
-    image: {
-        width: "100%",
-        height: "100%"
-    },
-    text2:{
-        fontSize: moderateScale(14, 0.2),
-        color: "#7F8489",
-    }
-})
+  servicesInfo: {
+    paddingTop: verticalScale(6),
+    flexDirection: 'row',
+    gap: scale(10),
+  },
+  column: {
+    gap: scale(10),
+    paddingTop: verticalScale(8),
+    width: windowWidth * 0.45,
+  },
+  title: {
+    textTransform: 'capitalize',
+  },
+  text1: {
+    fontWeight: 'light',
+    width: windowWidth * 0.3,
+  },
+  serviceImage: {
+    // top: verticalScale(-20),
+    width: windowWidth * 0.35,
+    height: windowWidth * 0.25,
+    overflow: 'hidden',
+    borderRadius: moderateScale(10, 0.2),
+    marginLeft : moderateScale(10,0.6)
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  text2: {
+    fontSize: moderateScale(14, 0.2),
+    color: '#7F8489',
+  },
+  txt11: {
+    fontSize: moderateScale(16, 0.2),
+    color: Color.white,
+  },
+});

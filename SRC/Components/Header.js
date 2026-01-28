@@ -82,10 +82,10 @@ const Header = props => {
         source={require('../Assets/Images/Logo.png')}
         resizeMode={'contain'}
         style={{
-          // width: windowWidth * 0.33,
-          // height: windowWidth * 0.33,
-width:scale(150),
-height:scale(150),
+          width: windowWidth * 0.33,
+          height: windowWidth * 0.23,
+// width:scale(150),
+// height:scale(150),
           marginTop: moderateScale( 20, 0.3),
           alignSelf: 'center',
           
@@ -157,13 +157,14 @@ const styles = ScaledSheet.create({
   header2: {
     width: windowWidth,
     height: windowHeight * 0.1,
-    // paddingTop:  moderateScale(20, 0.3),
+    paddingTop:  moderateScale(20, 0.3),
     backgroundColor: Color.black,
     justifyContent: 'center',
     // flexDirection: 'row',
     // justifyContent: 'space-between',
     // paddingHorizontal: moderateScale(20, 0.3),
     // backgroundColor: 'red',
+    // paddingVertical : moderateScale(4 ,0.6)
   },
 });
 export default Header;

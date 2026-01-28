@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CustomText from './CustomText'
 import { Icon } from 'native-base'
@@ -8,47 +8,54 @@ import Color from '../Assets/Utilities/Color';
 import CustomImage from './CustomImage';
 import { windowWidth } from '../Utillity/utils';
 import TitleWithDescription from './TitleWithDescription';
+import { useSelector } from 'react-redux';
 
-const ProfileInfo = ({data}) => {
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+const ProfileInfo = ({setIsVisible }) => {
+    const user = useSelector(state => state.commonReducer.userData);
+    console.log(JSON.stringify(user,null,2) , 'dfsfdsfds')
     return (
         <View style={styles.container}>
             <View>
-                <View style={styles.imageContainer}>
-                    <CustomImage
-                        style={{ width: "100%", height: "100%" }}
-                        source={require("../Assets/Images/barber.png")}
-                    />
+            
+                <CustomImage
+                  onPress={() => {
+                    setIsVisible(true);
+                  }}
+                  style={[styles.imageContainer]}
+                  source={
+                    user?.photo
+                      ? { uri: `${user?.photo}` }
+                      : require('../Assets/Images/user.png')
+                  }
+                />
+              
 
-                </View>
-                <View style={styles.badge}>
-                    <Icon
-                        name='check'
-                        as={AntDesign}
-                        color={Color.white}
-                    />
-                </View>
+            
             </View>
             <View style={styles.infoBox}>
                 <CustomText isBold style={styles.name}>
-                    Joseph Smith
+                    {`${user?.first_name} ${user?.last_name}` }
                 </CustomText>
                 <TitleWithDescription
-                title=' Specialty:'
-                description={"Massage Therapist"}
+                title='Specialty:'
+                description={`${user?.specialty}`}
                 style={styles.infoContainer}
                 titleStyle={styles.subText}
                 descriptionStyle={styles.subText}
                 />
                 <TitleWithDescription
                 title='Provider ID:'
-                description={"LC-38971"}
+                description={`${user?.id}`}
                 style={styles.infoContainer}
                 titleStyle={styles.subText}
                 descriptionStyle={styles.subText}
                 />
                 <TitleWithDescription
                 title='Experience:'
-                description={"8 Years"}
+                description={user?.experience == 0 ? '-' :` ${user?.experience} years`}
                 style={styles.infoContainer}
                 titleStyle={styles.subText}
                 descriptionStyle={styles.subText}

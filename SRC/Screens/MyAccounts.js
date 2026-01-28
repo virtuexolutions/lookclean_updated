@@ -33,7 +33,7 @@ const MyAccounts = props => {
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.commonReducer.userData);
-
+console.log(user?.experience)
 
   const token = useSelector(state => state.authReducer.token);
 
@@ -55,6 +55,10 @@ const MyAccounts = props => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [travelDateFrom, setTravelDateFrom] = useState(user?.travel_date_from ? user?.travel_date_from : '');
   const [travelDateTo, setTravelDateTo] = useState(user?.travel_date_to ? user?.travel_date_to : '');
+  const [specilization, setSpecilization] = useState(user?.specialty ? user?.specialty : '');
+  const [certification, setCertification] = useState(user?.any_certification ? user?.any_certification : '');
+  const [experience, setExperience] = useState(user?.experience);
+  console.log('dsfesfsdfdsf' , experience)
   const [isHolidayMode, setIsHolidayMode] = useState(
     user?.holiday_mode ? user?.holiday_mode : false,
   );
@@ -84,6 +88,10 @@ const MyAccounts = props => {
       last_name: lastName,
       phone: phone,
       email: email,
+      specialty : specilization,
+      any_certification : certification,
+      experience : experience,
+     
       address_name: address?.name,
       address_lat: address?.lat,
       address_lng: address?.lng,
@@ -118,8 +126,8 @@ const MyAccounts = props => {
     const response = await Post(url, formdata, apiHeader(token));
     setIsLoading(false);
     if (response !== undefined) {
-
       dispatch(setUserData(response?.data?.user_info));
+   return   console.log(JSON.stringify(response?.data?.user_info,null,2))
 
       Platform.OS == 'android'
         ? ToastAndroid.show('Profile Updated Succesfully', ToastAndroid.SHORT)
@@ -246,7 +254,7 @@ const MyAccounts = props => {
               value={firstName}
               viewHeight={0.06}
               viewWidth={0.75}
-              inputWidth={0.74}
+              inputWidth={0.64}
               // border={1}
               // borderColor={'#1B5CFB45'}
               backgroundColor={'#FFFFFF'}
@@ -265,7 +273,7 @@ const MyAccounts = props => {
               value={lastName}
               viewHeight={0.06}
               viewWidth={0.75}
-              inputWidth={0.74}
+              inputWidth={0.64}
               // border={1}
               // borderColor={'#1B5CFB45'}
               backgroundColor={'#FFFFFF'}
@@ -284,7 +292,7 @@ const MyAccounts = props => {
               value={phone}
               viewHeight={0.06}
               viewWidth={0.75}
-              inputWidth={0.74}
+              inputWidth={0.64}
               // border={1}
               // borderColor={'#1B5CFB45'}
               backgroundColor={'#FFFFFF'}
@@ -305,7 +313,7 @@ const MyAccounts = props => {
               value={email}
               viewHeight={0.06}
               viewWidth={0.75}
-              inputWidth={0.74}
+              inputWidth={0.64}
               // border={1}
               // borderColor={'#1B5CFB45'}
               backgroundColor={'#FFFFFF'}
@@ -315,6 +323,74 @@ const MyAccounts = props => {
               borderRadius={moderateScale(30, 0.4)}
               disable
             />
+            {user?.role != 'customer' &&(
+              <>
+               <TextInputWithTitle
+               iconName={'flag-checkered'}
+               iconType={FontAwesome}
+               // disable
+               titleText={'Experience'}
+               secureText={false}
+               placeholder={user?.experience || 'Experience in Years'}
+               setText={setExperience}
+               value={experience}
+               viewHeight={0.06}
+               viewWidth={0.75}
+               inputWidth={0.64}
+               // border={1}
+               // borderColor={'#1B5CFB45'}
+               backgroundColor={'#FFFFFF'}
+               marginTop={moderateScale(12, 0.3)}
+               color={Color.themeColor}
+               placeholderColor={Color.themeLightGray}
+               borderRadius={moderateScale(30, 0.4)}
+               keyboardType={'numeric'}
+               maxLength={2}
+             />
+             <TextInputWithTitle
+             iconName={'book'}
+             iconType={FontAwesome}
+             // disable
+             titleText={'Specilization'}
+             secureText={false}
+             placeholder={'Any one Main specility'}
+             setText={setSpecilization}
+             value={specilization}
+             viewHeight={0.06}
+             viewWidth={0.75}
+             inputWidth={0.64}
+             // border={1}
+             // borderColor={'#1B5CFB45'}
+             backgroundColor={'#FFFFFF'}
+             marginTop={moderateScale(12, 0.3)}
+             color={Color.themeColor}
+             placeholderColor={Color.themeLightGray}
+             borderRadius={moderateScale(30, 0.4)}
+             
+           />
+           <TextInputWithTitle
+           iconName={'trophy'}
+           iconType={FontAwesome}
+           // disable
+           titleText={'Certification'}
+           secureText={false}
+           placeholder={'Any certification'}
+           setText={setCertification}
+           value={certification}
+           viewHeight={0.06}
+           viewWidth={0.75}
+           inputWidth={0.64}
+           // border={1}
+           // borderColor={'#1B5CFB45'}
+           backgroundColor={'#FFFFFF'}
+           marginTop={moderateScale(12, 0.3)}
+           color={Color.themeColor}
+           placeholderColor={Color.themeLightGray}
+           borderRadius={moderateScale(30, 0.4)}
+           
+         />
+         </>
+            )}
             <TouchableOpacity
               onPress={() => {
                 setselectLocationModal(true);

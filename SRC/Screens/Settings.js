@@ -28,15 +28,28 @@ const Settings = () => {
   const [showModal, setShowModal] = useState(false);
   const UserData = useSelector(state => state.commonReducer.userData);
   const [deleteAccount, setDeleteAccount] = useState(false)
-  console.log('user data =============  >>>>>>>>>> ', UserData?.services[0]);
+  console.log('user data =============  >>>>>>>>>> ', UserData?.role);
 
   const cardArray = [
+    (UserData?.role === 'barber' ? 
+    
+    {
+      name: 'Profile',
+      onPress: () => {
+        navigationService.navigate('BarberProfile');
+      },
+    }
+    : 
+    
     {
       name: 'Profile',
       onPress: () => {
         navigationService.navigate('MyAccounts');
       },
-    },
+    }
+    ),
+   
+   
     {
       name: 'My Bookings',
       onPress: () => {

@@ -12,6 +12,7 @@ import CustomImage from './CustomImage';
 import {useSelector} from 'react-redux';
 const BarberServicesInfo = ({data}) => {
   const user = useSelector(state => state.commonReducer.userData);
+  console.log(user?.rush_service , user?.holiday_mode ,user?.health_mode , user?.temporary_address)
   return (
     <View style={styles.servicesInfo}>
       <View style={styles.column}>
@@ -66,12 +67,101 @@ const BarberServicesInfo = ({data}) => {
           }
         />
 
+
         <View style={styles.serviceImage}>
           <CustomImage
             style={styles.image}
             source={require('../Assets/Images/bannerImage2.png')}
           />
         </View>
+      <TitleWithDescription
+          title="Current Statuses"
+          titleStyle={[styles.title,{
+            marginBottom : moderateScale(-15,0.6),
+          }]}
+          description={''}
+        />
+         {user?.health_mode == true &&
+        <View style = {{
+          paddingHorizontal: scale(10),
+          flexDirection : 'row',
+          alignItems : 'center'
+        }}>
+
+        <CustomText
+        style={{
+          color : 'white',
+          fontSize : moderateScale(13,0.6),
+        }}
+        >Health Mode</CustomText>
+        <CustomText style={{
+          color : 'green',
+          fontSize : moderateScale(15,0.6),
+        }}> ✔ </CustomText>
+        </View>
+        }
+
+
+           {user?.holiday_mode == true &&
+        <View style = {{
+          paddingHorizontal: scale(10),
+          flexDirection : 'row',
+          alignItems : 'center'
+        }}>
+
+        <CustomText
+        style={{
+          color : 'white',
+          fontSize : moderateScale(13,0.6),
+        }}
+        >Holiday Mode</CustomText>
+        <CustomText style={{
+          color : 'green',
+          fontSize : moderateScale(15,0.6),
+        }}> ✔ </CustomText>
+        </View>
+        }
+           {![null , undefined , ''].includes(user?.temporary_address) &&
+        <View style = {{
+          paddingHorizontal: scale(10),
+          flexDirection : 'row',
+          alignItems : 'center'
+        }}>
+
+        <CustomText
+        style={{
+          color : 'white',
+          fontSize : moderateScale(13,0.6),
+        }}
+        >Travel Mode</CustomText>
+        <CustomText style={{
+          color : 'green',
+          fontSize : moderateScale(15,0.6),
+        }}> ✔ </CustomText>
+        </View>
+        }
+
+  {user?.rush_service == true &&
+        <View style = {{
+          paddingHorizontal: scale(10),
+          flexDirection : 'row',
+          alignItems : 'center'
+        }}>
+
+        <CustomText
+        style={{
+          color : 'white',
+          fontSize : moderateScale(13,0.6),
+        }}
+        >Rush Mode</CustomText>
+        <CustomText style={{
+          color : 'green',
+          fontSize : moderateScale(15,0.6),
+        }}> ✔ </CustomText>
+        </View>
+        } 
+
+
       </View>
     </View>
   );

@@ -9,6 +9,7 @@ import {
   ToastAndroid,
   ActivityIndicator,
   FlatList,
+  KeyboardAvoidingView,
   TextInput,
 } from 'react-native';
 import { ScaledSheet, moderateScale, verticalScale } from 'react-native-size-matters';
@@ -114,6 +115,7 @@ const AddService = props => {
       }),
     };
 
+  console.log(body)
     const url = 'auth/barber/service';
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
@@ -129,6 +131,7 @@ const AddService = props => {
   };
 
   return (
+   
     <ScreenBoiler
       showHeader={true}
       showBack={fromSettings ? true : false}
@@ -178,6 +181,9 @@ const AddService = props => {
             return item.name;
           }}
         />
+         {/* <KeyboardAvoidingView
+     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+     > */}
         <View
           style={{
             width: windowWidth * 0.95,
@@ -224,7 +230,7 @@ const AddService = props => {
             showsVerticalScrollIndicator={false}
             data={service}
             contentContainerStyle={{
-              paddingBottom:moderateScale(40,0.2)}}
+              paddingBottom:moderateScale(180,0.2)}}
             ListEmptyComponent={() => {
               return (
                 <NoData
@@ -250,6 +256,7 @@ const AddService = props => {
             }}
           />
         )}
+         {/* </KeyboardAvoidingView> */}
         {service?.length > 0 && (
           <View
             style={{
@@ -296,6 +303,7 @@ const AddService = props => {
         />
       </LinearGradient>
     </ScreenBoiler>
+     
   );
 };
 

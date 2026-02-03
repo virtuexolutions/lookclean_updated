@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -19,6 +20,7 @@ import {ToastAndroid} from 'react-native';
 import {Post} from '../Axios/AxiosInterceptorFunction';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
+import navigationService from '../navigationService';
 
 const ReviewModal = ({item, setRef, rbRef, setClientReview}) => {
   const token = useSelector(state => state.authReducer.token);
@@ -31,23 +33,26 @@ const ReviewModal = ({item, setRef, rbRef, setClientReview}) => {
       rating: rating,
       description: review,
       booking_id: item?.id,
+      status : 'complete'
     };
     if (rating == 0) {
       return Platform.OS == 'android'
-        ? ToastAndroid.show('Please give a review', ToastAndroid.SHORT)
-        : alert('Please give a review');
+        ? ToastAndroid.show('Be Generous , give some rating too', ToastAndroid.SHORT)
+        : Alert.alert('Be Generous , give some rating too');
     }
     if (review == '') {
       return Platform.OS == 'android'
         ? ToastAndroid.show('Please give some feedback', ToastAndroid.SHORT)
-        : alert('Please give some feedback');
+        : Alert.alert('Please give some feedback');
     }
     const url = 'auth/review';
     setLoading(true);
     const response = await Post(url, body, apiHeader(token));
     setLoading(false);
     if (response != undefined) {
+
       rbRef.close();
+      navigationService.navigate('TabNavigation')
       setClientReview({
         
           rating: rating,

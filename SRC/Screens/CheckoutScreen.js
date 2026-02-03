@@ -343,10 +343,10 @@ const CheckoutScreen = props => {
             <View style={styles.underline} />
             <View style={styles.row}>
               <CustomText style={[styles.text1, { color: Color.white }]}>
-                total
+                total 
               </CustomText>
               <CustomText isBold style={{ color: Color.white }}>
-                {
+                $ {
                   selectedPrice?.price
                     ? selectedPrice?.price + subTotal
                     : subTotal
@@ -473,7 +473,7 @@ const CheckoutScreen = props => {
               <View style={styles.underline} />
               <View style={styles.row}>
                 <CustomText style={[styles.text1, { color: Color.white }]}>
-                  total
+                  total 
                 </CustomText>
                 <CustomText isBold style={{ color: Color.white }}>
                   {numeral(

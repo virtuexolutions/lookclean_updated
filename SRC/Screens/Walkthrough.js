@@ -23,7 +23,7 @@ const WalkThroughScreen = () => {
       key: '1',
       title: 'Discover Top Service Providers',
       text: 'Explore top-rated salons and skilled individual service providers around your location. View detailed profiles, services, ratings, and portfolio styles so you can easily find the perfect match for your grooming needs.',
-      image: require('../Assets/Images/image2.jpg'),
+      image: require('../Assets/Images/image2.png'),
     },
     {
       key: '2',
@@ -46,7 +46,9 @@ const WalkThroughScreen = () => {
         style={styles.slideContainer}
       >
         <View style={styles.imageWrapper}>
-          <CustomImage source={item.image} style={styles.image} />
+          <CustomImage source={item.image} style={styles.image} 
+          resizeMode={'stretch'}
+          />
         </View>
 
                         <CustomText style={{

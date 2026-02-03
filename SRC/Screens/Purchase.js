@@ -122,13 +122,36 @@ const Purchase = () => {
             }}>
             <View
               style={{
-                justifyContent: 'space-between',
+                // justifyContent: 'space-between',
                 height: windowHeight * 0.8,
               }}>
-              <View>
+              <View
+              style = {{
+                alignItems : 'center',
+                width : windowWidth
+              }}
+              >
                 <CustomText isBold style={styles.text1}>
                   Buy Coins
                 </CustomText>
+                <View
+            style={{
+              width : windowWidth,
+              flexDirection: 'row',
+              // alignItems: 'center',
+              justifyContent : 'center',
+              marginLeft: moderateScale(15, 0.3),
+              marginTop: moderateScale(-10, 0.3),
+              marginTop: moderateScale(8, 0.3),
+            }}>
+            <CustomText
+              style={{
+                fontSize: moderateScale(15, 0.6),
+                color: 'rgba(238,238,238,0.5)',
+              }}>
+              1 coin = $1
+            </CustomText>
+          </View>
               </View>
               <View
                 style={{
@@ -339,7 +362,7 @@ const styles = ScaledSheet.create({
   text1: {
     textTransform: 'uppercase',
     color: Color.white,
-    textAlign: 'center',
+    // textAlign: 'center',
     fontSize: moderateScale(20, 0.3),
   },
   text1Absolute: {

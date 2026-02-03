@@ -28,6 +28,7 @@ import TextInputWithTitle from '../Components/TextInputWithTitle';
 import TravelModal from '../Components/TravelModal';
 import { setUserData } from '../Store/slices/common';
 import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import { mode } from 'native-base/lib/typescript/theme/tools';
 
 const MyAccounts = props => {
   const dispatch = useDispatch();
@@ -68,6 +69,9 @@ console.log(user?.experience)
   const [rushService, setRushService] = useState(
     user?.rush_service ? user?.rush_service : false,
   );
+  const[isHealthMode , setIsHealthMode] = useState( user?.health_mode ? user?.health_mode : false)
+  const[isAvailble , setIsAvailble] = useState(user?.health_mode || user?.temporary_address != null || user?.holiday_mode ? false : true)
+
 
   const imageArray =
     Object.keys(imageObject).length > 0
@@ -97,6 +101,7 @@ console.log(user?.experience)
       address_lng: address?.lng,
       rush_service: rushService == true ? 1 : 0,
       holiday_mode: isHolidayMode == true ? 1 : 0,
+      health_mode : isHealthMode == true ? 1 : 0,
     };
     const formdata = new FormData();
     for (let key in params) {
@@ -189,7 +194,8 @@ console.log(user?.experience)
         style={styles.container}>
 
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -498,7 +504,7 @@ console.log(user?.experience)
                 <View
                   style={{
                     // backgroundColor: 'red',
-                    width: windowWidth * 0.3,
+                    width: windowWidth * 0.4,
                     paddingVertical: moderateScale(10, 0.6),
                   }}>
                   <TouchableOpacity
@@ -594,6 +600,7 @@ console.log(user?.experience)
                       )}
                     </TouchableOpacity>
 
+
                     <CustomText
                       onPress={() => {
                         setIsHolidayMode(!isHolidayMode);
@@ -603,10 +610,117 @@ console.log(user?.experience)
                         marginHorizontal: moderateScale(8, 0.6),
                         color: Color.white,
                         fontSize: moderateScale(14, 0.6),
+                        width : windowWidth * 0.4,
                       }}>
                       Holiday mode
                     </CustomText>
                   </TouchableOpacity>
+
+                  {/* //health mode */}
+                  <TouchableOpacity
+                    onPress={() => {
+                      setIsHealthMode(prevState => !prevState);
+                    }}
+                    style={{
+                      marginTop : moderateScale(10,0.6),
+                      // backgroundColor: Color.lightGrey,
+                      flexDirection: 'row',
+                      // alignItems: 'center',
+                    }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setIsHealthMode(prevState => !prevState);
+                      }}
+                      style={{
+                        
+                        height: windowHeight * 0.02,
+                        width: windowHeight * 0.02,
+                        // backgroundColor:'red',
+                        borderRadius: moderateScale((windowHeight * 0.02) / 2),
+                        borderWidth: moderateScale(1, 0.6),
+                        borderColor: Color.themeColor,
+                      }}>
+                      {isHealthMode && (
+                        <Icon
+                          style={{
+                            textAlign: 'center',
+                            // backgroundColor:'red'
+                          }}
+                          name="check"
+                          as={FontAwesome}
+                          color={Color.themeColor}
+                          size={13}
+                        />
+                      )}
+                    </TouchableOpacity>
+                    
+
+                    <CustomText
+                      onPress={() => {
+                        setIsHealthMode(!isHealthMode);
+                      }}
+                      isBold
+                      style={{
+                        marginHorizontal: moderateScale(8, 0.6),
+                        color: Color.white,
+                        fontSize: moderateScale(14, 0.6),
+                      }}>
+                      Health mode
+                    </CustomText>
+                  </TouchableOpacity>
+
+                   {/* //availble mode */}
+                   <TouchableOpacity
+                    onPress={() => {
+                      setIsAvailble(prevState => !prevState);
+                    }}
+                    style={{
+                      marginTop : moderateScale(10,0.6),
+                      // backgroundColor: Color.lightGrey,
+                      flexDirection: 'row',
+                      // alignItems: 'center',
+                    }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setIsAvailble(prevState => !prevState);
+                      }}
+                      style={{
+                        height: windowHeight * 0.02,
+                        width: windowHeight * 0.02,
+                        // backgroundColor:'red',
+                        borderRadius: moderateScale((windowHeight * 0.02) / 2),
+                        borderWidth: moderateScale(1, 0.6),
+                        borderColor: Color.themeColor,
+                      }}>
+                      {isAvailble && (
+                        <Icon
+                          style={{
+                            textAlign: 'center',
+                            // backgroundColor:'red'
+                          }}
+                          name="check"
+                          as={FontAwesome}
+                          color={Color.themeColor}
+                          size={13}
+                        />
+                      )}
+                    </TouchableOpacity>
+                    
+
+                    <CustomText
+                      onPress={() => {
+                        setIsAvailble(!isHealthMode);
+                      }}
+                      isBold
+                      style={{
+                        marginHorizontal: moderateScale(8, 0.6),
+                        color: Color.white,
+                        fontSize: moderateScale(14, 0.6),
+                      }}>
+                      Availble
+                    </CustomText>
+                  </TouchableOpacity>
+                  
                 </View>
                 {Object.keys(temproaryAddress).length > 0 && (
                   <>
@@ -689,13 +803,6 @@ console.log(user?.experience)
             />
           </ScrollView>
         </KeyboardAvoidingView>
-
-
-
-
-
-
-
         <ImagePickerModal
           show={showModal}
           setShow={setShowModal}
@@ -724,6 +831,13 @@ console.log(user?.experience)
           setIsVisibleModal={setselectLocationModal}
           setLocation={setAddress}
         />
+
+
+
+
+
+
+
       </LinearGradient>
     </ScreenBoiler>
   );

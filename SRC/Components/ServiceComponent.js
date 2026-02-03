@@ -1,5 +1,5 @@
 import { Icon } from 'native-base';
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, TextInput, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ScaledSheet, moderateScale } from 'react-native-size-matters';
@@ -9,9 +9,22 @@ import { windowHeight, windowWidth } from '../Utillity/utils';
 import { Platform, ToastAndroid } from 'react-native';
 import CustomImage from './CustomImage';
 import TextInputWithTitle from './TextInputWithTitle';
+import CustomText from './CustomText';
 
 const ServiceComponent = ({ setService, service, item, serviceArray }) => {
   console.log('item ======= >>>>>>', item?.name, item?.price);
+
+  // const [value, setValue] = useState('$');
+
+  // const handleChange = (text) => {
+  //   // Agar user `$` delete karne ki koshish kare
+  //   if (!text.startsWith('$')) {
+  //     setValue('$');
+     
+  //     return;
+  //   }
+  //   setValue(text);
+  // };
 
   return (
     <View
@@ -97,16 +110,31 @@ const ServiceComponent = ({ setService, service, item, serviceArray }) => {
         />
 
       )}
-
+      <View 
+       style={styles.inputText}
+      >
+        <CustomText
+          style={{
+            color: Color.black,
+            // backgroundColor : 'red'
+          }}
+        >$</CustomText>
       <TextInput
-        style={styles.inputText}
+        style={{
+          color: Color.black,
+          // backgroundColor : 'red',
+          width : windowWidth * 0.2
+          // flexGrow : 0
+        }}
         placeholderTextColor={Color.black}
         placeholder={`${item?.price != '' ? item?.price : 'price'}`}
         onChangeText={text => {
           setService(prev => [...prev], (item.price = text));
         }}
-        value={`$ ${item.price}`}
-      />
+        value={`${item.price}`}
+        keyboardType='numeric'
+        />
+        </View>
 
       <CustomImage
         onPress={() => {
@@ -158,8 +186,10 @@ const styles = ScaledSheet.create({
     borderRadius: 25,
     height: windowHeight * 0.05,
     paddingHorizontal: 15,
-    paddingTop: 10,
-    color: Color.black
+    // paddingTop: 10,
+    color: Color.black,
+    alignItems : 'center',
+    flexDirection : 'row'
   },
   dropDownRow: {
     backgroundColor: Color.white,

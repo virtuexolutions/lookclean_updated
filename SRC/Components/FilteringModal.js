@@ -38,7 +38,7 @@ const FilteringModal = ({
         <View style={styles.Header}>
           <CustomText
             style={styles.heading}>
-            Barber Filters
+            Filter
           </CustomText>
         </View>
         <View style={{

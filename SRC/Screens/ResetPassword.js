@@ -127,7 +127,7 @@ const ResetPassword = props => {
               isLoading ? (
                 <ActivityIndicator color={'#ffffff'} size={'small'} />
               ) : (
-                'Verify now'
+                'Update Password'
               )
             }
             isBold

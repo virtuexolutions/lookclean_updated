@@ -109,15 +109,18 @@ const dateDiff = (date, time) => {
           }
         />
       </View>
-      <View>
+      <View style={{
+        // backgroundColor : 'red',
+        width : windowWidth * 0.5,
+      }}>
         <View style={styles.row}>
           <CustomText isBold style={styles.heading}>
-            {user?.role == 'customer' ? 'Provider name' : 'Customer name'} :
+            {user?.role == 'customer' ? 'Provider' : 'Customer'} :
           </CustomText>
           <CustomText
             numberOfLines={1}
             isBold
-            style={[styles.Text, {width: windowWidth * 0.2}]}>
+            style={[styles.Text, {width: windowWidth * 0.29, } ]}>
             {user?.role == 'customer'
               ? `${item?.barber_info?.first_name} ${item?.barber_info?.last_name}`
               : `${item?.member_info?.first_name} ${item?.member_info?.last_name}`}
@@ -150,7 +153,9 @@ const dateDiff = (date, time) => {
             {numeral(item?.total_price).format('$0,0.00')}
           </CustomText>
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row ,{
+          alignItems : 'center'
+        }]}>
           <View style={styles.iconView}>
             <Icon
               style={{
@@ -163,11 +168,14 @@ const dateDiff = (date, time) => {
             />
           </View>
           <CustomText
+           numberOfLines={1}
             // isBold
             style={{
               color: Color.white,
               fontSize: moderateScale(12, 0.6),
               paddingHorizontal: moderateScale(5, 0.6),
+              
+
             }}>
             {item?.custom_location}
           </CustomText>
@@ -199,7 +207,7 @@ const dateDiff = (date, time) => {
         borderWidth={1}
         borderRadius={moderateScale(15, 0.6)}
         borderColor={Color.white}
-        width={windowWidth * 0.2}
+        width={windowWidth * 0.17}
         height={windowHeight * 0.04}
         text={'cancel'}
         loader={isLoadding}
@@ -233,7 +241,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: moderateScale(1, 0.6),
     paddingHorizontal: moderateScale(8, 0.6),
-    width: windowWidth * 0.5,
+    width: windowWidth * 0.4,
     // backgroundColor : 'red'
   },
   statusView: {
@@ -243,6 +251,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(6, 0.6),
     paddingVertical: moderateScale(2, 0.6),
     borderRadius: moderateScale(10, 0.6),
+    width : windowWidth * 0.2,
+    // height : windowHeight * 0.035,
   },
   status: {
     textAlign: 'center',

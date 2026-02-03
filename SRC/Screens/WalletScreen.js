@@ -174,7 +174,7 @@ const WalletScreen = () => {
                 fontSize: moderateScale(12, 0.6),
                 color: 'rgba(238,238,238,0.5)',
               }}>
-              1 coin is equals to $1
+              1 coin = $1
             </CustomText>
           </View>
         </View>

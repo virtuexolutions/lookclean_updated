@@ -10,6 +10,7 @@ import {Rating} from 'react-native-ratings';
 
 
 const ReviewCard = ({item ,review , fromDetail}) => {
+  console.log('review ,' , item)
 
   return (
     <View style={styles.container}>
@@ -18,9 +19,9 @@ const ReviewCard = ({item ,review , fromDetail}) => {
         source={{uri :item?.member_info?.photo}} 
         style={styles.image} />
 
-        <View style={{marginLeft: moderateScale(10, 0.3)}}>
+        <View style={{marginLeft: moderateScale(10, 0.3) ,gap : 7,}}>
           <CustomText numberOfLines={2} style={styles.name}>
-            {`${item?.member_info?.first_name} ${item?.member_info?.last_name}`}
+            {fromDetail ? `${item?.member_info?.first_name}${item?.member_info?.last_name}` :`${item?.review?.member_info?.first_name} ${item?.review?.member_info?.last_name}`}
           </CustomText>
           <Rating
             type="custom"
@@ -30,7 +31,7 @@ const ReviewCard = ({item ,review , fromDetail}) => {
             ratingCount={5}
             imageSize={moderateScale(12, 0.3)}
             style={{
-              width: windowWidth * 0.24,
+              width: windowWidth * 0.15,
             }}
             ratingBackgroundColor={'transparent'}
           />
@@ -63,8 +64,9 @@ const styles = ScaledSheet.create({
     borderRadius: moderateScale((windowWidth * 0.1) / 2, 0.3),
   },
   description: {
-    width: windowWidth * 0.6,
+    width: windowWidth * 0.5,
     color: Color.themeBlack,
+    // backgroundColor : 'red'
   },
   moment: {
     fontSize: moderateScale(11, 0.6),

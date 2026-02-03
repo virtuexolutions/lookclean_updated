@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux';
 const OrderCard = ({ item }) => {
   const user = useSelector(state => state.commonReducer.userData);
 
+  console.log('item is ==>' , JSON.stringify(item , null ,2))
+
   const amount = () => {
     let totalAmount = 0;
     item?.booking_detail?.map(data => {
@@ -24,19 +26,20 @@ const OrderCard = ({ item }) => {
     return totalAmount;
   };
 
-  const calculateTotalAmount = () => {
-    const bookingDetail = item?.booking_detail;
-    if (!Array.isArray(bookingDetail) || bookingDetail.length === 0) {
-      return 0;
-    }
+  // const calculateTotalAmount = () => {
+  //   const bookingDetail = item?.booking_detail;
+  //   if (!Array.isArray(bookingDetail) || bookingDetail.length === 0) {
+  //     return 0;
+  //   }
 
-    const serviceNames = bookingDetail
-      .map(service => service?.service_info?.name)
-      .filter(Boolean);
+  //   const serviceNames = bookingDetail
+  //     .map(service => service?.service_info?.name)
+  //     .filter(Boolean);
 
-    return serviceNames.join(', ');
-  };
-  const servicesText = calculateTotalAmount();
+  //   return serviceNames.join(', ');
+  // };
+  // const servicesText = calculateTotalAmount();
+  // console.log(servicesText , 'fsdfsfs')
 
   return (
     <View style={[styles.card]}>
@@ -114,13 +117,13 @@ const OrderCard = ({ item }) => {
         <CustomText
           isBold
           style={{
-            width: windowWidth * 0.16,
+            width: windowWidth * 0.2,
             fontSize: moderateScale(12, 0.3),
           }}>
-          Services :
+          customers :
         </CustomText>
         <CustomText numberOfLines={1} style={styles.heading}>
-          {servicesText}
+          {item?.booking_members?.length <= 0 ? 1 : item?.booking_members?.length}
         </CustomText>
       </View>
       {
@@ -169,11 +172,13 @@ const styles = ScaledSheet.create({
     paddingHorizontal: moderateScale(8, 0.6),
     paddingVertical: moderateScale(3, 0.6),
     borderRadius: moderateScale(10, 0.6),
+    width : windowWidth * 0.15,
+    height : windowHeight * 0.04,
   },
   status: {
     textAlign: 'center',
     fontSize: moderateScale(10, 0.6),
-    color: Color.white
+    color: Color.themeBlack
   },
   image: {
     width: moderateScale(40, 0.3),

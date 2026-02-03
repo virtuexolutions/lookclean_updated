@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
+  KeyboardAvoidingView,
   Platform,
   StyleSheet,
   ToastAndroid,
@@ -125,12 +126,13 @@ const BookingDateModal = ({
       setIsLoading(false);
 
       if (response != undefined) {
+      //  return console.log(response)
         Platform.OS == 'android'
           ? ToastAndroid.show(
               'Event Saved in device calendar',
               ToastAndroid.SHORT,
             )
-          : alert('Event Saved in device calendar');
+          : Alert.alert('Event Saved in device calendar');
         navigationService.navigate('TabNavigation');
 
       }
@@ -154,6 +156,9 @@ const BookingDateModal = ({
         isVisible={modalIsVisible}
         hasBackdrop={true}
         onBackdropPress={CloseModal}>
+           <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
         <View style={styles.modal}>
           <View style={styles.modalHeader}>
             <TouchableOpacity onPress={CloseModal}>
@@ -306,6 +311,7 @@ const BookingDateModal = ({
             </View>
           </View>
         </View>
+        </KeyboardAvoidingView>
       </Modal>
 
       <DateTimePickerModal

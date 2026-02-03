@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {windowHeight, windowWidth} from '../Utillity/utils';
 import Color from '../Assets/Utilities/Color';
@@ -6,6 +6,7 @@ import Modal from 'react-native-modal';
 import CustomText from './CustomText';
 import {moderateScale} from 'react-native-size-matters';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+
 
 const SelectLocationModal = ({isVisible, setIsVisibleModal, setLocation}) => {
   return (
@@ -19,11 +20,14 @@ const SelectLocationModal = ({isVisible, setIsVisibleModal, setLocation}) => {
       onBackdropPress={() => {
         setIsVisibleModal(false);
       }}>
+         <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
       <View style={styles.maincontainer}>
         <CustomText
           style={{
             color: Color.themeColor,
-            marginBottom: moderateScale(10, 0.3),
+            marginBottom: moderateScale(20, 0.3),
             fontSize: moderateScale(22, 0.6),
           }}
           isBold>
@@ -79,6 +83,7 @@ const SelectLocationModal = ({isVisible, setIsVisibleModal, setLocation}) => {
           }}
         />
       </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };

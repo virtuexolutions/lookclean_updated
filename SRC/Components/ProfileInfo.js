@@ -10,9 +10,6 @@ import { windowWidth } from '../Utillity/utils';
 import TitleWithDescription from './TitleWithDescription';
 import { useSelector } from 'react-redux';
 
-import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
 const ProfileInfo = ({setIsVisible }) => {
     const user = useSelector(state => state.commonReducer.userData);
     console.log(JSON.stringify(user,null,2) , 'dfsfdsfds')

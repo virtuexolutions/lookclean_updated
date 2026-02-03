@@ -26,7 +26,7 @@ import NoData from '../Components/NoData';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import CompletedOrderCard from '../Components/CompletedOrderCard';
 import FilteringModal from '../Components/FilteringModal';
-import ShowReview from '../Components/ShowReview';
+// import ShowReview from '../Components/ShowReview';
 import { Icon } from 'native-base';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';

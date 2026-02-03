@@ -59,7 +59,8 @@ const EnterPhone = props => {
     setIsLoading(false)
 
     if (response != undefined) {
-      alert(response?.data?.data[0].code)
+  //  return   console.log(response?.data?.data[0].code)
+      // Alert.alert(`${response?.data?.data[0].code}`)
       Platform.OS === 'android'
         ? ToastAndroid.show('Your OTP is Send', ToastAndroid.SHORT)
         : Alert.alert('OTP is Send')
@@ -129,6 +130,7 @@ const EnterPhone = props => {
             borderColor={Color.white}
             // borderWidth={2}
             borderRadius={moderateScale(25, 0.3)}
+            disabled={isLoading}
           />
           <View
             style={{

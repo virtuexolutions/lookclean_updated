@@ -9,6 +9,7 @@ import {moderateScale} from 'react-native-size-matters';
 import NoData from './NoData';
 
 const ShowReview = ({modal, setModal, barberDetails }) => {
+  console.log(barberDetails)
   return (
     <Modal
       isVisible={modal}

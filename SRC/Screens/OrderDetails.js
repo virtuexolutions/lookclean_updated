@@ -1,48 +1,51 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import moment from 'moment/moment';
-import { Icon } from 'native-base';
+import {Icon} from 'native-base';
 import numeral from 'numeral';
-import React, { useState } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import React, {useState} from 'react';
+import {Alert, FlatList, ScrollView, TouchableOpacity, View} from 'react-native';
 import ImageView from 'react-native-image-viewing';
 import LinearGradient from 'react-native-linear-gradient';
-import { moderateScale, ScaledSheet } from 'react-native-size-matters';
+import {moderateScale, ScaledSheet} from 'react-native-size-matters';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import Color from '../Assets/Utilities/Color';
-import { Post } from '../Axios/AxiosInterceptorFunction';
+import {Post} from '../Axios/AxiosInterceptorFunction';
 import CustomButton from '../Components/CustomButton';
 import CustomImage from '../Components/CustomImage';
 import CustomText from '../Components/CustomText';
 import ReviewCard from '../Components/ReviewCard';
 import ReviewModal from '../Components/ReviewModal';
 import ScreenBoiler from '../Components/ScreenBoiler';
-import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
+import {mode} from 'native-base/lib/typescript/theme/tools';
 
 const OrderDetails = props => {
   const item = props?.route?.params?.item;
-  console.log(item, 'itemmmmmmmmmmmmmmmmmm')
+  console.log(JSON.stringify(item, null, 2), 'itemmmmmmmmmmmmmmmmmm');
   const user = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token);
-  console.log(token, 'tokeeeeeeeeeeeeeeen')
+  console.log(token, 'tokeeeeeeeeeeeeeeen');
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setisLoading2] = useState(false);
   const [imageModal, setImageModal] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [choosenService, setChoosenService] = useState([]);
+
   const [rbRef, setRbref] = useState(null);
   const [review, setReview] = useState(
     item?.review == null ? {} : item?.review,
   );
-  const [selected_group_member, setSelectedGroupMember] = useState({})
-  console.log('seselected_group_member', selected_group_member)
+  const [selected_group_member, setSelectedGroupMember] = useState({});
+  console.log('seselected_group_member', selected_group_member);
 
   const dateDiff = (date, time) => {
-
     return moment(date + ' ' + moment(time, 'h:mm A').format('HH:mm:ss')).diff(
       moment(),
       'minute',
-    )
+    );
   };
 
   const calculateTotalAmount = () => {
@@ -66,6 +69,7 @@ const OrderDetails = props => {
     const response = await Post(url, body, apiHeader(token));
     value == 'accept' ? setIsLoading(false) : setisLoading2(false);
     if (response != undefined) {
+      console.log(response?.data, 'dafdsfdsgfdgfdg');
       navigation.goBack();
     }
   };
@@ -74,14 +78,13 @@ const OrderDetails = props => {
     const body = {
       status: item?.status == 'accept' ? 'waiting for approval' : 'complete',
     };
+
     const url = `auth/barber/booking/status/${item?.id}`;
     setisLoading2(true);
     const response = await Post(url, body, apiHeader(token));
     setisLoading2(false);
     if (response != undefined) {
-
       navigation.goBack();
-
     }
   };
 
@@ -92,8 +95,8 @@ const OrderDetails = props => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{ x: 0.0, y: 0.25 }}
-        end={{ x: 0.5, y: 1.0 }}
+        start={{x: 0.0, y: 0.25}}
+        end={{x: 0.5, y: 1.0}}
         colors={Color.themeGradient}
         style={styles.container}>
         <CustomText isBold style={styles.text1}>
@@ -102,7 +105,7 @@ const OrderDetails = props => {
         <View style={styles.containerCard}>
           <CustomImage
             source={{
-              uri: item?.member_info?.photo,
+              uri: user?.role == "barber" ? item?.member_info?.photo : item?.barber_info?.photo,
             }}
             style={styles.image}
           />
@@ -114,18 +117,15 @@ const OrderDetails = props => {
             }}
             style={{
               width: windowWidth,
+              height: windowHeight * 0.62,
             }}>
             <CustomText isBold numberOfLines={1} style={styles.name}>
               {user?.role == 'customer'
                 ? `${item?.barber_info?.first_name}${item?.barber_info?.last_name}`
                 : `${item?.member_info?.first_name}${item?.member_info?.last_name}`}
             </CustomText>
-            <CustomText isBold numberOfLines={1} style={styles.designation}>
-              {user?.role == 'customer'
-                ? `${item?.member_info?.designation}`
-                : ` `}
-            </CustomText>
-            <View style={[styles.eachRow, { marginTop: moderateScale(30, 0.3) }]}>
+
+            <View style={[styles.eachRow, {marginTop: moderateScale(30, 0.3)}]}>
               <CustomText
                 isBold
                 style={{
@@ -133,7 +133,15 @@ const OrderDetails = props => {
                 }}>
                 Booking Number :{' '}
               </CustomText>
-              <CustomText style={[styles.heading, { fontSize: moderateScale(14, 0.6), color: Color.darkGray }]}>
+              <CustomText
+                style={[
+                  styles.heading,
+                  {
+                    fontSize: moderateScale(14, 0.6),
+                    color: Color.darkGray,
+                    width: windowWidth * 0.3,
+                  },
+                ]}>
                 {item?.order_no}
               </CustomText>
             </View>
@@ -186,7 +194,7 @@ const OrderDetails = props => {
                 {item?.custom_location}
               </CustomText>
             </View>
-            {item?.event_type != null &&
+            {item?.event_type != null && (
               <>
                 <View style={styles.eachRow}>
                   <CustomText
@@ -212,18 +220,7 @@ const OrderDetails = props => {
                     {item?.event_date}
                   </CustomText>
                 </View>
-                <View style={styles.eachRow}>
-                  <CustomText
-                    isBold
-                    style={{
-                      fontSize: moderateScale(16, 0.3),
-                    }}>
-                    Number of People :
-                  </CustomText>
-                  <CustomText style={styles.heading}>
-                    {' ' + item?.number_of_people}
-                  </CustomText>
-                </View>
+
                 <View style={styles.eachRow}>
                   <CustomText
                     isBold
@@ -249,9 +246,21 @@ const OrderDetails = props => {
                   </CustomText>
                 </View>
               </>
-            }
+            )}
+            <View style={styles.eachRow}>
+              <CustomText
+                isBold
+                style={{
+                  fontSize: moderateScale(16, 0.3),
+                }}>
+                Number of People :
+              </CustomText>
+              <CustomText style={styles.heading}>
+                {' ' + item.booking_members.length}
+              </CustomText>
+            </View>
 
-            {(Array.isArray(item?.group_members) && item.group_members.length > 0) ?
+            {/* {(Array.isArray(item?.group_members) && item.group_members.length > 0) ?
               <>
                 <CustomText
                   isBold
@@ -263,7 +272,7 @@ const OrderDetails = props => {
                   Group Members :
                 </CustomText>
                 <FlatList
-                  data={item?.group_members}
+                  data={item?.booking_members?.service}
                   showsVerticalScrollIndicator={false}
                   // style={{
                   //   height: windowHeight * 0.3
@@ -319,52 +328,91 @@ const OrderDetails = props => {
 
                 />
               </>
-              : <>
-                <CustomText
-                  isBold
-                  style={{
-                    marginTop: moderateScale(20, 0.3),
-                    width: windowWidth * 0.7,
-                    fontSize: moderateScale(16, 0.3),
-                  }}>
-                  Services Choose :{' '}
+              : <> */}
+
+            <View
+              style={{
+                marginTop: moderateScale(10, 0.6),
+                flexDirection: 'row',
+                width: windowWidth * 0.7,
+                // justifyContent : 'space-between'
+                gap: moderateScale(15, 0.5),
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }}>
+              {Array.isArray(item?.booking_members) &&
+              item.booking_members.length > 0 ? (
+                item.booking_members.map(item => {
+                  // console.log('serviceeeeeeeeeeeee _info  > > > >  >  ', booking)
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setCustomerName(item?.name);
+                        setChoosenService(item?.service);
+                      }}
+                      style={{
+                        paddingHorizontal: moderateScale(10, 0.6),
+                        paddingVertical: moderateScale(5, 0.5),
+                        borderWidth: 1,
+                        borderRadius: moderateScale(5, 0.6),
+                        borderColor:
+                          customerName == item?.name
+                            ? Color.white
+                            : Color.themeColor,
+                        backgroundColor:
+                          customerName == item?.name
+                            ? Color.themeColor
+                            : Color.white,
+                      }}>
+                      <CustomText>{item?.name}</CustomText>
+                    </TouchableOpacity>
+                  );
+                })
+              ) : (
+                <CustomText style={{color: 'red'}}>
+                  No services chosen
                 </CustomText>
-                {Array.isArray(item?.booking_detail) &&
-                  item.booking_detail.length > 0 ? (
-                  item.booking_detail.map(booking => {
-                    console.log('serviceeeeeeeeeeeee _info  > > > >  >  ', booking)
-                    return (
-                      <View
-                        key={booking?.id}
-                        style={{
-                          width: windowWidth * 0.7,
-                          flexDirection: 'row',
-                          paddingVertical: moderateScale(5, 0.3),
-                          alignItems: 'center',
-                        }}>
-                        <Icon
-                          name="dot-circle-o"
-                          as={FontAwesome}
-                          size={moderateScale(14, 0.3)}
-                          color={Color.themeColor}
-                        />
-                        {booking?.service_info && (
-                          <CustomText
-                            style={{
-                              marginLeft: moderateScale(5, 0.3),
-                              color: Color.black,
-                            }}>
-                            {booking.service_info.name}
-                          </CustomText>
-                        )}
-                      </View>
-                    );
-                  })
-                ) : (
-                  <CustomText style={{ color: 'red' }}>No services chosen</CustomText>
-                )}
-              </>
-            }
+              )}
+            </View>
+            <CustomText
+              isBold
+              style={{
+                marginTop: moderateScale(20, 0.3),
+                width: windowWidth * 0.7,
+                fontSize: moderateScale(16, 0.3),
+              }}>
+              Services Choose :{' '}
+            </CustomText>
+            {choosenService?.length > 0 &&
+              choosenService?.map((data, index) => {
+                return (
+                  <View
+                    style={{
+                      width: windowWidth * 0.7,
+                      flexDirection: 'row',
+                      paddingVertical: moderateScale(5, 0.3),
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name="dot-circle-o"
+                      as={FontAwesome}
+                      size={moderateScale(14, 0.3)}
+                      color={Color.themeColor}
+                    />
+
+                    <CustomText
+                      style={{
+                        marginLeft: moderateScale(5, 0.3),
+                        color: Color.black,
+                      }}>
+                      {data?.servie_name?.name}
+                    </CustomText>
+                  </View>
+                );
+              })}
+
+            {/* </> */}
+            {/* } */}
 
             {item?.image && (
               <View
@@ -471,55 +519,79 @@ const OrderDetails = props => {
             )}
             {item?.status == 'accept' &&
               user?.role == 'barber' &&
-              dateDiff(item?.booking_date, item?.booking_time) <= 0 &&
-
-              <CustomButton
-                bgColor={Color.themeColor}
-                borderColor={'white'}
-                borderWidth={1}
-                textColor={Color.black}
-                onPress={() => {
-                  accept();
-                }}
-                width={windowWidth * 0.75}
-                height={windowHeight * 0.06}
-                text={'done the job'}
-                loader={isLoading2}
-                loaderColor={Color.black}
-                fontSize={moderateScale(16, 0.3)}
-                textTransform={'uppercase'}
-                isGradient={true}
-                isBold
-                marginTop={moderateScale(30, 0.3)}
-              />
-            }
+              dateDiff(item?.booking_date, item?.booking_time) <= 0 && (
+                <CustomButton
+                  bgColor={Color.themeColor}
+                  borderColor={'white'}
+                  borderWidth={1}
+                  textColor={Color.black}
+                  onPress={() => {
+                    accept();
+                  }}
+                  width={windowWidth * 0.75}
+                  height={windowHeight * 0.06}
+                  text={'Job Completed'}
+                  loader={isLoading2}
+                  loaderColor={Color.black}
+                  fontSize={moderateScale(16, 0.3)}
+                  textTransform={'uppercase'}
+                  isGradient={true}
+                  isBold
+                  marginTop={moderateScale(30, 0.3)}
+                  borderRadius={10}
+                />
+              )}
             {item?.status == 'waiting for approval' &&
               user?.role == 'customer' &&
-              dateDiff(item?.booking_date, item?.booking_time) <= 0 &&
-              <CustomButton
-                bgColor={Color.themeColor}
-                borderColor={'white'}
-                borderWidth={1}
-                textColor={Color.black}
-                onPress={() => {
-                  accept();
-                }}
-                width={windowWidth * 0.75}
-                height={windowHeight * 0.06}
-                text={'Approve complete Request'}
-                loader={isLoading2}
-                loaderColor={Color.black}
-                fontSize={moderateScale(16, 0.3)}
-                textTransform={'uppercase'}
-                isGradient={true}
-                isBold
-                marginTop={moderateScale(30, 0.3)}
-              />
-            }
-            {item?.status == 'complete' &&
+              dateDiff(item?.booking_date, item?.booking_time) <= 0 && (
+                <CustomButton
+                  bgColor={Color.themeColor}
+                  borderColor={'white'}
+                  borderWidth={1}
+                  textColor={Color.black}
+                  onPress={() => {
+                    // accept();
+
+                    Alert.alert(
+                      'Almost There !!',
+                      'Review your barber to complete the job',
+                      [
+              
+                        {
+                          text: 'Cancel',
+                          style: 'cancel',
+                          onPress: () => {
+                            // navigationService.navigate('TabNavigation');
+                            // fromStore && dispatch(setWholeCart([]));
+                          },
+                        },
+                        {
+                          text: 'Review the barber',
+                          onPress: () => {
+                            rbRef.open();
+                          },
+                        },
+                      ],
+                    );
+                   
+                  }}
+                  width={windowWidth * 0.75}
+                  height={windowHeight * 0.06}
+                  text={'Approve complete Request'}
+                  loader={isLoading2}
+                  loaderColor={Color.black}
+                  fontSize={moderateScale(16, 0.3)}
+                  textTransform={'uppercase'}
+                  isGradient={true}
+                  isBold
+                  marginTop={moderateScale(30, 0.3)}
+                  borderRadius={moderateScale(15,0.6)}
+                />
+              )}
+            {/* {item?.status == 'complete' &&
               (user?.role == 'customer' &&
-                item?.review == null &&
-                Object.keys(review).length == 0 ? (
+              item?.review == null &&
+              Object.keys(review).length == 0 ? (
                 <CustomButton
                   bgColor={Color.themeColor}
                   borderColor={'white'}
@@ -540,7 +612,10 @@ const OrderDetails = props => {
                   marginTop={moderateScale(30, 0.3)}
                   borderRadius={moderateScale(20, 0.6)}
                 />
-              ) : Object.keys(review).length > 0 ? (
+              ) : */}
+             {  Object.keys(review).length > 0 &&
+            //  (
+
                 <>
                   <CustomText
                     isBold
@@ -553,20 +628,21 @@ const OrderDetails = props => {
                   </CustomText>
                   <ReviewCard item={item} review={review} />
                 </>
-              ) : (
-                <CustomText
-                  isBold
-                  style={{
-                    fontSize: moderateScale(18, 0.6),
-                    color: Color.black,
-                    marginTop: moderateScale(40, 0.6),
-                  }}>
-                  No review from customer yet !!
-                </CustomText>
-              ))}
+              // ) : (
+              //   <CustomText
+              //     isBold
+              //     style={{
+              //       fontSize: moderateScale(18, 0.6),
+              //       color: Color.black,
+              //       marginTop: moderateScale(40, 0.6),
+              //     }}>
+              //     No review from customer yet !!
+              //   </CustomText>
+              // )
+              }
           </ScrollView>
           <ImageView
-            images={[{ uri: item?.image }]}
+            images={[{uri: item?.image}]}
             imageIndex={0}
             visible={imageModal}
             onRequestClose={() => setImageModal(false)}
@@ -612,7 +688,9 @@ const styles = ScaledSheet.create({
     width: windowWidth * 0.25,
     height: windowWidth * 0.25,
     borderRadius: (windowWidth * 0.25) / 2,
-    marginTop: moderateScale(-40, 0.3),
+    borderWidth : 2,
+    borderColor : Color.themeColor
+    // marginTop: moderateScale(-40, 0.3),
   },
 
   name: {
@@ -629,13 +707,12 @@ const styles = ScaledSheet.create({
 
   eachRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
     marginTop: moderateScale(10, 0.3),
     width: windowWidth * 0.75,
   },
 
   heading: {
-
     color: Color.black,
     fontSize: moderateScale(15, 0.3),
   },

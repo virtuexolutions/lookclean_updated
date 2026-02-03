@@ -34,6 +34,7 @@ const PaymentScreen = props => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const fromStore = props?.route?.params?.fromStore;
   const finalData = props?.route?.params?.finalData;
+  console.log(finalData , 'fdsfdsfdsfsdfsd')
   const userWallet = useSelector(state => state.commonReducer.userWallet);
 
   const dispatch = useDispatch();
@@ -43,14 +44,14 @@ const PaymentScreen = props => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('wallet');
 
   const [isVisible, setIsVisible] = useState(false);
-  console.log('hereeeeeeeeeeeeee ', isVisible)
+  // console.log('hereeeeeeeeeeeeee ', isVisible)
   const [loading, setLoading] = useState(false);
   const [stripeToken, setStripeToken] = useState(null);
   const [totalPrice, settotalPrice] = useState(0);
 
 
   const Booking = async () => {
-    const selectedServiceIds = finalData?.services.map(service => service.id);
+    const selectedServiceIds = finalData?.services.map(service => service.service_id);
     const formData = new FormData();
 
     const body = {
@@ -74,9 +75,9 @@ const PaymentScreen = props => {
       formData.append(key, body[key]);
     }
     selectedServiceIds?.map((item, index) =>
-      formData.append(`service_id[${index}]`, item),
+      formData.append(`service[${index}]`, item),
     );
-    console.log('bodyyyyyyyyy == == = == = >> > >> > ', body)
+   console.log('bodyyyyyyyyy == == = == = >> > >> > ', formData)
 
     const url = 'auth/booking';
     setIsLoading(true);
@@ -115,12 +116,18 @@ const PaymentScreen = props => {
     }
   };
 
+
+
+
+
+
   const GroupBooking = async () => {
     // return  console.log('object ====================== >>> booking group')
     try {
-      console.log('Function started');
+      // console.log('Function started');
       const barber = finalData?.barberDetails;
       const serviceInfo = finalData?.services;
+    // console.log('services info ======> ' , JSON.stringify(serviceInfo , null ,2) )
       const timeInfo = finalData?.time;
 
       if (!serviceInfo?.members?.length) {
@@ -128,25 +135,26 @@ const PaymentScreen = props => {
         return;
       }
       const membersArray = (serviceInfo?.members || []).map(member => {
-        const firstService = (member.selectedService || [])[0] || {};
+       const servicesTaken  = member.selectedService.map(item => item?.service_id)
+    
 
         return {
           name: member.name || "",
-          service: firstService.name || "",
-          service_id: firstService.service_id || "",
+          service: servicesTaken,
+         
           any_alergies: member.allergy || "",
           // add_ons: member.addons ? String(member.addons) : "",
           // reference_image: member.image || ""
         };
       });
-      console.log('Members Array:', membersArray);
+    //  console.log('Members Array:', membersArray);
 
-      const allServiceIds = finalData?.services?.members?.flatMap(member =>
-        member.selectedService?.map(service => service.service_id) || []
-      );
+      // const allServiceIds = finalData?.services?.members?.flatMap(member =>
+      //   member.selectedService?.map(service => service.service_id) || []
+      // );
 
-      console.log('All Service IDs:', allServiceIds);
-
+      // console.log('All Service IDs:', allServiceIds);
+    const formData = new FormData();
       const body = {
         booking_time: timeInfo?.time || "",
         booking_date: finalData?.date || "",
@@ -166,16 +174,41 @@ const PaymentScreen = props => {
         custom_location: finalData?.location?.name || "",
         payment_method: selectedPaymentMethod,
         stripeToken: stripeToken,
-        service_id: allServiceIds,
-        members: membersArray
+        // service_id: allServiceIds,
+        // members: membersArray
       };
+      for (let key in body) {
+        formData.append(key, body[key]);
+      }
+      // selectedServiceIds?.map((item, index) =>
+      //   formData.append(`members[${index}][name]`, item?.name),
+      //   formData.append(`members[${index}][any_alergies]`, item?.any_alergies),
+      //   item?.service?.map((item2 , index2) =>
+      //   formData.append(`members[${index}][service][${index2}]`, item2),
+      //   )
 
-      console.log(body, '-------------------------body')
+      membersArray?.forEach((item, index) => {
+          formData.append(`members[${index}][name]`, item?.name);
+          formData.append(`members[${index}][any_alergies]`, item?.any_alergies);
+        
+          item?.service?.forEach((serviceItem, index2) => {
+            formData.append(
+              `members[${index}][service][${index2}]`,
+              serviceItem
+            );
+          });
+        })
+        
+
+      
+    
+
+  // return   console.log( JSON.stringify(formData , null ,2), '-------------------------body')
       setIsLoading(true);
-      const response = await Post('auth/booking-group', body, apiHeader(token));
-      console.log('Booking Body:========= ?>>>>>>>>> ', response?.data);
+      const response = await Post('auth/booking-group', formData, apiHeader(token));
+      // console.log('Booking Body:========= ?>>>>>>>>> ', response?.data);
       if (response != undefined) {
-        console.log('testing ====== >>>> ', response?.data)
+      console.log('testing ====== >>>> ', response?.data)
         Platform.OS === 'android'
           ? ToastAndroid.show('Booking successful', ToastAndroid.SHORT)
           : Alert.alert('Booking successful');
@@ -513,7 +546,7 @@ on
                     : alert('insufficient amount');
                 } else {
                   if (Array.isArray(finalData?.services?.members) && finalData.services.members.length > 0) {
-                    console.log('Members found:', finalData.services.members);
+                    // console.log('Members found:', finalData.services.members);
                     GroupBooking();
                   } else {
                     Booking();

@@ -204,11 +204,15 @@ const ChooseDate = props => {
             size={30}
           />
           <View style={styles.userTypeContainer}>
-            <View style={styles.innerContainer}>
+            <TouchableOpacity 
+              onPress={() => {
+                setLocation('custom');
+              }}
+            style={styles.innerContainer}>
               <TouchableOpacity
-                onPress={() => {
-                  setLocation('custom');
-                }}
+                // onPress={() => {
+                //   setLocation('custom');
+                // }}
                 activeOpacity={0.9}
                 style={[
                   styles.circle,
@@ -216,21 +220,21 @@ const ChooseDate = props => {
                     backgroundColor: Color.themeColor1,
                     borderColor: Color.themeColor1,
                   },
-                ]}></TouchableOpacity>
+                ]}/>
               <CustomText
                 isBold
                 style={styles.txt2}
-                onPress={() => {
-                  setLocation('custom');
-                }}>
+               >
                 Custom Location
               </CustomText>
-            </View>
-            <View style={styles.innerContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  setLocation('shop');
-                }}
+            </TouchableOpacity>
+            <TouchableOpacity 
+             onPress={() => {
+              setLocation('shop');
+            }}
+            style={styles.innerContainer}>
+              <View
+               
                 activeOpacity={0.9}
                 style={[
                   styles.circle,
@@ -238,16 +242,14 @@ const ChooseDate = props => {
                     backgroundColor: Color.themeColor1,
                     borderColor: Color.themeColor1,
                   },
-                ]}></TouchableOpacity>
+                ]}/>
               <CustomText
                 isBold
-                onPress={() => {
-                  setLocation('shop');
-                }}
+               
                 style={styles.txt2}>
                 Provider shop
               </CustomText>
-            </View>
+            </TouchableOpacity>
           </View>
 
           <CustomButton

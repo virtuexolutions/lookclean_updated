@@ -35,6 +35,7 @@ const Homescreen = () => {
   const [Loading, setLoading] = useState(false);
   const [barberData, setBarberData] = useState([]);
   const [orderData, setOrderData] = useState([]);
+  console.log('order data ====> ' , orderData)
   const [isVisible, setIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
   const [isHolidayMode, setIsHolidayMode] = useState(false);
@@ -405,7 +406,7 @@ const Homescreen = () => {
               </CustomText>
               <CustomText
                 onPress={() => {
-                  navigationService.navigate('UpComingScreen', { data: orderData });
+                  navigationService.navigate('UpComingScreen', { data: orderData?.filter(item => item?.status == 'pending' )});
                 }}
                 style={styles.viewAll}>
                 View all
@@ -419,8 +420,9 @@ const Homescreen = () => {
             ) : (
               <FlatList
                 keyExtractor={item => item?.id}
-                scrollEnabled={false}
+                scrollEnabled={true}
                 decelerationRate={'fast'}
+                
                 ListEmptyComponent={() => {
                   return (
                     <NoData
@@ -439,7 +441,7 @@ const Homescreen = () => {
                 data={orderData
                   ?.filter(item => item?.status == 'pending')
                   .reverse()
-                  .slice(0, 5)}
+                  .slice(0, 6)}
                 horizontal
                 renderItem={({ item, index }) => {
                   return <OrderCard item={item} />;

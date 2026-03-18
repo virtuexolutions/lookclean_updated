@@ -46,6 +46,7 @@ const CustomButton = (props) => {
     image,
     elevation,
     gradientColor,
+    imagestyle,
     // value
     style
   } = props;
@@ -130,6 +131,7 @@ const CustomButton = (props) => {
               style={{
                 width: windowWidth * 0.1,
                 height: windowWidth * 0.1,
+                backgroundColor: 'red'
                 //  paddingVertical:moderateScale(17, 0.8)
               }}
             >
@@ -149,21 +151,21 @@ const CustomButton = (props) => {
             text
           ) : (
             <CustomText
-            style={[
-              styles.text,
-              {
-                color: textColor,
-                fontSize: fontSize ? fontSize : moderateScale(15, 0.3),
-              },
-              textTransform && {
-                textTransform: textTransform,
-              },
-            ]}
-            isRegular={isBold ? false : true}
-            isBold={isBold ? true : false}
-          >
-            {text}
-           </CustomText>
+              style={[
+                styles.text,
+                {
+                  color: textColor,
+                  fontSize: fontSize ? fontSize : moderateScale(15, 0.3),
+                },
+                textTransform && {
+                  textTransform: textTransform,
+                },
+              ]}
+              isRegular={isBold ? false : true}
+              isBold={isBold ? true : false}
+            >
+              {text}
+            </CustomText>
           )}
         </LinearGradient>
       ) : (
@@ -182,29 +184,50 @@ const CustomButton = (props) => {
               style={[styles.iconCustom, iconStyle && iconStyle]}
             />
           )}
+          {image &&
+            <View
+              style={imagestyle ? imagestyle : {
+                width: windowWidth * 0.1,
+                height: windowWidth * 0.1,
+                backgroundColor: 'red'
+                //  paddingVertical:moderateScale(17, 0.8)
+              }}
+            >
+
+              <CustomImage source={image}
+                resizeMode={'cover'}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  overflow: "hidden"
+
+                }}
+              />
+            </View>
+          }
           {React.isValidElement(text) ? (
             text
           ) : (
             <CustomText
-            style={[
-              styles.text,
-              {
-                color: textColor,
-                fontSize: fontSize ? fontSize : moderateScale(15, 0.3),
-              },
-              textTransform && {
-                textTransform: textTransform,
-              },
-              disabled && {
-                color: Color.white,
-                opacity: 0.6,
-              },
-            ]}
-            isRegular={isBold ? false : true}
-            isBold={isBold ? true : false}
-          >
-            {text}
-           </CustomText>
+              style={[
+                styles.text,
+                {
+                  color: textColor,
+                  fontSize: fontSize ? fontSize : moderateScale(15, 0.3),
+                },
+                textTransform && {
+                  textTransform: textTransform,
+                },
+                disabled && {
+                  color: Color.white,
+                  opacity: 0.6,
+                },
+              ]}
+              isRegular={isBold ? false : true}
+              isBold={isBold ? true : false}
+            >
+              {text}
+            </CustomText>
           )}
         </>
       )}

@@ -8,7 +8,8 @@ const initialState = {
   financeBreakDown: [],
   notification: false,
   userWallet: {},
-  isWelcome: false
+  isWelcome: false,
+  isProfileCompleted: false
   // barberServices:[]
 };
 
@@ -51,6 +52,9 @@ const CommonSlice = createSlice({
     },
     setIsWelcome(state, action) {
       state.isWelcome = action.payload
+    },
+    setIsProfileCompleted(state, action) {
+      state.isProfileCompleted = action.payload
     }
   }
 });
@@ -65,7 +69,8 @@ export const {
   setWholeCart,
   setVoucherData,
   setUserWallet,
-  setIsWelcome
+  setIsWelcome,
+  setIsProfileCompleted
 } = CommonSlice.actions;
 
 export default CommonSlice.reducer;

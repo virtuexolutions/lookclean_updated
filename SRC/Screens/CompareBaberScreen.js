@@ -12,7 +12,7 @@ import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
 import CustomImage from '../Components/CustomImage';
 import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
-import { moderateScale, ScaledSheet } from 'react-native-size-matters';
+import { moderateScale, scale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import navigationService from '../navigationService';
@@ -33,12 +33,15 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Alert } from 'react-native';
 import { Platform } from 'react-native';
 import CustomButton from '../Components/CustomButton';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const CompareBaberScreen = () => {
+  const insets = useSafeAreaInsets();
   const user = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token);
   console.log("🚀 ~ CompareBaberScreen ~ token:", token)
   const [isLoading, setIsLoading] = useState(false);
+  console.log(insets);
 
   const focused = useIsFocused();
 
@@ -60,7 +63,9 @@ const CompareBaberScreen = () => {
     setLoading(false);
 
     if (response != undefined) {
+      console.log("PROVIDER   ===== > ", JSON.stringify(response?.data?.barber_booking_list,null,2));
       setOrderData(response?.data?.barber_booking_list);
+
     }
   };
 
@@ -154,6 +159,7 @@ const CompareBaberScreen = () => {
               // data={barberdata}
               data={barberData}
               renderItem={({ item, index }) => {
+                console.log("first  == > ", JSON.stringify(barberData, null,2))
                 return (
                   <BarberCard
                     selectedBarber={selectedBarber}
@@ -175,13 +181,14 @@ const CompareBaberScreen = () => {
                   />
                 );
               }}
+              
             />
           )}
-          {selectedBarber?.length === 4 && (
+          {selectedBarber?.length >=2 && (
             <View
               style={{
                 position: 'absolute',
-                bottom: 100,
+                bottom: scale(100) + insets.top,
                 // backgroundColor: 'red',
               }}>
               <CustomButton

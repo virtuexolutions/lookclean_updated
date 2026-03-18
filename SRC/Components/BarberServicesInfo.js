@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import TitleWithDescription from './TitleWithDescription';
 import Color from '../Assets/Utilities/Color';
 import IconWithText from './IconWithText';
@@ -10,9 +10,12 @@ import CustomText from './CustomText';
 import {windowHeight, windowWidth} from '../Utillity/utils';
 import CustomImage from './CustomImage';
 import {useSelector} from 'react-redux';
-const BarberServicesInfo = ({data}) => {
+const BarberServicesInfo = ({ barberDetails ,clientView }) => {
+  // console.log('barber data ,,,' , barberDetails?.services)
   const user = useSelector(state => state.commonReducer.userData);
-  console.log(user?.rush_service , user?.holiday_mode ,user?.health_mode , user?.temporary_address)
+  const [exactUser , setExactUser] = useState(clientView  == true ? barberDetails : user  )
+   
+ 
   return (
     <View style={styles.servicesInfo}>
       <View style={styles.column}>
@@ -21,19 +24,15 @@ const BarberServicesInfo = ({data}) => {
           style={[styles.txt11, styles.title]}
           children={'Offered Services'}
         />
-        {user?.services?.map((item, index) => {
+        {exactUser?.services?.map((item, index) => {
           return <CustomText style={styles.text2} children={item?.name} />;
         })}
-        {/* <TitleWithDescription
-                    title='Offered Services'
-                    titleStyle={styles.title}
-                    description={`${user?.services[0]?.name}`}
-                /> */}
+       
         <Divider />
         <TitleWithDescription
           title="Completed Services Record"
           titleStyle={styles.title}
-          description={`${user?.completed_bookings_count} services completed`}
+          description={`${exactUser?.completed_bookings_count} services completed`}
         />
         <Divider />
         <TitleWithDescription
@@ -44,7 +43,7 @@ const BarberServicesInfo = ({data}) => {
               iconName={'star'}
               iconType={AntDesign}
               iconColor={Color.themeColor}
-              text={`${user?.reviews_count} / 5`}
+              text={`${exactUser?.reviews_count} / 5`}
               textStyle={styles.text2}
             />
           }
@@ -61,9 +60,9 @@ const BarberServicesInfo = ({data}) => {
           title="Certifications"
           titleStyle={styles.title}
           description={
-            ['', null, undefined].includes(user?.any_certification)
+            ['', null, undefined].includes(exactUser?.any_certification)
               ? 'No certifications yet'
-              : user?.any_certification
+              : exactUser?.any_certification
           }
         />
 
@@ -74,14 +73,15 @@ const BarberServicesInfo = ({data}) => {
             source={require('../Assets/Images/bannerImage2.png')}
           />
         </View>
+        {exactUser?.health_mode == true || exactUser?.rush_service == true || exactUser?.holiday_mode == true || (![null , undefined , ''].includes(exactUser?.temporary_address)) &&
       <TitleWithDescription
           title="Current Statuses"
           titleStyle={[styles.title,{
             marginBottom : moderateScale(-15,0.6),
           }]}
           description={''}
-        />
-         {user?.health_mode == true &&
+        />}
+         {exactUser?.health_mode == true &&
         <View style = {{
           paddingHorizontal: scale(10),
           flexDirection : 'row',
@@ -102,7 +102,7 @@ const BarberServicesInfo = ({data}) => {
         }
 
 
-           {user?.holiday_mode == true &&
+           {exactUser?.holiday_mode == true &&
         <View style = {{
           paddingHorizontal: scale(10),
           flexDirection : 'row',
@@ -121,7 +121,7 @@ const BarberServicesInfo = ({data}) => {
         }}> ✔ </CustomText>
         </View>
         }
-           {![null , undefined , ''].includes(user?.temporary_address) &&
+           {![null , undefined , ''].includes(exactUser?.temporary_address) &&
         <View style = {{
           paddingHorizontal: scale(10),
           flexDirection : 'row',
@@ -141,7 +141,7 @@ const BarberServicesInfo = ({data}) => {
         </View>
         }
 
-  {user?.rush_service == true &&
+  {exactUser?.rush_service == true &&
         <View style = {{
           paddingHorizontal: scale(10),
           flexDirection : 'row',

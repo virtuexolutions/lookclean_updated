@@ -1,7 +1,7 @@
 import React from 'react';
-import {Platform, View, ViewBase} from 'react-native';
+import { Platform, View, ViewBase } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
-import {windowHeight} from '../Utillity/utils';
+import { windowHeight } from '../Utillity/utils';
 import CustomStatusBar from './CustomStatusBar';
 import Header from './Header';
 
@@ -30,6 +30,7 @@ const ScreenBoiler = props => {
     showUser,
     showUndo,
     onUndoPress,
+    headerRight,
     style
   } = props;
 
@@ -58,6 +59,7 @@ const ScreenBoiler = props => {
           showUser={showUser}
           showUndo={showUndo}
           onUndoPress={onUndoPress}
+          headerRight={headerRight}
         />
       )}
       {children}

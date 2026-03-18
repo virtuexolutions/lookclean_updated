@@ -1,27 +1,31 @@
-import React, {useState} from 'react';
-import {View, Image, ScrollView} from 'react-native';
-import {ScaledSheet, moderateScale} from 'react-native-size-matters';
+import React, { useState } from 'react';
+import { View, Image, ScrollView } from 'react-native';
+import { ScaledSheet, moderateScale } from 'react-native-size-matters';
 import CustomText from '../Components/CustomText';
 import Constants from '../Assets/Utilities/Constants';
-import {windowHeight, windowWidth} from '../Utillity/utils';
+import { windowHeight, windowWidth } from '../Utillity/utils';
 import Color from '../Assets/Utilities/Color';
 import moment from 'moment';
-import {Rating} from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
 
 
-const ReviewCard = ({item ,review , fromDetail}) => {
-  console.log('review ,' , item)
+const ReviewCard = ({ item, review, fromDetail }) => {
+  console.log('review ,', item?.barber_info?.first_name)
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
-        <Image 
-        source={{uri :item?.member_info?.photo}} 
-        style={styles.image} />
+      <View style={{ flexDirection: 'row' }}>
+        <Image
+          source={{ uri: item?.member_info?.photo }}
+          style={styles.image} />
 
-        <View style={{marginLeft: moderateScale(10, 0.3) ,gap : 7,}}>
+        <View style={{ marginLeft: moderateScale(10, 0.3), gap: 7, }}>
           <CustomText numberOfLines={2} style={styles.name}>
-            {fromDetail ? `${item?.member_info?.first_name}${item?.member_info?.last_name}` :`${item?.review?.member_info?.first_name} ${item?.review?.member_info?.last_name}`}
+            {
+              // fromDetail ? 
+              `${item?.review?.member_info?.first_name}${item?.review?.member_info?.last_name}`
+              //  :`${item?.review?.member_info?.first_name} ${item?.review?.member_info?.last_name}`
+            }
           </CustomText>
           <Rating
             type="custom"
@@ -37,7 +41,7 @@ const ReviewCard = ({item ,review , fromDetail}) => {
           />
 
           <CustomText numberOfLines={4} style={styles.description}>
-            {fromDetail ? item?.description: review?.description}
+            {fromDetail ? item?.description : review?.description}
           </CustomText>
         </View>
       </View>

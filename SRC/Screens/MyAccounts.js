@@ -1,5 +1,10 @@
 import { Icon } from 'native-base';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import moment from 'moment';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DropDownSingleSelect from '../Components/DropDownSingleSelect';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {
   ActivityIndicator,
   Alert,
@@ -34,7 +39,7 @@ const MyAccounts = props => {
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.commonReducer.userData);
-console.log(user?.experience)
+  console.log(user?.experience)
 
   const token = useSelector(state => state.authReducer.token);
 
@@ -59,7 +64,7 @@ console.log(user?.experience)
   const [specilization, setSpecilization] = useState(user?.specialty ? user?.specialty : '');
   const [certification, setCertification] = useState(user?.any_certification ? user?.any_certification : '');
   const [experience, setExperience] = useState(user?.experience);
-  console.log('dsfesfsdfdsf' , experience)
+  console.log('dsfesfsdfdsf', experience)
   const [isHolidayMode, setIsHolidayMode] = useState(
     user?.holiday_mode ? user?.holiday_mode : false,
   );
@@ -69,8 +74,53 @@ console.log(user?.experience)
   const [rushService, setRushService] = useState(
     user?.rush_service ? user?.rush_service : false,
   );
-  const[isHealthMode , setIsHealthMode] = useState( user?.health_mode ? user?.health_mode : false)
-  const[isAvailble , setIsAvailble] = useState(user?.health_mode || user?.temporary_address != null || user?.holiday_mode ? false : true)
+  const [isHealthMode, setIsHealthMode] = useState(user?.health_mode ? user?.health_mode : false)
+  const [isAvailble, setIsAvailble] = useState(user?.health_mode || user?.temporary_address != null || user?.holiday_mode ? false : true)
+
+  const [state, setState] = useState([]);
+  const [selectedState, setSelectedState] = useState(user?.state || '');
+  console.log('selectedState', selectedState)
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [dob, setDob] = useState(user?.dob || '');
+  const [selectedGender, setSelectedGender] = useState(user?.gender || '');
+  const [selectedType, setSelectedType] = useState(user?.type || '');
+
+  const fetchStates = async () => {
+    try {
+      const response = await axios.post(
+        'https://countriesnow.space/api/v0.1/countries/states',
+        {
+          country: 'united states',
+        },
+      );
+      setState(response.data.data?.states);
+    } catch (error) {
+      console.log('Error fetching cities', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStates();
+  }, []);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    setDob(moment(date).format('YYYY-MM-DD'));
+    hideDatePicker();
+  };
+
+  const gender = [
+    { name: 'Male' },
+    { name: 'Female' },
+    { name: 'Prefer not to say' },
+  ]
 
 
   const imageArray =
@@ -92,16 +142,20 @@ console.log(user?.experience)
       last_name: lastName,
       phone: phone,
       email: email,
-      specialty : specilization,
-      any_certification : certification,
-      experience : experience,
-     
+      specialty: specilization,
+      any_certification: certification,
+      experience: experience,
+
       address_name: address?.name,
       address_lat: address?.lat,
       address_lng: address?.lng,
       rush_service: rushService == true ? 1 : 0,
       holiday_mode: isHolidayMode == true ? 1 : 0,
-      health_mode : isHealthMode == true ? 1 : 0,
+      health_mode: isHealthMode == true ? 1 : 0,
+      dob: dob,
+      state: selectedState,
+      gender: selectedGender,
+      type: selectedType,
     };
     const formdata = new FormData();
     for (let key in params) {
@@ -132,7 +186,7 @@ console.log(user?.experience)
     setIsLoading(false);
     if (response !== undefined) {
       dispatch(setUserData(response?.data?.user_info));
-   return   console.log(JSON.stringify(response?.data?.user_info,null,2))
+      return console.log(JSON.stringify(response?.data?.user_info, null, 2))
 
       Platform.OS == 'android'
         ? ToastAndroid.show('Profile Updated Succesfully', ToastAndroid.SHORT)
@@ -195,7 +249,7 @@ console.log(user?.experience)
 
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          >
+        >
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -306,7 +360,8 @@ console.log(user?.experience)
               color={Color.themeColor}
               placeholderColor={Color.themeLightGray}
               borderRadius={moderateScale(30, 0.4)}
-              disable={true}
+              keyboardType={'number-pad'}
+            // disable={true}
             />
             <TextInputWithTitle
               iconName={'envelope'}
@@ -329,73 +384,73 @@ console.log(user?.experience)
               borderRadius={moderateScale(30, 0.4)}
               disable
             />
-            {user?.role != 'customer' &&(
+            {user?.role != 'customer' && (
               <>
-               <TextInputWithTitle
-               iconName={'flag-checkered'}
-               iconType={FontAwesome}
-               // disable
-               titleText={'Experience'}
-               secureText={false}
-               placeholder={user?.experience || 'Experience in Years'}
-               setText={setExperience}
-               value={experience}
-               viewHeight={0.06}
-               viewWidth={0.75}
-               inputWidth={0.64}
-               // border={1}
-               // borderColor={'#1B5CFB45'}
-               backgroundColor={'#FFFFFF'}
-               marginTop={moderateScale(12, 0.3)}
-               color={Color.themeColor}
-               placeholderColor={Color.themeLightGray}
-               borderRadius={moderateScale(30, 0.4)}
-               keyboardType={'numeric'}
-               maxLength={2}
-             />
-             <TextInputWithTitle
-             iconName={'book'}
-             iconType={FontAwesome}
-             // disable
-             titleText={'Specilization'}
-             secureText={false}
-             placeholder={'Any one Main specility'}
-             setText={setSpecilization}
-             value={specilization}
-             viewHeight={0.06}
-             viewWidth={0.75}
-             inputWidth={0.64}
-             // border={1}
-             // borderColor={'#1B5CFB45'}
-             backgroundColor={'#FFFFFF'}
-             marginTop={moderateScale(12, 0.3)}
-             color={Color.themeColor}
-             placeholderColor={Color.themeLightGray}
-             borderRadius={moderateScale(30, 0.4)}
-             
-           />
-           <TextInputWithTitle
-           iconName={'trophy'}
-           iconType={FontAwesome}
-           // disable
-           titleText={'Certification'}
-           secureText={false}
-           placeholder={'Any certification'}
-           setText={setCertification}
-           value={certification}
-           viewHeight={0.06}
-           viewWidth={0.75}
-           inputWidth={0.64}
-           // border={1}
-           // borderColor={'#1B5CFB45'}
-           backgroundColor={'#FFFFFF'}
-           marginTop={moderateScale(12, 0.3)}
-           color={Color.themeColor}
-           placeholderColor={Color.themeLightGray}
-           borderRadius={moderateScale(30, 0.4)}
-           
-         />
-         </>
+                <TextInputWithTitle
+                  iconName={'flag-checkered'}
+                  iconType={FontAwesome}
+                  // disable
+                  titleText={'Experience'}
+                  secureText={false}
+                  placeholder={user?.experience || 'Experience in Years'}
+                  setText={setExperience}
+                  value={experience}
+                  viewHeight={0.06}
+                  viewWidth={0.75}
+                  inputWidth={0.64}
+                  // border={1}
+                  // borderColor={'#1B5CFB45'}
+                  backgroundColor={'#FFFFFF'}
+                  marginTop={moderateScale(12, 0.3)}
+                  color={Color.themeColor}
+                  placeholderColor={Color.themeLightGray}
+                  borderRadius={moderateScale(30, 0.4)}
+                  keyboardType={'numeric'}
+                  maxLength={2}
+                />
+                <TextInputWithTitle
+                  iconName={'book'}
+                  iconType={FontAwesome}
+                  // disable
+                  titleText={'specialization'}
+                  secureText={false}
+                  placeholder={'Any one main specility'}
+                  setText={setSpecilization}
+                  value={specilization}
+                  viewHeight={0.06}
+                  viewWidth={0.75}
+                  inputWidth={0.64}
+                  // border={1}
+                  // borderColor={'#1B5CFB45'}
+                  backgroundColor={'#FFFFFF'}
+                  marginTop={moderateScale(12, 0.3)}
+                  color={Color.themeColor}
+                  placeholderColor={Color.themeLightGray}
+                  borderRadius={moderateScale(30, 0.4)}
+
+                />
+                <TextInputWithTitle
+                  iconName={'trophy'}
+                  iconType={FontAwesome}
+                  // disable
+                  titleText={'Certification'}
+                  secureText={false}
+                  placeholder={'Any certification'}
+                  setText={setCertification}
+                  value={certification}
+                  viewHeight={0.06}
+                  viewWidth={0.75}
+                  inputWidth={0.64}
+                  // border={1}
+                  // borderColor={'#1B5CFB45'}
+                  backgroundColor={'#FFFFFF'}
+                  marginTop={moderateScale(12, 0.3)}
+                  color={Color.themeColor}
+                  placeholderColor={Color.themeLightGray}
+                  borderRadius={moderateScale(30, 0.4)}
+
+                />
+              </>
             )}
             <TouchableOpacity
               onPress={() => {
@@ -424,6 +479,84 @@ console.log(user?.experience)
               />
             </TouchableOpacity>
 
+            {user?.role != 'customer' && (
+              <>
+                <TouchableOpacity
+                  onPress={showDatePicker}
+                  activeOpacity={0.9}
+                  style={[styles.row_con, { marginTop: moderateScale(12, 0.3) }]}>
+                  <View style={styles.icon_container}>
+                    <Icon as={Entypo} name="calendar" size={moderateScale(18, .6)} color={Color.themeColor} />
+                  </View>
+                  <View style={styles.text_container}>
+                    <CustomText style={styles.dob_text}>{dob ? dob : 'Date of Birth'}</CustomText>
+                  </View>
+                </TouchableOpacity>
+
+                <View style={{ marginTop: moderateScale(12, 0.3), width: windowWidth * 0.75 }}>
+                  <DropDownSingleSelect
+                    item={selectedState}
+                    setItem={setSelectedState}
+                    array={state?.map(item => item?.name) || []}
+                    placeholder={selectedState || "Select State"}
+                    style={{
+                      width: windowWidth * 0.75,
+                      backgroundColor: Color.white,
+                      borderRadius: moderateScale(30, .4),
+                      height: windowHeight * 0.06,
+                    }}
+
+                  />
+                </View>
+
+                <View style={[styles.gender_label_con, { marginTop: moderateScale(12, 0.3) }]}>
+                  <CustomText style={styles.label_text}>Gender</CustomText>
+                </View>
+                <View style={styles.gender_map_con}>
+                  {gender?.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => setSelectedGender(item?.name)}
+                        style={[styles.gen_con, selectedGender === item?.name && { backgroundColor: Color.themeColor }]}>
+                        <CustomText style={[styles.gen_text, selectedGender === item?.name && { color: Color.white }]}>{item?.name}</CustomText>
+                      </TouchableOpacity>
+                    )
+                  })}
+                </View>
+
+                <View style={[styles.gender_label_con, { marginTop: moderateScale(12, 0.3) }]}>
+                  <CustomText style={styles.label_text}>Profile Type</CustomText>
+                </View>
+                <View style={[styles.type_con, { marginTop: moderateScale(10, .6) }]}>
+                  <TouchableOpacity
+                    onPress={() => setSelectedType('physical selfcare business')}
+                    style={styles.radio_row}>
+                    <View style={styles.radio_outer}>
+                      {selectedType === 'physical selfcare business' && <View style={styles.radio_inner} />}
+                    </View>
+                    <CustomText style={[styles.radio_text, { marginLeft: moderateScale(10, .6) }]}>physical selfcare business</CustomText>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => setSelectedType('independant freelancer')}
+                    style={[styles.radio_row, { marginTop: moderateScale(10, .6) }]}>
+                    <View style={styles.radio_outer}>
+                      {selectedType === 'independant freelancer' && <View style={styles.radio_inner} />}
+                    </View>
+                    <CustomText style={[styles.radio_text, { marginLeft: moderateScale(10, .6) }]}>independant freelancer</CustomText>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+
             {/* <TextInputWithTitle
             iconName={'globe'}
             iconType={FontAwesome}
@@ -443,6 +576,9 @@ console.log(user?.experience)
             placeholderColor={Color.themeLightGray}
             borderRadius={moderateScale(30, 0.4)}
           /> */}
+            <View style={[styles.gender_label_con, { marginTop: moderateScale(12, 0.3) }]}>
+              <CustomText style={styles.label_text}>Provider Status</CustomText>
+            </View>
             {user?.role != 'customer' && (
               <View
                 style={{
@@ -465,19 +601,11 @@ console.log(user?.experience)
                     onPress={() => {
                       setRushService(!rushService);
                     }}
-                    style={{
-                      height: windowHeight * 0.02,
-                      width: windowHeight * 0.02,
-                      // backgroundColor:'green',
-                      borderRadius: moderateScale((windowHeight * 0.02) / 2),
-                      borderWidth: moderateScale(1, 0.6),
-                      borderColor: Color.themeColor,
-                    }}>
+                    style={styles.checkbox}>
                     {rushService && (
                       <Icon
                         style={{
                           textAlign: 'center',
-                          // backgroundColor:'red'
                         }}
                         name="check"
                         as={FontAwesome}
@@ -493,11 +621,7 @@ console.log(user?.experience)
 
                     }}
                     isBold
-                    style={{
-                      marginHorizontal: moderateScale(8, 0.6),
-                      color: Color.white,
-                      fontSize: moderateScale(14, 0.6),
-                    }}>
+                    style={styles.chechkbox_text}>
                     rush service
                   </CustomText>
                 </TouchableOpacity>
@@ -525,19 +649,11 @@ console.log(user?.experience)
                           setTemproaryAddress({});
                         }
                       }}
-                      style={{
-                        height: windowHeight * 0.02,
-                        width: windowHeight * 0.02,
-                        // backgroundColor:'red',
-                        borderRadius: moderateScale((windowHeight * 0.02) / 2),
-                        borderWidth: moderateScale(1, 0.6),
-                        borderColor: Color.themeColor,
-                      }}>
+                      style={styles.checkbox}>
                       {Object.keys(temproaryAddress).length > 0 && (
                         <Icon
                           style={{
                             textAlign: 'center',
-                            // backgroundColor:'red'
                           }}
                           name="check"
                           as={FontAwesome}
@@ -556,11 +672,7 @@ console.log(user?.experience)
                         }
                       }}
                       isBold
-                      style={{
-                        marginHorizontal: moderateScale(8, 0.6),
-                        color: Color.white,
-                        fontSize: moderateScale(14, 0.6),
-                      }}>
+                      style={styles.chechkbox_text}>
                       Travel mode
                     </CustomText>
                   </TouchableOpacity>
@@ -578,19 +690,11 @@ console.log(user?.experience)
                       onPress={() => {
                         setIsHolidayMode(prevState => !prevState);
                       }}
-                      style={{
-                        height: windowHeight * 0.02,
-                        width: windowHeight * 0.02,
-                        // backgroundColor:'red',
-                        borderRadius: moderateScale((windowHeight * 0.02) / 2),
-                        borderWidth: moderateScale(1, 0.6),
-                        borderColor: Color.themeColor,
-                      }}>
+                      style={styles.checkbox}>
                       {isHolidayMode && (
                         <Icon
                           style={{
                             textAlign: 'center',
-                            // backgroundColor:'red'
                           }}
                           name="check"
                           as={FontAwesome}
@@ -606,12 +710,7 @@ console.log(user?.experience)
                         setIsHolidayMode(!isHolidayMode);
                       }}
                       isBold
-                      style={{
-                        marginHorizontal: moderateScale(8, 0.6),
-                        color: Color.white,
-                        fontSize: moderateScale(14, 0.6),
-                        width : windowWidth * 0.4,
-                      }}>
+                      style={styles.chechkbox_text}>
                       Holiday mode
                     </CustomText>
                   </TouchableOpacity>
@@ -622,29 +721,18 @@ console.log(user?.experience)
                       setIsHealthMode(prevState => !prevState);
                     }}
                     style={{
-                      marginTop : moderateScale(10,0.6),
-                      // backgroundColor: Color.lightGrey,
+                      marginTop: moderateScale(10, 0.6),
                       flexDirection: 'row',
-                      // alignItems: 'center',
                     }}>
                     <TouchableOpacity
                       onPress={() => {
                         setIsHealthMode(prevState => !prevState);
                       }}
-                      style={{
-                        
-                        height: windowHeight * 0.02,
-                        width: windowHeight * 0.02,
-                        // backgroundColor:'red',
-                        borderRadius: moderateScale((windowHeight * 0.02) / 2),
-                        borderWidth: moderateScale(1, 0.6),
-                        borderColor: Color.themeColor,
-                      }}>
+                      style={styles.checkbox}>
                       {isHealthMode && (
                         <Icon
                           style={{
                             textAlign: 'center',
-                            // backgroundColor:'red'
                           }}
                           name="check"
                           as={FontAwesome}
@@ -653,50 +741,36 @@ console.log(user?.experience)
                         />
                       )}
                     </TouchableOpacity>
-                    
+
 
                     <CustomText
                       onPress={() => {
                         setIsHealthMode(!isHealthMode);
                       }}
                       isBold
-                      style={{
-                        marginHorizontal: moderateScale(8, 0.6),
-                        color: Color.white,
-                        fontSize: moderateScale(14, 0.6),
-                      }}>
+                      style={styles.chechkbox_text}>
                       Health mode
                     </CustomText>
                   </TouchableOpacity>
 
-                   {/* //availble mode */}
-                   <TouchableOpacity
+                  {/* //availble mode */}
+                  <TouchableOpacity
                     onPress={() => {
                       setIsAvailble(prevState => !prevState);
                     }}
                     style={{
-                      marginTop : moderateScale(10,0.6),
-                      // backgroundColor: Color.lightGrey,
+                      marginTop: moderateScale(10, 0.6),
                       flexDirection: 'row',
-                      // alignItems: 'center',
                     }}>
                     <TouchableOpacity
                       onPress={() => {
                         setIsAvailble(prevState => !prevState);
                       }}
-                      style={{
-                        height: windowHeight * 0.02,
-                        width: windowHeight * 0.02,
-                        // backgroundColor:'red',
-                        borderRadius: moderateScale((windowHeight * 0.02) / 2),
-                        borderWidth: moderateScale(1, 0.6),
-                        borderColor: Color.themeColor,
-                      }}>
+                      style={styles.checkbox}>
                       {isAvailble && (
                         <Icon
                           style={{
                             textAlign: 'center',
-                            // backgroundColor:'red'
                           }}
                           name="check"
                           as={FontAwesome}
@@ -705,22 +779,18 @@ console.log(user?.experience)
                         />
                       )}
                     </TouchableOpacity>
-                    
+
 
                     <CustomText
                       onPress={() => {
                         setIsAvailble(!isHealthMode);
                       }}
                       isBold
-                      style={{
-                        marginHorizontal: moderateScale(8, 0.6),
-                        color: Color.white,
-                        fontSize: moderateScale(14, 0.6),
-                      }}>
-                      Availble
+                      style={styles.chechkbox_text}>
+                      available
                     </CustomText>
                   </TouchableOpacity>
-                  
+
                 </View>
                 {Object.keys(temproaryAddress).length > 0 && (
                   <>
@@ -732,7 +802,7 @@ console.log(user?.experience)
                         marginTop: moderateScale(20, 0.6),
                         marginBottom: moderateScale(5, 0.6),
                       }}>
-                      Holiday Location
+                      Provider Location
                     </CustomText>
                     <View>
                       <Icon
@@ -799,6 +869,7 @@ console.log(user?.experience)
               textTransform={'uppercase'}
               isGradient={true}
               isBold
+              disabled={isLoading}
             // marginTop={moderateScale(10, 0.3)}
             />
           </ScrollView>
@@ -858,6 +929,100 @@ const styles = ScaledSheet.create({
     width: windowWidth,
     alignItems: 'center',
     // backgroundColor : Color.themeColor
+  },
+  checkbox: {
+    height: windowHeight * 0.02,
+    width: windowHeight * 0.02,
+    // backgroundColor:'red',
+    borderWidth: 1,
+    borderColor: Color.white,
+    borderRadius: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  chechkbox_text: {
+    color: Color.white,
+    fontSize: moderateScale(12, 0.6),
+    marginLeft: moderateScale(10, 0.6),
+  },
+  row_con: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: windowWidth * 0.75,
+    height: windowHeight * 0.06,
+    backgroundColor: Color.white,
+    borderRadius: moderateScale(30, 0.4),
+    paddingHorizontal: moderateScale(15, 0.6),
+  },
+  icon_container: {
+    width: moderateScale(25, 0.6),
+    alignItems: 'center',
+  },
+  text_container: {
+    marginLeft: moderateScale(10, 0.6),
+  },
+  dob_text: {
+    fontSize: moderateScale(13),
+    color: Color.themeColor,
+  },
+  gender_label_con: {
+    width: windowWidth * 0.75,
+    alignItems: 'flex-start',
+  },
+  label_text: {
+    fontSize: moderateScale(14),
+    fontWeight: 'bold',
+    color: Color.white,
+  },
+  gender_map_con: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: windowWidth * 0.75,
+    marginTop: moderateScale(5, 0.6),
+  },
+  gen_con: {
+    paddingVertical: moderateScale(8, .6),
+    paddingHorizontal: moderateScale(12, .6),
+    backgroundColor: 'transparent',
+    borderWidth: moderateScale(1, .6),
+    borderColor: Color.white,
+    borderRadius: moderateScale(30, .6),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: moderateScale(8, .6),
+    marginTop: moderateScale(8, .6),
+  },
+  gen_text: {
+    fontSize: moderateScale(12),
+    color: Color.white,
+  },
+  type_con: {
+    width: windowWidth * 0.75,
+    alignItems: 'flex-start',
+  },
+  radio_row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  radio_outer: {
+    height: moderateScale(20, .6),
+    width: moderateScale(20, .6),
+    borderRadius: moderateScale(10, .6),
+    borderWidth: moderateScale(2, .6),
+    borderColor: Color.themeColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.white,
+  },
+  radio_inner: {
+    height: moderateScale(10, .6),
+    width: moderateScale(10, .6),
+    borderRadius: moderateScale(5, .6),
+    backgroundColor: Color.themeColor,
+  },
+  radio_text: {
+    fontSize: moderateScale(14),
+    color: Color.white,
   },
 });
 

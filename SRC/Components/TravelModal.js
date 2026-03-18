@@ -49,10 +49,14 @@ const HolidayModal = ({
     ),
     
   );
-
+   const [isSettingTravelMode, setIsSettingTravelMode] = useState(false);
   const hideTimePicker = () => {
     setTimePickerVisible(false);
   };
+  const minDate = new Date();
+  minDate.setHours(0, 0, 0, 0);
+
+
 
   return (
     <Modal
@@ -212,14 +216,19 @@ const HolidayModal = ({
                     )
                   : alert('Required Field is empty');
               } else if (moment(travelDateFrom).isSameOrBefore(travelDateTo)) {
+              setIsSettingTravelMode(true)
+                setTimeout(()=>{
+                  setIsSettingTravelMode(false);
                 setIsVisibleModal(false);
+                  
+                },3000)
               } else {
                 Platform.OS == 'android'
                   ? ToastAndroid.show(
-                      'From Date can not  be greater than To Date',
+                      'From Date can not be greater than To Date',
                       ToastAndroid.SHORT,
                     )
-                  : alert('From Date can not  be greater than To Date');
+                  : alert('From Date can not be greater than To Date');
               }
             }}
             width={windowWidth * 0.75}
@@ -230,14 +239,17 @@ const HolidayModal = ({
             textTransform={'uppercase'}
             isGradient={true}
             isBold
+            loader={isSettingTravelMode}
+            disabled={isSettingTravelMode}
           />
           <DateTimePickerModal
             isVisible={isTimePickerVisible}
             mode="date"
-            display="calendar"
+            display={Platform.OS == 'android' ? "calendar" : 'spinner'}
             // date={new Date()}
 
-            minimumDate={new Date().setHours(0, 0, 0, 0)}
+            minimumDate={minDate}
+             
             onConfirm={data => {
               dateType == 'from'
                 ? setDateFrom(moment(data).format('DD-MM-YYYY'))

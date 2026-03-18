@@ -409,7 +409,7 @@ const BarberCard = ({
                       fontSize: moderateScale(10, 0.6),
                       color: Color.lightGrey,
                       textAlign: 'left',
-                    }}>{item?.distance?.toFixed(2)} miles
+                    }}>{item?.distance?.toFixed(2)} mi away
                     </CustomText>
                   </View>
                   <View style={[styles.absoluteContainer, { width: '30%' }]}>

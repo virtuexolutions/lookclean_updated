@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
-import {View, ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, Platform } from 'react-native';
 import Color from '../Assets/Utilities/Color';
-import {windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale, scale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomButton from '../Components/CustomButton';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import navigationService from '../navigationService';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SearchLocation = props => {
+  const insets = useSafeAreaInsets();
   const data = props?.route?.params?.finalData;
 
   const [searchData, setSearchData] = useState('');
@@ -22,8 +24,8 @@ const SearchLocation = props => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         {/* <ScrollView
@@ -41,8 +43,9 @@ const SearchLocation = props => {
           textInputProps={{
             placeholderTextColor: '#5d5d5d',
           }}
+          keepResultsAfterBlur={true}
           onPress={(data, details = null) => {
-           
+
             setSearchData({
               name: data?.description,
               location: details?.geometry?.location,
@@ -86,7 +89,7 @@ const SearchLocation = props => {
             style={{
               alignSelf: 'center',
               position: 'absolute',
-              bottom: 50,
+              bottom: scale(45) + insets?.top,
             }}>
             <CustomButton
               bgColor={Color.themePink}
@@ -94,7 +97,7 @@ const SearchLocation = props => {
               textColor={Color.black}
               onPress={() => {
                 navigationService.navigate('CheckoutScreen', {
-                  finalData: {...data, location: searchData},
+                  finalData: { ...data, location: searchData },
                 });
               }}
               width={windowWidth * 0.75}

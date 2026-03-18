@@ -60,7 +60,8 @@ const BarberServicesScreen = props => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [fileObject, setFileObject] = useState();
   const [show, setShow] = useState(false);
-  const [type, setType] = useState('')
+  const [type, setType] = useState('');
+
 
   const BarberDetals = async () => {
     const url = `auth/barber/detail/${detail?.id}`;
@@ -151,11 +152,13 @@ const BarberServicesScreen = props => {
     formData.append('video', body.video);
     formData.append('barber_id', String(body.barber_id));
 
-
     const url = 'auth/video';
     setLoading(true);
     const response = await Post(url, formData, apiHeader(token));
-    console.log('consultancy form data herreeee eeee >>>> >> >>> >> > >> > > ', response?.data)
+    console.log(
+      'consultancy form data herreeee eeee >>>> >> >>> >> > >> > > ',
+      response?.data,
+    );
 
     setLoading(false);
     if (response != undefined) {
@@ -202,28 +205,28 @@ const BarberServicesScreen = props => {
                   textTransform: 'uppercase',
                 }}
               />
-
-              <TouchableOpacity
-                onPress={() => {
-                  setModal(true);
-                }}
-                style={{
-                  width: windowWidth * 0.25,
-                }}>
-                <Rating
-                  type="custom"
-                  readonly
-                  startingValue={
-                    detail?.reviews_avg_rating ? detail?.reviews_avg_rating : 0
-                  }
-                  ratingCount={5}
-                  imageSize={moderateScale(18, 0.3)}
-                  style={{
-                    width: windowWidth * 0.24,
+              {detail?.reviews_avg_rating?.length > 0 &&
+                <TouchableOpacity
+                  onPress={() => {
+                    setModal(true);
                   }}
-                  ratingBackgroundColor={'transparent'}
-                />
-              </TouchableOpacity>
+                  style={{
+                    width: windowWidth * 0.25,
+                  }}>
+                  <Rating
+                    type="custom"
+                    readonly
+                    startingValue={
+                      detail?.reviews_avg_rating ? detail?.reviews_avg_rating : 0
+                    }
+                    ratingCount={5}
+                    imageSize={moderateScale(18, 0.3)}
+                    style={{
+                      width: windowWidth * 0.24,
+                    }}
+                    ratingBackgroundColor={'transparent'}
+                  />
+                </TouchableOpacity>}
 
               <CustomText
                 style={{
@@ -284,6 +287,7 @@ const BarberServicesScreen = props => {
                 padding: moderateScale(10, 0.6),
               }}
               renderItem={({ item, index }) => {
+                console.log('hiiiiiiiiiiii', item?.name.split('Do u have '));
                 return (
                   <View
                     activeOpacity={0.9}
@@ -301,11 +305,9 @@ const BarberServicesScreen = props => {
                         // backgroundColor: 'red',
                         color: Color.white,
                       }}>
-                      {item?.name.split('Do u have ')}
-                      {/* {barberDetails?.questions_ans[0]?.answer?.answer.toLowerCase() ==
-                    'yes'
-                      ? `${'i have'} ${item}`
-                      : `${'i have no'} ${item}`} */}
+                      {item.name.includes('you')
+                        ? item?.name.split('Do you have ')[1]
+                        : item?.name.split('Do u have ')[1]}
                     </CustomText>
                     <Icon
                       as={Entypo}
@@ -321,10 +323,24 @@ const BarberServicesScreen = props => {
                           : Color.themePink
                       }
                     />
+
                   </View>
                 );
               }}
             />
+            <CustomText
+              onPress={() => {
+                navigationService.navigate('BarberProfile', { clientView: true, barberDetails: barberDetails })
+              }}
+
+              style={{
+                fontSize: moderateScale(13, 0.3),
+                width: windowWidth * 0.8,
+                // backgroundColor: 'red',
+                color: Color.themeLightGray,
+              }}>
+              view more info...
+            </CustomText>
           </View>
 
           <CustomTextWithMask
@@ -416,10 +432,11 @@ const BarberServicesScreen = props => {
               }}
               ListFooterComponent={() => {
                 return (
-                  <View style={{
-                    // backgroundColor:'red',
-                    width: windowWidth * 0.92
-                  }}>
+                  <View
+                    style={{
+                      // backgroundColor:'red',
+                      width: windowWidth * 0.92,
+                    }}>
                     {fromConsultationVideo != true && (
                       <CustomButton
                         textColor={Color.black}
@@ -476,7 +493,7 @@ const BarberServicesScreen = props => {
                       // borderWidth={1}
                       textColor={Color.black}
                       onPress={() => {
-                        setShow(true)
+                        setShow(true);
                         // if (selectedService.length > 0) {
                         //   setShow(true)
                         // } else {
@@ -507,24 +524,23 @@ const BarberServicesScreen = props => {
           <BookingCategory
             onPress={() => {
               if (type) {
-                type === 'individual' ?
-                  navigationService.navigate('ChooseDate', {
+                setShow(false);
+                type === 'individual'
+                  ? navigationService.navigate('ChooseDate', {
                     data: selectedService,
                     barber: barberDetails,
                   })
                   : navigationService.navigate('GroupServices', {
                     data: selectedService,
                     barber: barberDetails,
-                  })
+                  });
               } else {
                 Platform.OS == 'android'
                   ? ToastAndroid.show(
                     'Please Select Type First',
                     ToastAndroid.SHORT,
                   )
-                  : Alert.alert(
-                    'Please Select Type First',
-                  );
+                  : Alert.alert('Please Select Type First');
               }
             }}
             modal={show}

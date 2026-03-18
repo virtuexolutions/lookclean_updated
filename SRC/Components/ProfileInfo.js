@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import CustomText from './CustomText'
 import { Icon } from 'native-base'
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -10,9 +10,12 @@ import { windowWidth } from '../Utillity/utils';
 import TitleWithDescription from './TitleWithDescription';
 import { useSelector } from 'react-redux';
 
-const ProfileInfo = ({setIsVisible }) => {
+const ProfileInfo = ({setIsVisible , barberDetails ,clientView }) => {
     const user = useSelector(state => state.commonReducer.userData);
-    console.log(JSON.stringify(user,null,2) , 'dfsfdsfds')
+   
+
+    const [exactUser , setExactUser] = useState(clientView  == true ? barberDetails : user  )
+   
     return (
         <View style={styles.container}>
             <View>
@@ -23,8 +26,8 @@ const ProfileInfo = ({setIsVisible }) => {
                   }}
                   style={[styles.imageContainer]}
                   source={
-                    user?.photo
-                      ? { uri: `${user?.photo}` }
+                    exactUser?.photo
+                      ? { uri: `${exactUser?.photo}` }
                       : require('../Assets/Images/user.png')
                   }
                 />
@@ -34,25 +37,25 @@ const ProfileInfo = ({setIsVisible }) => {
             </View>
             <View style={styles.infoBox}>
                 <CustomText isBold style={styles.name}>
-                    {`${user?.first_name} ${user?.last_name}` }
+                    {`${exactUser?.first_name} ${exactUser?.last_name}` }
                 </CustomText>
                 <TitleWithDescription
                 title='Specialty:'
-                description={`${user?.specialty}`}
+                description={`${exactUser?.specialty}`}
                 style={styles.infoContainer}
                 titleStyle={styles.subText}
                 descriptionStyle={styles.subText}
                 />
                 <TitleWithDescription
                 title='Provider ID:'
-                description={`${user?.id}`}
+                description={`${exactUser?.id}`}
                 style={styles.infoContainer}
                 titleStyle={styles.subText}
                 descriptionStyle={styles.subText}
                 />
                 <TitleWithDescription
                 title='Experience:'
-                description={user?.experience == 0 ? '-' :` ${user?.experience} years`}
+                description={exactUser?.experience == 0 ? '-' :` ${exactUser?.experience} years`}
                 style={styles.infoContainer}
                 titleStyle={styles.subText}
                 descriptionStyle={styles.subText}

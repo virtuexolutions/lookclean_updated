@@ -13,7 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Color from '../Assets/Utilities/Color';
 import { Get, Post } from '../Axios/AxiosInterceptorFunction';
 import BarberCard from '../Components/BarberCard';
@@ -27,15 +27,17 @@ import OrderCard from '../Components/OrderCard';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import navigationService from '../navigationService';
 import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import { setIsProfileCompleted } from '../Store/slices/common';
 
 
 const Homescreen = () => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.commonReducer.userData);
   const [isLoading, setIsLoading] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [barberData, setBarberData] = useState([]);
   const [orderData, setOrderData] = useState([]);
-  console.log('order data ====> ' , orderData)
+  console.log('order data ====> ', orderData)
   const [isVisible, setIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
   const [isHolidayMode, setIsHolidayMode] = useState(false);
@@ -102,6 +104,7 @@ const Homescreen = () => {
       description: 'The latest trend Hair Dresser',
     },
   ];
+
 
   return (
     <ScreenBoiler
@@ -218,7 +221,7 @@ const Homescreen = () => {
               isVisible={isVisible}
               setIsVisible={setIsVisible}
             />
-{/* 
+            {/* 
             <CustomText isBold style={styles.text1}>
               New HairStyle Trends
             </CustomText>
@@ -406,7 +409,7 @@ const Homescreen = () => {
               </CustomText>
               <CustomText
                 onPress={() => {
-                  navigationService.navigate('UpComingScreen', { data: orderData?.filter(item => item?.status == 'pending' )});
+                  navigationService.navigate('UpComingScreen', { data: orderData?.filter(item => item?.status == 'pending') });
                 }}
                 style={styles.viewAll}>
                 View all
@@ -422,7 +425,7 @@ const Homescreen = () => {
                 keyExtractor={item => item?.id}
                 scrollEnabled={true}
                 decelerationRate={'fast'}
-                
+
                 ListEmptyComponent={() => {
                   return (
                     <NoData

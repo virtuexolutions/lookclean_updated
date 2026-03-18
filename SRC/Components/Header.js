@@ -1,19 +1,19 @@
-import React, {useState} from 'react';
-import {Icon} from 'native-base';
-import {View, Platform, Dimensions, TouchableOpacity} from 'react-native';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {moderateScale, scale, ScaledSheet} from 'react-native-size-matters';
+import React, { useState } from 'react';
+import { Icon } from 'native-base';
+import { View, Platform, Dimensions, TouchableOpacity } from 'react-native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { moderateScale, scale, ScaledSheet } from 'react-native-size-matters';
 import Color from '../Assets/Utilities/Color';
-import {windowHeight, windowWidth} from '../Utillity/utils';
+import { windowHeight, windowWidth } from '../Utillity/utils';
 import CustomText from './CustomText';
 import CustomImage from './CustomImage';
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
 
-import {useDispatch, useSelector} from 'react-redux';
-import {imageUrl} from '../Config';
-import {setUserLogout} from '../Store/slices/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { imageUrl } from '../Config';
+import { setUserLogout } from '../Store/slices/auth';
 
 const Header = props => {
   const dispatch = useDispatch();
@@ -31,7 +31,8 @@ const Header = props => {
     Notify,
     showUser,
     showUndo,
-    onUndoPress
+    onUndoPress,
+    headerRight
   } = props;
 
   const [searchText, setSearchText] = useState('');
@@ -39,11 +40,11 @@ const Header = props => {
 
   const token = useSelector(state => state.authReducer.token);
   const statusArray = [
-    {label: 'Change Password', value: 'ChangePassword'},
+    { label: 'Change Password', value: 'ChangePassword' },
 
-    {label: 'Terms & Conditions', value: 'TermsAndConditions'},
-    {label: 'Financial Breakdown', value: 'FinancialBreakDown'},
-    {label: 'Logout', value: 'Logout'},
+    { label: 'Terms & Conditions', value: 'TermsAndConditions' },
+    { label: 'Financial Breakdown', value: 'FinancialBreakDown' },
+    { label: 'Logout', value: 'Logout' },
   ];
 
   return (
@@ -61,7 +62,7 @@ const Header = props => {
           style={{
             position: 'absolute',
             zIndex: 1,
-               top: 40,
+            top: 40,
             left: moderateScale(10, 0.3),
             height: moderateScale(30, 0.3),
             width: moderateScale(30, 0.3),
@@ -84,11 +85,11 @@ const Header = props => {
         style={{
           width: windowWidth * 0.33,
           height: windowWidth * 0.23,
-// width:scale(150),
-// height:scale(150),
-          marginTop: moderateScale( 20, 0.3),
+          // width:scale(150),
+          // height:scale(150),
+          marginTop: moderateScale(20, 0.3),
           alignSelf: 'center',
-          
+
         }}
       />
       {showUser && (
@@ -115,7 +116,7 @@ const Header = props => {
             }}
             source={
               user?.photo
-                ? {uri: `${user?.photo}`}
+                ? { uri: `${user?.photo}` }
                 : require('../Assets/Images/user.png')
             }
             resizeMode={'cover'}
@@ -129,8 +130,8 @@ const Header = props => {
       )}
       {showUndo && (
         <TouchableOpacity
-        
-        onPress={onUndoPress}
+
+          onPress={onUndoPress}
           style={{
             paddingHorizontal: moderateScale(10, 0.6),
             paddingVertical: moderateScale(5, 0.6),
@@ -150,6 +151,16 @@ const Header = props => {
           />
         </TouchableOpacity>
       )}
+      {headerRight && (
+        <View style={{
+          position: 'absolute',
+          right: moderateScale(10, 0.3),
+          top: 40,
+          zIndex: 1,
+        }}>
+          {headerRight()}
+        </View>
+      )}
     </View>
   );
 };
@@ -157,7 +168,7 @@ const styles = ScaledSheet.create({
   header2: {
     width: windowWidth,
     height: windowHeight * 0.1,
-    paddingTop:  moderateScale(20, 0.3),
+    paddingTop: moderateScale(20, 0.3),
     backgroundColor: Color.black,
     justifyContent: 'center',
     // flexDirection: 'row',

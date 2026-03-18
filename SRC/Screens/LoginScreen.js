@@ -4,6 +4,10 @@ import {
   View,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
+  ToastAndroid,
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Color from '../Assets/Utilities/Color';
@@ -19,12 +23,14 @@ import navigationService from '../navigationService';
 import { setUserToken, setWalkThrough } from '../Store/slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../Axios/AxiosInterceptorFunction';
-import { Platform } from 'react-native';
-import { ToastAndroid } from 'react-native';
-import { Alert } from 'native-base';
-import { ActivityIndicator } from 'react-native';
-import { setUserData, setUserWallet } from '../Store/slices/common';
+import { setIsProfileCompleted, setUserData, setUserWallet } from '../Store/slices/common';
 import DropDownSingleSelect from '../Components/DropDownSingleSelect';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import SelectUserRole from '../Components/SelectUserRole';
+import AddYourDetails from '../Components/AddYourDetails';
+import SelectLocationModal from '../Components/SelectLocationModal';
+
+
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -32,6 +38,18 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedUserRole, setSelectedUserRole] = useState('');
+
+  const [contact, setContact] = useState('');
+  const [address, setAddress] = useState({});
+  console.log(address, 'address ========= >>>>>>> ');
+  const [designation, setDesignation] = useState('');
+  const [selectLocationModal, setselectLocationModal] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+  // console.log(userInfo, 'userInfo');
 
   const login = async () => {
     const url = 'login';
@@ -56,7 +74,95 @@ const LoginScreen = () => {
     }
   };
 
-  // const backgroundImage = require('../Assets/Images/appLogo.png');
+  const loginWithGoogle = async (user, addressData = null, roleData = null, designationData = null) => {
+    // console.log(address, 'address');
+    const currentAddress = addressData || address;
+    const currentRole = roleData || selectedUserRole;
+    const currentDesignation = designationData || designation;
+
+    const body = {
+      idToken: user.idToken,
+      email: user.user.email,
+      first_name: user.user.givenName,
+      last_name: user.user.familyName,
+      photo: user.user.photo,
+      role: currentRole,
+      address_name: currentAddress?.name || currentAddress?.location,
+      address_lat: currentAddress?.lat,
+      address_lng: currentAddress?.lng,
+
+    };
+
+    if (currentRole == 'Barber') {
+      body.designation = currentDesignation;
+    }
+
+    if (Object.keys(currentAddress || {}).length == 0) {
+      return Platform.OS == 'android'
+        ? ToastAndroid.show(`Address is required`, ToastAndroid.SHORT)
+        : Alert.alert(`Address is required`);
+    }
+    if (currentRole == 'Barber') {
+      if (currentDesignation == '') {
+        return Platform.OS == 'android'
+          ? ToastAndroid.show(`Designation is required`, ToastAndroid.SHORT)
+          : Alert.alert(`Designation is required`);
+      }
+    }
+    // return console.log(body, 'body');
+    const url = 'google-login';
+    setIsLoading(true);
+    const response = await Post(url, body, apiHeader(token));
+    setIsLoading(false);
+    if (response != undefined) {
+
+      setIsVisible(false)
+      console.log("🚀 ~ loginWithGoogle ~ response:", response?.data)
+      dispatch(setUserToken({ token: response?.data?.token }));
+      dispatch(setUserData(response?.data?.user_info));
+      dispatch(setUserWallet(response?.data?.user_info?.wallet));
+    }
+  };
+
+  const verifyUserExist = async (user) => {
+    // console.log(userInfo, 'userInfo');
+    const body = {
+      idToken: user.idToken,
+      email: user.user.email,
+    };
+
+    console.log(body, 'body');
+    const url = 'email-check';
+    setLoading(true);
+    const response = await Post(url, body, apiHeader(token));
+    setLoading(false);
+    if (response != undefined) {
+
+      // setIsVisible(false)
+      console.log("🚀 ~ userexust ~ response:", response?.data?.user_info)
+      if (response?.data?.message == 'User not found..!') {
+        setUserInfo(user)
+        setIsVisible(true)
+      }
+      else {
+        console.log('here ==>')
+        const addr = { location: response?.data?.user_info?.location, lat: response?.data?.user_info?.lat, lng: response?.data?.user_info?.lng };
+        const role = response?.data?.user_info?.role;
+        const desig = response?.data?.user_info?.designation;
+
+        setAddress(addr)
+        setDesignation(desig)
+        setSelectedUserRole(role)
+        loginWithGoogle(user, addr, role, desig)
+      }
+    }
+  };
+
+
+
+
+
+
   return (
     <ScreenBoiler
       // showBack={true}
@@ -180,6 +286,69 @@ const LoginScreen = () => {
               forgot password?
             </CustomText>
 
+            <CustomButton
+              image={require('../Assets/Images/googleicon.png')}
+              imagestyle={{
+                width: windowWidth * 0.06,
+                height: windowWidth * 0.06,
+                marginHorizontal: moderateScale(10, 0.3),
+              }}
+              bgColor={'white'}
+              borderColor={'white'}
+              borderWidth={1}
+              textColor={Color.black}
+              onPress={() => {
+                //
+                GoogleSignin.configure({
+                  offlineAccess: true,
+                  webClientId: '585257783543-ic5itupoti0tl3v8dhs6lcj0qt2q1e1r.apps.googleusercontent.com',
+                  iosClientId: '585257783543-flg6arfbe23fvfh581g7ejeclfiusjrb.apps.googleusercontent.com',
+
+                });
+
+                GoogleSignin.hasPlayServices()
+                  .then(hasPlayService => {
+                    if (hasPlayService) {
+                      GoogleSignin.signIn()
+                        .then(userInfo => {
+                          console.log(
+                            'Google Sign-In Success',
+                            JSON.stringify(userInfo?.data, null, 2),
+                          );
+                          verifyUserExist(userInfo?.data)
+
+
+                        })
+                        .catch(e => {
+                          console.log(
+                            'ERROR IS=============: ' + JSON.stringify(e.message),
+                          );
+                          Alert.alert('Login failed', e.message);
+                        });
+                    }
+                  })
+                  .catch(e => {
+                    console.log('ERROR IS: ' + JSON.stringify(e, null, 2));
+                    Alert.alert('Play services not available');
+                  });
+
+              }}
+              width={windowWidth * 0.75}
+              height={windowHeight * 0.06}
+              borderRadius={moderateScale(25, 0.6)}
+              text={
+                isloading ? (
+                  <ActivityIndicator size={'small'} color={'black'} />
+                ) : (
+                  'Sign In with google'
+                )
+              }
+              fontSize={moderateScale(14, 0.3)}
+              textTransform={'uppercase'}
+              isBold
+              marginTop={windowHeight * 0.05}
+            />
+
             <View
               style={{
                 position: 'absolute',
@@ -194,6 +363,42 @@ const LoginScreen = () => {
               />
             </View>
           </LinearGradient>
+          <SelectUserRole
+            setIsVisible={setIsVisible}
+            isVisible={isVisible}
+            setSelectedUserRole={setSelectedUserRole}
+            selectedUserRole={selectedUserRole}
+            address={address}
+            setAddress={setAddress}
+            contact={contact}
+            setContact={setContact}
+            designation={designation}
+            setDesignation={setDesignation}
+            setselectLocationModal={setselectLocationModal}
+            onPress={
+              () => {
+
+                loginWithGoogle(userInfo)
+
+              }
+            }
+            loader={loading}
+          />
+
+          <SelectLocationModal
+            // setLocation={setAddress}
+            // address={address}
+            isVisible={selectLocationModal}
+            setIsVisibleModal={setselectLocationModal}
+            setLocation={setAddress}
+            onPress={() => {
+              setselectLocationModal(false);
+              setTimeout(() => {
+                setIsVisible(true)
+              }, 500);
+            }}
+          />
+
         </ScrollView>
       </KeyboardAvoidingView>
     </ScreenBoiler>

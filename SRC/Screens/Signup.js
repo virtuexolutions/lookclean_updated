@@ -50,6 +50,7 @@ const Signup = ({ navigation }) => {
   const [image, setImage] = useState({});
   const [userRole, setUserRole] = useState('Barber');
 
+
   const [showModal, setShowModal] = useState(false);
   const [contact, setContact] = useState('');
   const [email, setEmail] = useState('');

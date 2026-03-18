@@ -1,25 +1,25 @@
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import moment from 'moment/moment';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import numeral from 'numeral';
-import React, {useState} from 'react';
-import {Alert, FlatList, ScrollView, TouchableOpacity, View} from 'react-native';
+import React, { useState } from 'react';
+import { Alert, FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 import LinearGradient from 'react-native-linear-gradient';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Color from '../Assets/Utilities/Color';
-import {Post} from '../Axios/AxiosInterceptorFunction';
+import { Post } from '../Axios/AxiosInterceptorFunction';
 import CustomButton from '../Components/CustomButton';
 import CustomImage from '../Components/CustomImage';
 import CustomText from '../Components/CustomText';
 import ReviewCard from '../Components/ReviewCard';
 import ReviewModal from '../Components/ReviewModal';
 import ScreenBoiler from '../Components/ScreenBoiler';
-import {apiHeader, windowHeight, windowWidth} from '../Utillity/utils';
-import {mode} from 'native-base/lib/typescript/theme/tools';
+import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
+import { mode } from 'native-base/lib/typescript/theme/tools';
 
 const OrderDetails = props => {
   const item = props?.route?.params?.item;
@@ -95,8 +95,8 @@ const OrderDetails = props => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <CustomText isBold style={styles.text1}>
@@ -125,7 +125,7 @@ const OrderDetails = props => {
                 : `${item?.member_info?.first_name}${item?.member_info?.last_name}`}
             </CustomText>
 
-            <View style={[styles.eachRow, {marginTop: moderateScale(30, 0.3)}]}>
+            <View style={[styles.eachRow, { marginTop: moderateScale(30, 0.3) }]}>
               <CustomText
                 isBold
                 style={{
@@ -341,7 +341,7 @@ const OrderDetails = props => {
                 justifyContent: 'center',
               }}>
               {Array.isArray(item?.booking_members) &&
-              item.booking_members.length > 0 ? (
+                item.booking_members.length > 0 ? (
                 item.booking_members.map(item => {
                   // console.log('serviceeeeeeeeeeeee _info  > > > >  >  ', booking)
                   return (
@@ -369,7 +369,7 @@ const OrderDetails = props => {
                   );
                 })
               ) : (
-                <CustomText style={{color: 'red'}}>
+                <CustomText style={{ color: 'red' }}>
                   No services chosen
                 </CustomText>
               )}
@@ -556,7 +556,7 @@ const OrderDetails = props => {
                       'Almost There !!',
                       'Review your barber to complete the job',
                       [
-              
+
                         {
                           text: 'Cancel',
                           style: 'cancel',
@@ -573,7 +573,7 @@ const OrderDetails = props => {
                         },
                       ],
                     );
-                   
+
                   }}
                   width={windowWidth * 0.75}
                   height={windowHeight * 0.06}
@@ -585,7 +585,7 @@ const OrderDetails = props => {
                   isGradient={true}
                   isBold
                   marginTop={moderateScale(30, 0.3)}
-                  borderRadius={moderateScale(15,0.6)}
+                  borderRadius={moderateScale(15, 0.6)}
                 />
               )}
             {/* {item?.status == 'complete' &&
@@ -613,21 +613,21 @@ const OrderDetails = props => {
                   borderRadius={moderateScale(20, 0.6)}
                 />
               ) : */}
-             {  Object.keys(review).length > 0 &&
-            //  (
+            {Object.keys(review).length > 0 &&
+              //  (
 
-                <>
-                  <CustomText
-                    isBold
-                    style={{
-                      fontSize: moderateScale(18, 0.6),
-                      color: Color.black,
-                      marginTop: moderateScale(10, 0.6),
-                    }}>
-                    Customer Review
-                  </CustomText>
-                  <ReviewCard item={item} review={review} />
-                </>
+              <>
+                <CustomText
+                  isBold
+                  style={{
+                    fontSize: moderateScale(18, 0.6),
+                    color: Color.black,
+                    marginTop: moderateScale(10, 0.6),
+                  }}>
+                  Customer Review
+                </CustomText>
+                <ReviewCard item={item} review={review} />
+              </>
               // ) : (
               //   <CustomText
               //     isBold
@@ -639,10 +639,10 @@ const OrderDetails = props => {
               //     No review from customer yet !!
               //   </CustomText>
               // )
-              }
+            }
           </ScrollView>
           <ImageView
-            images={[{uri: item?.image}]}
+            images={[{ uri: item?.image }]}
             imageIndex={0}
             visible={imageModal}
             onRequestClose={() => setImageModal(false)}
@@ -688,8 +688,8 @@ const styles = ScaledSheet.create({
     width: windowWidth * 0.25,
     height: windowWidth * 0.25,
     borderRadius: (windowWidth * 0.25) / 2,
-    borderWidth : 2,
-    borderColor : Color.themeColor
+    borderWidth: 2,
+    borderColor: Color.themeColor
     // marginTop: moderateScale(-40, 0.3),
   },
 

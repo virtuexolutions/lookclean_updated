@@ -138,6 +138,7 @@ const BookingCategory = ({ modal, setModal, setType, type, onPress, services, se
                         textColor={Color.black}
                         onPress={() => {
                             if (selectedService.length > 0) {
+                                setModal(false);
                                 navigationService.navigate('ChooseDate', {
                                     data: selectedService,
                                     barber: barberDetails,

@@ -21,6 +21,7 @@ import ImagePickerModal from '../Components/ImagePickerModal';
 import { setUserLogoutAuth } from '../Store/slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-native-modal';
+import { setIsProfileCompleted } from '../Store/slices/common';
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -28,28 +29,28 @@ const Settings = () => {
   const [showModal, setShowModal] = useState(false);
   const UserData = useSelector(state => state.commonReducer.userData);
   const [deleteAccount, setDeleteAccount] = useState(false)
-  console.log('user data =============  >>>>>>>>>> ', UserData?.role);
+  console.log('user data =============  >>>>>>>>>> ', UserData);
 
   const cardArray = [
-    (UserData?.role === 'barber' ? 
-    
-    {
-      name: 'Profile',
-      onPress: () => {
-        navigationService.navigate('BarberProfile');
-      },
-    }
-    : 
-    
-    {
-      name: 'Profile',
-      onPress: () => {
-        navigationService.navigate('MyAccounts');
-      },
-    }
+    (UserData?.role === 'barber' ?
+
+      {
+        name: 'Profile',
+        onPress: () => {
+          navigationService.navigate('BarberProfile');
+        },
+      }
+      :
+
+      {
+        name: 'Profile',
+        onPress: () => {
+          navigationService.navigate('MyAccounts');
+        },
+      }
     ),
-   
-   
+
+
     {
       name: 'My Bookings',
       onPress: () => {
@@ -125,18 +126,20 @@ const Settings = () => {
         navigationService.navigate('WalletScreen');
       },
     },
-    {
-      name: 'Log Out',
-      onPress: () => {
-        dispatch(setUserLogoutAuth());
-      },
-    },
+
     {
       name: 'Delete Account',
       onPress: () => {
         setDeleteAccount(true)
       }
-    }
+    },
+    {
+      name: 'Log Out',
+      onPress: () => {
+        dispatch(setUserLogoutAuth());
+        // dispatch(setIsPr/ofileCompleted(false))
+      },
+    },
   ];
 
   return (
@@ -331,7 +334,10 @@ const Settings = () => {
                 isGradient={true}
                 isBold
                 marginTop={moderateScale(20, 0.3)}
-                onPress={() => navigationService.navigate('DeleteAccount')}
+                onPress={() => {
+                  setDeleteAccount(false);
+                  navigationService.navigate('DeleteAccount')
+                }}
               />
             </View>
           </View>

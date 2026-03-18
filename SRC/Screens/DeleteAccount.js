@@ -8,6 +8,9 @@ import {
 import { WebView } from "react-native-webview";
 import { useDispatch } from "react-redux";
 import { setUserLogoutAuth } from "../Store/slices/auth";
+import BackButton from "../Components/BackButton";
+import Color from "../Assets/Utilities/Color";
+import { scale } from "react-native-size-matters";
 
 const DeleteAccount = () => {
     const webviewRef = useRef(null);
@@ -34,6 +37,7 @@ const DeleteAccount = () => {
     return (
 
         <SafeAreaView style={{ flex: 1 }}>
+            <BackButton color={Color.black} style={styles.button}/>
             <WebView
                 ref={webviewRef}
                 source={{ uri: "https://app.lookclean.us/delete-account" }}
@@ -74,6 +78,9 @@ const styles = StyleSheet.create({
         marginLeft: -20,
         marginTop: -20,
     },
+    button:{
+        top:scale(50)
+    }
 });
 
 export default DeleteAccount;

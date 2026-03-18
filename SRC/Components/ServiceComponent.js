@@ -12,7 +12,7 @@ import TextInputWithTitle from './TextInputWithTitle';
 import CustomText from './CustomText';
 
 const ServiceComponent = ({ setService, service, item, serviceArray }) => {
-  console.log('item ======= >>>>>>', item?.name, item?.price);
+  console.log('itedfdfdm ======= >>>>>>', serviceArray);
 
   // const [value, setValue] = useState('$');
 

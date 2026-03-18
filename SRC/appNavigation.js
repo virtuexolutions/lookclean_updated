@@ -61,10 +61,13 @@ import GreetingScreen from './Screens/GreetingScreen';
 import GroupServices from './Screens/GroupService';
 import GroupMemberDetails from './Screens/GroupMemberDetails';
 import BarberProfile from './Screens/BarberProfile';
+import CompleteProfile from './Screens/CompleteProfile';
 
 const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
   const isWelcome = useSelector(state => state.commonReducer.isWelcome);
+  const isProfileCompleted = useSelector(state => state.commonReducer.isProfileCompleted);
+  console.log("🚀 ~ AppNavigator ~ isProfileCompleted:", isProfileCompleted)
   const token = useSelector(state => state.authReducer.token);
   const walkThrough = useSelector(state => state.authReducer.userWalkThrough);
   console.log("🚀 ~ AppNavigator ~ isWelcome:", token)
@@ -84,11 +87,13 @@ const AppNavigator = () => {
         ? 'WalkThroughScreen' :
         token == null
           ? 'LoginScreen'
-          : userData?.services?.length == 0
-            ? 'AddService'
-            : userData?.complete_questions?.toLowerCase() == 'no'
-              ? 'QuestionAnswerScreen'
-              : 'TabNavigation';
+          : isProfileCompleted == false
+            ? 'CompleteProfile'
+            : userData?.services?.length == 0
+              ? 'AddService'
+              : userData?.complete_questions?.toLowerCase() == 'no'
+                ? 'QuestionAnswerScreen'
+                : 'TabNavigation';
 
     return (
       <NavigationContainer ref={navigationService.navigationRef}>
@@ -96,7 +101,6 @@ const AppNavigator = () => {
           initialRouteName={
             userData?.role == 'customer' ? customerFirstScreen : secondScreen
           }
-          // initialRouteName={'BarberProfile'}
           screenOptions={{ headerShown: false }}>
           <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
           <RootNav.Screen
@@ -170,6 +174,7 @@ const AppNavigator = () => {
             name="CustomerVideoPlayer"
             component={CustomerVideoPlayer}
           />
+          <RootNav.Screen name="CompleteProfile" component={CompleteProfile} />
         </RootNav.Navigator>
       </NavigationContainer>
     );

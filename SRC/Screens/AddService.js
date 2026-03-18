@@ -26,7 +26,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import ServiceComponent from '../Components/ServiceComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { Get, Post } from '../Axios/AxiosInterceptorFunction';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import NoData from '../Components/NoData';
 import SelectedServicesModal from '../Components/SelectdServicesModal';
 import { setUserData } from '../Store/slices/common';
@@ -34,6 +34,7 @@ import { setUserData } from '../Store/slices/common';
 // import { setbarberServices } from '../Store/slices/common';
 
 const AddService = props => {
+  const isFocused = useIsFocused()
   const fromSettings = props?.route?.params?.fromSettings;
 
   const userData = useSelector(state => state.commonReducer.userData);
@@ -48,6 +49,7 @@ const AddService = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [service, setService] = useState([]);
   const [serviceArray, setServiceArray] = useState([]);
+  console.log('service  array ,', service)
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [price, setPrice] = useState('');
   const [event_type, setEventType] = useState({})
@@ -64,6 +66,7 @@ const AddService = props => {
 
 
   const GetServicesList = async () => {
+
     const url = `auth/service?level=main`;
     setLoading(true);
     const response = await Get(url, token);
@@ -72,11 +75,6 @@ const AddService = props => {
       setServiceArray(response?.data?.data?.data);
     }
   };
-
-  useEffect(() => {
-    GetServicesList();
-    fromSettings && GetServices();
-  }, []);
 
   const Services = async () => {
     if (service.some(item => item?.name == '')) {
@@ -115,7 +113,7 @@ const AddService = props => {
       }),
     };
 
-  console.log(body)
+    console.log(body)
     const url = 'auth/barber/service';
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
@@ -129,9 +127,14 @@ const AddService = props => {
       dispatch(setUserData(response?.data?.data));
     }
   };
+  useEffect(() => {
+    GetServicesList();
+    fromSettings && GetServices();
+  }, [isFocused]);
+
 
   return (
-   
+
     <ScreenBoiler
       showHeader={true}
       showBack={fromSettings ? true : false}
@@ -181,7 +184,7 @@ const AddService = props => {
             return item.name;
           }}
         />
-         {/* <KeyboardAvoidingView
+        {/* <KeyboardAvoidingView
      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
      > */}
         <View
@@ -230,7 +233,8 @@ const AddService = props => {
             showsVerticalScrollIndicator={false}
             data={service}
             contentContainerStyle={{
-              paddingBottom:moderateScale(180,0.2)}}
+              paddingBottom: moderateScale(180, 0.2)
+            }}
             ListEmptyComponent={() => {
               return (
                 <NoData
@@ -256,7 +260,7 @@ const AddService = props => {
             }}
           />
         )}
-         {/* </KeyboardAvoidingView> */}
+        {/* </KeyboardAvoidingView> */}
         {service?.length > 0 && (
           <View
             style={{
@@ -303,7 +307,7 @@ const AddService = props => {
         />
       </LinearGradient>
     </ScreenBoiler>
-     
+
   );
 };
 

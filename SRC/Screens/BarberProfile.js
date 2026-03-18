@@ -35,52 +35,16 @@ import { setUserData } from '../Store/slices/common';
 import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 import navigationService from '../navigationService';
 
-const BarberProfile = () => {
-  const dispatch = useDispatch();
-  const user = useSelector(state => state.commonReducer.userData);
-  console.log(JSON.stringify(user , null ,2) , 'hiiiiii')
-  const token = useSelector(state => state.authReducer.token);
-  const [showModal, setShowModal] = useState(false);
-  const [imageObject, setImageObject] = useState({});
-  const [firstName, setFirstName] = useState(user?.first_name);
-  const [lastName, setLastName] = useState(user?.last_name);
-  const [phone, setPhone] = useState(user?.phone);
-  const [email, setEmail] = useState(user?.email);
-  const [address, setAddress] = useState(
-    user?.location == null
-      ? {}
-      : { name: user?.location, lng: user?.lng, lat: user?.lat },
-  );
-  const [selectLocationModal, setselectLocationModal] = useState(false);
-  const [country, setCountry] = useState(user?.country);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isVisibleModal, setIsVisibleModal] = useState(false);
-  const [travelDateFrom, setTravelDateFrom] = useState(user?.travel_date_from ? user?.travel_date_from : '');
-  const [travelDateTo, setTravelDateTo] = useState(user?.travel_date_to ? user?.travel_date_to : '');
-  const [isHolidayMode, setIsHolidayMode] = useState(
-    user?.holiday_mode ? user?.holiday_mode : false,
-  );
-  const [temproaryAddress, setTemproaryAddress] = useState(
-    user?.temporary_address == null ? {} : user?.temporary_address,
-  );
-  const [rushService, setRushService] = useState(
-    user?.rush_service ? user?.rush_service : false,
-  );
+const BarberProfile = (props) => {
+  const  clientView = props?.route?.params?.clientView;
+  const  barberDetails = props?.route?.params?.barberDetails;
 
-  const imageArray =
-  Object.keys(imageObject).length > 0
-    ? [
-      {
-        uri: imageObject.uri,
-      },
-    ]
-    : [
-      {
-        uri: `${user?.photo}`,
-      },
-    ];
+  console.log('client view' , clientView ,  JSON.stringify(barberDetails , null ,2))
+  const user = useSelector(state => state.commonReducer.userData);
+  const [isVisible, setIsVisible] = useState(false);
  
+
+  
 
 
 
@@ -139,7 +103,7 @@ const BarberProfile = () => {
               width : windowWidth * 0.7,
               backgroundColor : 'black'
             }}
-            >{user?.location}</CustomText>
+            >{clientView ? barberDetails?.location:  user?.location}</CustomText>
           </View>
 
           {![null , undefined , ''].includes(user?.temporary_address) &&
@@ -171,21 +135,52 @@ const BarberProfile = () => {
            >{user?.temporary_address?.name}</CustomText>
          </View>
           }
+            {![null , undefined , ''].includes(barberDetails?.temporary_address) &&
+           <View style={{
+            flexDirection : 'row' ,
+            width : windowWidth ,
+            paddingHorizontal : moderateScale(20,0.6),
+            flexWrap : 'wrap',
+           //  backgroundColor : 'red',
+            paddingTop : moderateScale(10,0.6)
+         }}>
+           <Icon 
+           as={Fontisto}
+           name='holiday-village'
+           color={'white'}
+           size={17}
+           style={{
+             marginRight : moderateScale(10,0.6)
+           }}
+           />
+           <CustomText
+           numberOfLines={2}
+           style={{
+             color : 'white',
+             fontSize : moderateScale(14,0.6),
+             width : windowWidth * 0.7,
+             backgroundColor : 'black'
+           }}
+           >{barberDetails?.temporary_address?.name}</CustomText>
+         </View>
+          }
         <View style={styles.card}>
         <ProfileInfo
-        imageObject={imageObject}
-        setIsVisible= {setIsVisible}
-        setShowModal={setShowModal}
-
+        setIsVisible= {setIsVisible} 
+        clientView={clientView}
+barberDetails={barberDetails}   
         />
        <Divider
        w={windowWidth * 0.9}
        />
 <BarberServicesInfo
+clientView={clientView}
+barberDetails={barberDetails}
 
 
 />
 
+{clientView != true &&
 <CustomButton
               bgColor={Color.themeColor}
               borderColor={'white'}
@@ -207,37 +202,23 @@ const BarberProfile = () => {
               isGradient={true}
               isBold
             // marginTop={moderateScale(10, 0.3)}
-            />
+            />}
         </View>
 
-        <ImagePickerModal
-          show={showModal}
-          setShow={setShowModal}
-          setFileObject={setImageObject}
-          crop={true}
-        />
+      
         <ImageView
-          images={imageArray}
+          images={[
+            {
+              uri: `${user?.photo}`,
+            },
+          ]}
           imageIndex={0}
           visible={isVisible}
           onRequestClose={() => setIsVisible(false)}
         />
 
-        <TravelModal
-          setLocation={setTemproaryAddress}
-          isVisibleModal={isVisibleModal}
-          setIsVisibleModal={setIsVisibleModal}
-          travelDateFrom={travelDateFrom}
-          setDateFrom={setTravelDateFrom}
-          travelDateTo={travelDateTo}
-          setDateTo={setTravelDateTo}
-          location={temproaryAddress}
-        />
-        <SelectLocationModal
-          isVisible={selectLocationModal}
-          setIsVisibleModal={setselectLocationModal}
-          setLocation={setAddress}
-        />
+      
+       
 
       </ScrollView>
       </LinearGradient>

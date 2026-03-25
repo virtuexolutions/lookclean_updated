@@ -233,7 +233,7 @@ const BarberServicesScreen = props => {
                   color: Color.themeLightGray,
                   fontSize: moderateScale(12, 0.3),
                 }}>
-                {barberDetails?.review?.length} Review
+                {barberDetails?.review?.length > 0 ? barberDetails?.review?.length : 'No'} Review
               </CustomText>
             </View>
           </View>

@@ -21,7 +21,7 @@ import ImagePickerModal from '../Components/ImagePickerModal';
 import { setUserLogoutAuth } from '../Store/slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-native-modal';
-import { setIsProfileCompleted } from '../Store/slices/common';
+import { setIsProfileCompleted, setUserLogOut } from '../Store/slices/common';
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -137,6 +137,7 @@ const Settings = () => {
       name: 'Log Out',
       onPress: () => {
         dispatch(setUserLogoutAuth());
+        dispatch(setUserLogOut())
         // dispatch(setIsPr/ofileCompleted(false))
       },
     },

@@ -28,7 +28,7 @@ import ScreenBoiler from '../Components/ScreenBoiler';
 import SelectLocationModal from '../Components/SelectLocationModal';
 import TextInputWithTitle from '../Components/TextInputWithTitle';
 import TravelModal from '../Components/TravelModal';
-import { setUserData } from '../Store/slices/common';
+import { setUserData, setUserLogOut } from '../Store/slices/common';
 import { apiHeader, windowHeight, windowWidth } from '../Utillity/utils';
 import { mode } from 'native-base/lib/typescript/theme/tools';
 import axios from 'axios';
@@ -37,6 +37,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { setIsProfileCompleted } from '../Store/slices/common';
 import navigationService from '../navigationService';
+import { setUserLogoutAuth } from '../Store/slices/auth';
 
 
 
@@ -137,11 +138,11 @@ const CompleteProfile = () => {
             showHeader={true}
             statusBarBackgroundColor={Color.black}
             statusBarContentStyle={'light-content'}
-            headerRight={() => (
-                <TouchableOpacity onPress={handleSkip} style={{ marginTop: moderateScale(10, .6) }}>
-                    <CustomText style={{ color: Color.white, fontWeight: 'bold' }}>Skip</CustomText>
-                </TouchableOpacity>
-            )}
+        // headerRight={() => (
+        //     <TouchableOpacity onPress={handleSkip} style={{ marginTop: moderateScale(10, .6) }}>
+        //         <CustomText style={{ color: Color.white, fontWeight: 'bold' }}>Skip</CustomText>
+        //     </TouchableOpacity>
+        // )}
         >
             <LinearGradient
                 start={{ x: 0.0, y: 0.25 }}
@@ -247,6 +248,30 @@ const CompleteProfile = () => {
 
                             </>
                         )}
+                        <TouchableOpacity
+                            onPress={() => {
+                                dispatch(setUserLogoutAuth())
+                                dispatch(setUserLogOut())
+                            }}
+                            style={{
+                                marginTop: moderateScale(30, .6),
+                                width: windowWidth * 0.85,
+                                height: windowHeight * 0.06,
+                                backgroundColor: 'transparent',
+                                borderRadius: moderateScale(15, .6),
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                borderWidth: 1,
+                                borderColor: Color.themeColor
+                            }}>
+                            {
+                                isLoading ?
+                                    <ActivityIndicator size={'small'} color={'white'} />
+                                    :
+                                    <CustomText style={styles.text}>Logout</CustomText>
+                            }
+
+                        </TouchableOpacity>
 
                     </ScrollView>
                     <DateTimePickerModal

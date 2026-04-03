@@ -303,9 +303,8 @@ const LoginScreen = () => {
 
                   offlineAccess: false,
                   webClientId: '585257783543-ic5itupoti0tl3v8dhs6lcj0qt2q1e1r.apps.googleusercontent.com',
-                  // iosClientId: '585257783543-flg6arfbe23fvfh581g7ejeclfiusjrb.apps.googleusercontent.com',
-
-                  // androidClientId: '585257783543-l2c5uqmqgs5if8tkrkne2slf61suh9dr.apps.googleusercontent.com',
+                  iosClientId: '585257783543-flg6arfbe23fvfh581g7ejeclfiusjrb.apps.googleusercontent.com',
+                  androidClientId: '585257783543-l2c5uqmqgs5if8tkrkne2slf61suh9dr.apps.googleusercontent.com',
                 });
 
                 GoogleSignin.hasPlayServices()

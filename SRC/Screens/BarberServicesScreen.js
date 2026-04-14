@@ -262,7 +262,7 @@ const BarberServicesScreen = props => {
                   fontSize: moderateScale(16, 0.3),
                   // paddingHorizontal :moderateScale(10,.6)
                 }}>
-                nails
+                {/* nails */}
                 {/* designation */}
                 {detail?.designation}
               </CustomText>

@@ -38,6 +38,7 @@ const CommonSlice = createSlice({
     },
     setUserLogOut(state, action) {
       state.userData = {};
+      // state.isProfileCompleted = false
     },
     setServices(state, action) {
       state.services = action?.payload;

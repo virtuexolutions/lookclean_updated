@@ -62,10 +62,11 @@ const Homescreen = () => {
   const barberFilter = async () => {
     const url = 'auth/barber/filter';
     const body = {
-      featured: selectedItem?.includes('featured barber') ? 1 : 0,
+      featured: selectedItem?.includes('featured provider') ? 1 : 0,
       near: selectedItem?.includes('nearest to me') ? 1 : 0,
       earlier: selectedItem?.includes('earliest') ? 1 : 0,
     };
+    console.log("body", body)
     setIsLoading(true);
     const response = await Post(url, body, apiHeader(token));
     setIsLoading(false);
@@ -568,3 +569,4 @@ const styles = ScaledSheet.create({
     marginTop: moderateScale(10, 0.3),
   }
 });
+

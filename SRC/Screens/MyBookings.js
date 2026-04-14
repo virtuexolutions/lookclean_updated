@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ImageBackground,
   View,
@@ -8,18 +8,18 @@ import {
 } from 'react-native';
 import Color from '../Assets/Utilities/Color';
 import CustomText from '../Components/CustomText';
-import {windowHeight, windowWidth} from '../Utillity/utils';
-import {moderateScale, ScaledSheet} from 'react-native-size-matters';
+import { windowHeight, windowWidth } from '../Utillity/utils';
+import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import ScreenBoiler from '../Components/ScreenBoiler';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment/moment';
 import OrderCard from '../Components/OrderCard';
 import DropDownSingleSelect from '../Components/DropDownSingleSelect';
-import {Get} from '../Axios/AxiosInterceptorFunction';
-import {useSelector} from 'react-redux';
+import { Get } from '../Axios/AxiosInterceptorFunction';
+import { useSelector } from 'react-redux';
 import NoData from '../Components/NoData';
 import CustomerCard from '../Components/CustomerCard';
-import {useIsFocused} from '@react-navigation/core';
+import { useIsFocused } from '@react-navigation/core';
 import CompletedOrderCard from '../Components/CompletedOrderCard';
 
 const MyBookings = () => {
@@ -27,11 +27,11 @@ const MyBookings = () => {
   const [item, setItem] = useState('');
   const [Loading, setLoading] = useState(false);
   const [bookingResponse, setBookingResponse] = useState([]);
-  
+
   const isFocused = useIsFocused();
 
   const token = useSelector(state => state.authReducer.token);
-  
+
   const GetBooking = async () => {
     const url = `auth/booking/list?status=${item == '' ? 'all' : item}`;
     setLoading(true);
@@ -52,7 +52,7 @@ const MyBookings = () => {
     const response = await Get(url, token);
     setLoading(false);
     if (response != undefined) {
-   
+
       setBookingResponse(response?.data?.barber_booking_list);
     }
   };
@@ -61,7 +61,7 @@ const MyBookings = () => {
     user?.role == 'customer' ? GetBooking() : barberBooking();
   }, [isFocused, item]);
 
-  
+
   return (
     <ScreenBoiler
       showHeader={true}
@@ -69,8 +69,8 @@ const MyBookings = () => {
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
       <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
         colors={Color.themeGradient}
         style={styles.container}>
         <CustomText isBold style={styles.text1}>
@@ -80,19 +80,20 @@ const MyBookings = () => {
         <DropDownSingleSelect
           array={
             [
-                  'complete',
-                  'reject',
-                  'pending',
-                  'accept',
-                  'waiting for approval',
-                ]
-           
+              'complete',
+              'reject',
+              'pending',
+              'accept',
+              'waiting for approval',
+              'cancel'
+            ]
+
           }
           backgroundColor={Color.lightGray}
           item={item}
           setItem={setItem}
           buttonTextStyle={{
-            Color:'black'
+            Color: 'black'
           }}
           placeholder={'Choose any category'}
           width={windowWidth * 0.95}
@@ -139,13 +140,13 @@ const MyBookings = () => {
                 />
               );
             }}
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               return user?.role == 'customer' ? (
-                <CompletedOrderCard 
-                setBookingData={setBookingResponse}
-            // data={bookingResponse}
-            // bookings={}
-                item={item}  />
+                <CompletedOrderCard
+                  setBookingData={setBookingResponse}
+                  // data={bookingResponse}
+                  // bookings={}
+                  item={item} />
               ) : (
                 <OrderCard item={item} />
               );
@@ -177,7 +178,7 @@ const styles = ScaledSheet.create({
     color: Color.white,
     textAlign: 'center',
     fontSize: moderateScale(18, 0.3),
-    },
+  },
   bannerView: {
     width: windowWidth * 0.85,
     height: windowHeight * 0.46,

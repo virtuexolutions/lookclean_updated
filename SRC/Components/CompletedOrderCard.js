@@ -3,16 +3,17 @@ import moment from 'moment/moment';
 import { Icon } from 'native-base';
 import numeral from 'numeral';
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, Platform, StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import FontAwesone5 from 'react-native-vector-icons/FontAwesome5';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Color from '../Assets/Utilities/Color';
 import { Get } from '../Axios/AxiosInterceptorFunction';
 import { windowHeight, windowWidth } from '../Utillity/utils';
 import CustomButton from './CustomButton';
 import CustomImage from './CustomImage';
 import CustomText from './CustomText';
+import { setUserWallet } from '../Store/slices/common';
 
 const CompletedOrderCard = ({
   item,
@@ -24,41 +25,50 @@ const CompletedOrderCard = ({
   fromSupportScreen,
   setBookingData
 }) => {
+  const dispatch = useDispatch()
   const navigationService = useNavigation();
   const user = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token)
-  const [cancelBookingState ,setCancelBookingState] =useState()
+  const [cancelBookingState, setCancelBookingState] = useState()
   const [isLoadding, setIsLoading] = useState(false)
+  console.log("itemdadad", item?.created_at, item?.status)
+  console.log("currentTime", moment().format('YYYY-MM-DD HH:mm:ss'))
+  const diff = moment().diff(moment(item?.created_at), 'hours');
+  console.log("diff", diff)
 
+  const cancelBooking = async () => {
+    // return console.log('herereeee')
 
-  const cancelBooking = async ()=>{
-   
-    const url = `auth/cancel_booking/${item?.booking_detail[0]?.booking_id}`
+    const url = `auth/cancel_booking/${item?.id}`
     setIsLoading(true)
-    const response = await Get(url,token);
+    const response = await Get(url, token);
     setIsLoading(false)
-    if(response != undefined){
-       console.log("Response ====> , ", response?.data);
-        setBookingData(prevState => prevState?.filter(prevStateItem => prevStateItem?.booking_detail[0]?.booking_id !== item?.booking_detail[0]?.booking_id))
-       // setCancelBookingState(response?.data)
-        }
+    if (response != undefined) {
+      console.log("Response ====> , ", response?.data);
+      dispatch(setUserWallet(response?.data?.user_info?.wallet))
+      setBookingData(prevState => prevState?.filter(prevStateItem => prevStateItem?.id !== item?.id))
+      Platform.OS == 'ios' ?
+        Alert.alert('Booking Cancelled Successfully') :
+        ToastAndroid.show('Booking Cancelled Successfully', ToastAndroid.SHORT)
+      // setCancelBookingState(response?.data)
+    }
   }
 
-// const dateDiff = (date, time) => {
-//   const formattedTime = moment(time, 'h:mm A').format('HH:mm:ss');
-//   const combinedDateTime = moment(date + ' ' + formattedTime);
-//   const diff = combinedDateTime.diff(moment(), 'hour');
-//   return diff;
-// };
+  // const dateDiff = (date, time) => {
+  //   const formattedTime = moment(time, 'h:mm A').format('HH:mm:ss');
+  //   const combinedDateTime = moment(date + ' ' + formattedTime);
+  //   const diff = combinedDateTime.diff(moment(), 'hour');
+  //   return diff;
+  // };
 
 
-const dateDiff = (date, time) => {
-   
-  return moment(date + ' ' + moment(time, 'h:mm A').format('HH:mm:ss')).diff(
-    moment(),
-    'hours',
-  )
-};
+  const dateDiff = (date, time) => {
+
+    return moment(date + ' ' + moment(time, 'h:mm A').format('HH:mm:ss')).diff(
+      moment(),
+      'hours',
+    )
+  };
 
   return (
     <TouchableOpacity
@@ -78,10 +88,10 @@ const dateDiff = (date, time) => {
                 ? item?.status.toLowerCase() == 'reject'
                   ? 'rgba(255,0,0,0.6)'
                   : item?.status.toLowerCase() == 'accept'
-                  ? 'rgba(0,255,0,0.6)'
-                  : item?.status.toLowerCase() == 'complete'
-                  ? 'rgba(0,255,255,0.6)'
-                  : 'rgba(233,255,0,0.6)'
+                    ? 'rgba(0,255,0,0.6)'
+                    : item?.status.toLowerCase() == 'complete'
+                      ? 'rgba(0,255,255,0.6)'
+                      : 'rgba(233,255,0,0.6)'
                 : 'rgba(4, 7, 166, 0.8)',
           },
         ]}>
@@ -104,14 +114,14 @@ const dateDiff = (date, time) => {
           }}
           source={
             item?.barber_info?.photo
-              ? {uri: item?.barber_info?.photo}
+              ? { uri: item?.barber_info?.photo }
               : require('../Assets/Images/dummyCustomer1.png')
           }
         />
       </View>
       <View style={{
         // backgroundColor : 'red',
-        width : windowWidth * 0.5,
+        width: windowWidth * 0.5,
       }}>
         <View style={styles.row}>
           <CustomText isBold style={styles.heading}>
@@ -120,7 +130,7 @@ const dateDiff = (date, time) => {
           <CustomText
             numberOfLines={1}
             isBold
-            style={[styles.Text, {width: windowWidth * 0.29, } ]}>
+            style={[styles.Text, { width: windowWidth * 0.29, }]}>
             {user?.role == 'customer'
               ? `${item?.barber_info?.first_name} ${item?.barber_info?.last_name}`
               : `${item?.member_info?.first_name} ${item?.member_info?.last_name}`}
@@ -149,12 +159,12 @@ const dateDiff = (date, time) => {
           </CustomText>
           <CustomText
             numberOfLines={1}
-            style={[styles.Text, {width: windowWidth * 0.25}]}>
+            style={[styles.Text, { width: windowWidth * 0.25 }]}>
             {numeral(item?.total_price).format('$0,0.00')}
           </CustomText>
         </View>
-        <View style={[styles.row ,{
-          alignItems : 'center'
+        <View style={[styles.row, {
+          alignItems: 'center'
         }]}>
           <View style={styles.iconView}>
             <Icon
@@ -168,13 +178,13 @@ const dateDiff = (date, time) => {
             />
           </View>
           <CustomText
-           numberOfLines={1}
+            numberOfLines={1}
             // isBold
             style={{
               color: Color.white,
               fontSize: moderateScale(12, 0.6),
               paddingHorizontal: moderateScale(5, 0.6),
-              
+
 
             }}>
             {item?.custom_location}
@@ -182,45 +192,46 @@ const dateDiff = (date, time) => {
         </View>
       </View>
       <View style={{
-      marginTop :moderateScale(30,.3)   
-    }}>
+        marginTop: moderateScale(30, .3)
+      }}>
 
-      <CustomButton
-        textColor={Color.white}
-        borderWidth={1}
-        borderRadius={moderateScale(15, 0.6)}
-        borderColor={Color.white}
-        width={windowWidth * 0.17}
-        height={windowHeight * 0.04}
-        text={'details'}
-        fontSize={moderateScale(13, 0.3)}
-        onPress={() => navigationService.navigate('OrderDetails', {item: item})}
-        isBold
-        marginHorizontal={moderateScale(20, 0.3)}
-        marginTop={moderateScale(5, 0.3)}
-        disabled={fromModal == true || fromSupportScreen}
-      />
-        { 
-         item?.status.toLowerCase() != 'complete' && 
         <CustomButton
-        textColor={Color.white}
-        borderWidth={1}
-        borderRadius={moderateScale(15, 0.6)}
-        borderColor={Color.white}
-        width={windowWidth * 0.17}
-        height={windowHeight * 0.04}
-        text={'cancel'}
-        loader={isLoadding}
-        loaderColor={'white'}
-        fontSize={moderateScale(13, 0.3)}
-        onPress={() =>{
-          cancelBooking()
-        }}
-        isBold
-        marginHorizontal={moderateScale(20, 0.3)}
-        marginTop={moderateScale(10, 0.3)}
-        disabled={dateDiff(item?.booking_date ,item?.booking_time ,) <= 12 ? true :false }
-      />}
+          textColor={Color.white}
+          borderWidth={1}
+          borderRadius={moderateScale(15, 0.6)}
+          borderColor={Color.white}
+          width={windowWidth * 0.17}
+          height={windowHeight * 0.04}
+          text={'details'}
+          fontSize={moderateScale(13, 0.3)}
+          onPress={() => navigationService.navigate('OrderDetails', { item: item })}
+          isBold
+          marginHorizontal={moderateScale(20, 0.3)}
+          marginTop={moderateScale(5, 0.3)}
+          disabled={fromModal == true || fromSupportScreen}
+        />
+        {
+          !(item?.status.toLowerCase() == 'complete' || item?.status.toLowerCase() == 'reject' || item?.status.toLowerCase() == 'cancel') &&
+          <CustomButton
+            textColor={Color.white}
+            borderWidth={1}
+            borderRadius={moderateScale(15, 0.6)}
+            borderColor={Color.white}
+            width={windowWidth * 0.17}
+            height={windowHeight * 0.04}
+            text={item?.status.toLowerCase() == 'cancel' ? 'cancelled' : 'cancel'}
+            loader={isLoadding}
+            loaderColor={'white'}
+            fontSize={moderateScale(11, 0.3)}
+            onPress={() => {
+              cancelBooking()
+            }}
+            isBold
+            marginHorizontal={moderateScale(20, 0.3)}
+            marginTop={moderateScale(10, 0.3)}
+            disabled={diff < 8 ? false : true}
+          // disabled={1 != 1}
+          />}
       </View>
     </TouchableOpacity>
   );
@@ -251,7 +262,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(6, 0.6),
     paddingVertical: moderateScale(2, 0.6),
     borderRadius: moderateScale(10, 0.6),
-    width : windowWidth * 0.2,
+    width: windowWidth * 0.2,
     // height : windowHeight * 0.035,
   },
   status: {

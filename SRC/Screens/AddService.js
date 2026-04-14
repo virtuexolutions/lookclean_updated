@@ -29,7 +29,9 @@ import { Get, Post } from '../Axios/AxiosInterceptorFunction';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import NoData from '../Components/NoData';
 import SelectedServicesModal from '../Components/SelectdServicesModal';
-import { setUserData } from '../Store/slices/common';
+import { setUserData, setUserLogOut } from '../Store/slices/common';
+import { setUserLogoutAuth } from '../Store/slices/auth';
+
 // import SelectedService from '../Components/selectdService';
 // import { setbarberServices } from '../Store/slices/common';
 
@@ -38,6 +40,7 @@ const AddService = props => {
   const fromSettings = props?.route?.params?.fromSettings;
 
   const userData = useSelector(state => state.commonReducer.userData);
+  console.log('userData', userData?.services)
   const token = useSelector(state => state.authReducer.token);
   console.log(token, 'tokeeeeeeeeen')
   const dispatch = useDispatch();
@@ -47,9 +50,9 @@ const AddService = props => {
   const [Loading, setLoading] = useState(false);
   const [isSelected, setIsSelected] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [service, setService] = useState([]);
+  const [service, setService] = useState(userData?.services || []);
   const [serviceArray, setServiceArray] = useState([]);
-  console.log('service  array ,', service)
+  console.log('service  arrayzfsdfsfs ,', serviceArray)
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [price, setPrice] = useState('');
   const [event_type, setEventType] = useState({})
@@ -131,6 +134,15 @@ const AddService = props => {
     GetServicesList();
     fromSettings && GetServices();
   }, [isFocused]);
+
+  useEffect(() => {
+    if (serviceArray.length > 0) {
+      serviceArray.map((item, index) => {
+        console.log('item', item?.children)
+      })
+    }
+  }, [serviceArray])
+
 
 
   return (
@@ -249,6 +261,7 @@ const AddService = props => {
               );
             }}
             renderItem={({ item, index }) => {
+              console.log('datre', item)
               return (
                 <ServiceComponent
                   service={service}
@@ -260,13 +273,24 @@ const AddService = props => {
             }}
           />
         )}
+        {/* <CustomText style={{
+          color: 'white',
+          // alignSelf: 'center',
+          marginBottom: moderateScale(20, 0.6),
+          width: windowWidth * 0.9,
+          textAlign: 'center',
+
+        }} onPress={() => {
+          dispatch(setUserLogoutAuth());
+          dispatch(setUserLogOut())
+        }}>Logout</CustomText> */}
         {/* </KeyboardAvoidingView> */}
         {service?.length > 0 && (
           <View
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              marginBottom: moderateScale(70, 0.6)
+              marginBottom: moderateScale(100, 0.6)
             }}>
             <CustomButton
               onPress={() => {
@@ -296,6 +320,7 @@ const AddService = props => {
             />
           </View>
         )}
+
         <SelectedServicesModal
           item={event_type?.children?.filter((item, index) => {
             return service?.some(item1 => item?.name == item1?.name);

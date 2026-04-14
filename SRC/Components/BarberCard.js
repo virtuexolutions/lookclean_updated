@@ -75,6 +75,12 @@ const BarberCard = ({
   };
   const rating = parseFloat(item?.reviews_avg_rating) || 0;
   const timeAgo = moment(item?.created_at).format('DD MMM YYYY')
+
+  const getDistanceLabel = (distance = 0) => {
+
+    if (distance <= 0.6) return `${(distance * 1609.34).toFixed(0)}m away`;
+    return `${distance.toFixed(1)}mi away`;
+  };
   useEffect(() => {
     if (start) {
       setTimeout(() => {
@@ -406,10 +412,10 @@ const BarberCard = ({
                   <View style={[styles.absoluteContainer, { width: '40%' }]}>
                     <Icon name='location' as={EvilIcons} size={moderateScale(18, 0.6)} color={Color.themeColor1} />
                     <CustomText numberOfLines={1} style={{
-                      fontSize: moderateScale(10, 0.6),
+                      fontSize: moderateScale(8, 0.6),
                       color: Color.lightGrey,
                       textAlign: 'left',
-                    }}>{item?.distance?.toFixed(2)} mi away
+                    }}>{getDistanceLabel(item?.distance)}
                     </CustomText>
                   </View>
                   <View style={[styles.absoluteContainer, { width: '30%' }]}>

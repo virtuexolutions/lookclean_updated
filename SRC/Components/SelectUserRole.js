@@ -28,6 +28,7 @@ const SelectUserRole = ({
     onPress,
     loader
 }) => {
+    console.log(selectedUserRole, 'selectedUserRole');
     return (
         <Modal
             isVisible={isVisible}

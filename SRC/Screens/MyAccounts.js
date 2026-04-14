@@ -39,7 +39,7 @@ const MyAccounts = props => {
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.commonReducer.userData);
-  console.log(user?.experience)
+  console.log(user?.phone)
 
   const token = useSelector(state => state.authReducer.token);
 
@@ -47,7 +47,7 @@ const MyAccounts = props => {
   const [imageObject, setImageObject] = useState({});
   const [firstName, setFirstName] = useState(user?.first_name);
   const [lastName, setLastName] = useState(user?.last_name);
-  const [phone, setPhone] = useState(user?.phone);
+  const [phone, setPhone] = useState(user?.phone || '');
   const [email, setEmail] = useState(user?.email);
   const [address, setAddress] = useState(
     user?.location == null
@@ -63,7 +63,7 @@ const MyAccounts = props => {
   const [travelDateTo, setTravelDateTo] = useState(user?.travel_date_to ? user?.travel_date_to : '');
   const [specilization, setSpecilization] = useState(user?.specialty ? user?.specialty : '');
   const [certification, setCertification] = useState(user?.any_certification ? user?.any_certification : '');
-  const [experience, setExperience] = useState(user?.experience);
+  const [experience, setExperience] = useState(`${user?.experience}`);
   console.log('dsfesfsdfdsf', experience)
   const [isHolidayMode, setIsHolidayMode] = useState(
     user?.holiday_mode ? user?.holiday_mode : false,
@@ -140,7 +140,7 @@ const MyAccounts = props => {
     const params = {
       first_name: firstName,
       last_name: lastName,
-      phone: phone,
+      phone: 1234567890,
       email: email,
       specialty: specilization,
       any_certification: certification,
@@ -199,7 +199,7 @@ const MyAccounts = props => {
     const params = {
       first_name: firstName,
       last_name: lastName,
-      phone: phone,
+      phone: 1234567890,
       email: email,
       address_name: address?.name,
       address_lat: address?.lat,
@@ -342,14 +342,14 @@ const MyAccounts = props => {
               placeholderColor={Color.themeLightGray}
               borderRadius={moderateScale(30, 0.4)}
             />
-            <TextInputWithTitle
+            {/* <TextInputWithTitle
               iconName={'phone'}
               iconType={FontAwesome}
               titleText={'Phone'}
               secureText={false}
               placeholder={'Phone'}
               setText={setPhone}
-              value={phone}
+              value={`${phone}`}
               viewHeight={0.06}
               viewWidth={0.75}
               inputWidth={0.64}
@@ -362,7 +362,7 @@ const MyAccounts = props => {
               borderRadius={moderateScale(30, 0.4)}
               keyboardType={'number-pad'}
             // disable={true}
-            />
+            /> */}
             <TextInputWithTitle
               iconName={'envelope'}
               iconType={FontAwesome}
@@ -392,7 +392,7 @@ const MyAccounts = props => {
                   // disable
                   titleText={'Experience'}
                   secureText={false}
-                  placeholder={user?.experience || 'Experience in Years'}
+                  placeholder={'Experience in Years'}
                   setText={setExperience}
                   value={experience}
                   viewHeight={0.06}
@@ -412,7 +412,7 @@ const MyAccounts = props => {
                   iconName={'book'}
                   iconType={FontAwesome}
                   // disable
-                  titleText={'specialization'}
+                  titleText={'Specialty'}
                   secureText={false}
                   placeholder={'Any one main specility'}
                   setText={setSpecilization}

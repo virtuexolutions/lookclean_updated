@@ -90,12 +90,14 @@ const LoginScreen = () => {
       address_name: currentAddress?.name || currentAddress?.location,
       address_lat: currentAddress?.lat,
       address_lng: currentAddress?.lng,
+      designation: currentDesignation,
 
     };
 
     if (currentRole == 'Barber') {
       body.designation = currentDesignation;
     }
+
 
     if (Object.keys(currentAddress || {}).length == 0) {
       return Platform.OS == 'android'
@@ -117,7 +119,7 @@ const LoginScreen = () => {
     if (response != undefined) {
 
       setIsVisible(false)
-      console.log("🚀 ~ loginWithGoogle ~ response:", response?.data)
+      // return console.log("🚀 ~ loginWithGoogle ~ response:", response?.data?.user_info)
       dispatch(setUserToken({ token: response?.data?.token }));
       dispatch(setUserData(response?.data?.user_info));
       dispatch(setUserWallet(response?.data?.user_info?.wallet));
@@ -137,7 +139,7 @@ const LoginScreen = () => {
     const response = await Post(url, body, apiHeader(token));
     setLoading(false);
     if (response != undefined) {
-
+      // return console.log(response?.data?.message, JSON.stringify(response?.data?.user_info, null, 2), 'message');
       // setIsVisible(false)
       console.log("🚀 ~ userexust ~ response:", response?.data?.user_info)
       if (response?.data?.message == 'User not found..!') {
@@ -304,7 +306,7 @@ const LoginScreen = () => {
                   offlineAccess: false,
                   webClientId: '585257783543-ic5itupoti0tl3v8dhs6lcj0qt2q1e1r.apps.googleusercontent.com',
                   iosClientId: '585257783543-flg6arfbe23fvfh581g7ejeclfiusjrb.apps.googleusercontent.com',
-                  androidClientId: '585257783543-l2c5uqmqgs5if8tkrkne2slf61suh9dr.apps.googleusercontent.com',
+                  // androidClientId: '585257783543-l2c5uqmqgs5if8tkrkne2slf61suh9dr.apps.googleusercontent.com',
                 });
 
                 GoogleSignin.hasPlayServices()
@@ -371,15 +373,43 @@ const LoginScreen = () => {
             selectedUserRole={selectedUserRole}
             address={address}
             setAddress={setAddress}
-            contact={contact}
-            setContact={setContact}
+            // contact={contact}
+            // setContact={setContact}
             designation={designation}
             setDesignation={setDesignation}
             setselectLocationModal={setselectLocationModal}
             onPress={
               () => {
+                if (selectedUserRole == '') {
+                  Platform.OS == 'ios' ?
+                    Alert.alert('Please select user role') :
+                    ToastAndroid.show('Please select user role', ToastAndroid.SHORT);
+                  return;
+                }
+                else if (selectedUserRole == 'Barber') {
+                  if (address == '' || designation == '') {
+                    Platform.OS == 'ios' ?
+                      Alert.alert('Please fill all the fields') :
+                      ToastAndroid.show('Please fill all the fields', ToastAndroid.SHORT);
+                    return;
+                  }
+                  else {
+                    loginWithGoogle(userInfo)
+                  }
 
-                loginWithGoogle(userInfo)
+                }
+                else if (selectedUserRole == 'Customer') {
+                  if (address == '') {
+                    Platform.OS == 'ios' ?
+                      Alert.alert('Please fill all the fields') :
+                      ToastAndroid.show('Please fill all the fields', ToastAndroid.SHORT);
+                    return;
+                  }
+                  else {
+                    loginWithGoogle(userInfo)
+                  }
+                }
+
 
               }
             }

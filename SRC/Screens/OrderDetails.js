@@ -23,10 +23,10 @@ import { mode } from 'native-base/lib/typescript/theme/tools';
 
 const OrderDetails = props => {
   const item = props?.route?.params?.item;
-  console.log(JSON.stringify(item, null, 2), 'itemmmmmmmmmmmmmmmmmm');
+  // console.log(JSON.stringify(item, null, 2), 'itemmmmmmmmmmmmmmmmmm');
   const user = useSelector(state => state.commonReducer.userData);
   const token = useSelector(state => state.authReducer.token);
-  console.log(token, 'tokeeeeeeeeeeeeeeen');
+  // console.log(token, 'tokeeeeeeeeeeeeeeen');
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setisLoading2] = useState(false);
@@ -38,8 +38,9 @@ const OrderDetails = props => {
   const [review, setReview] = useState(
     item?.review == null ? {} : item?.review,
   );
+
   const [selected_group_member, setSelectedGroupMember] = useState({});
-  console.log('seselected_group_member', selected_group_member);
+  // console.log('seselected_group_member', selected_group_member);
 
   const dateDiff = (date, time) => {
     return moment(date + ' ' + moment(time, 'h:mm A').format('HH:mm:ss')).diff(
@@ -554,7 +555,7 @@ const OrderDetails = props => {
 
                     Alert.alert(
                       'Almost There !!',
-                      'Review your barber to complete the job',
+                      'Review your Service provider to complete the job',
                       [
 
                         {
@@ -566,7 +567,7 @@ const OrderDetails = props => {
                           },
                         },
                         {
-                          text: 'Review the barber',
+                          text: 'Review the Service Provider',
                           onPress: () => {
                             rbRef.open();
                           },
@@ -676,6 +677,7 @@ const styles = ScaledSheet.create({
     borderRadius: moderateScale(20, 0.3),
     paddingVertical: moderateScale(20, 0.3),
     marginTop: moderateScale(20, 0.3),
+    height: windowHeight * 0.7,
   },
 
   text1: {

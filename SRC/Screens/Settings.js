@@ -29,7 +29,7 @@ const Settings = () => {
   const [showModal, setShowModal] = useState(false);
   const UserData = useSelector(state => state.commonReducer.userData);
   const [deleteAccount, setDeleteAccount] = useState(false)
-  console.log('user data =============  >>>>>>>>>> ', UserData);
+  console.log('userdata =============  >>>>>>>>>> ', UserData?.designation);
 
   const cardArray = [
     (UserData?.role === 'barber' ?

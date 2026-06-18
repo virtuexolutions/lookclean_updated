@@ -29,6 +29,8 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import SelectUserRole from '../Components/SelectUserRole';
 import AddYourDetails from '../Components/AddYourDetails';
 import SelectLocationModal from '../Components/SelectLocationModal';
+import { appleAuth, AppleButton, AppleButtonStyle } from '@invertase/react-native-apple-authentication';
+
 
 
 
@@ -48,6 +50,7 @@ const LoginScreen = () => {
   console.log(address, 'address ========= >>>>>>> ');
   const [designation, setDesignation] = useState('');
   const [selectLocationModal, setselectLocationModal] = useState(false);
+  const [isAppleLogin, setIsAppleLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   // console.log(userInfo, 'userInfo');
 
@@ -65,20 +68,23 @@ const LoginScreen = () => {
 
     setLoading(true);
     const response = await Post(url, body, apiHeader(token));
-    console.log("🚀 ~ login ~ response:", response?.data)
     setLoading(false);
     if (response != undefined) {
+      console.log("🚀 ~ login ~ response:", response?.data)
       dispatch(setUserToken({ token: response?.data?.token }));
       dispatch(setUserData(response?.data?.user_info));
       dispatch(setUserWallet(response?.data?.user_info?.wallet));
     }
   };
 
-  const loginWithGoogle = async (user, addressData = null, roleData = null, designationData = null) => {
+  const loginWithGoogle = async (user, addressData = null, roleData = null, designationData = null, { isApple = false } = {}) => {
     // console.log(address, 'address');
+    // return console.log("user", JSON.stringify(user, null, 2))
     const currentAddress = addressData || address;
     const currentRole = roleData || selectedUserRole;
     const currentDesignation = designationData || designation;
+
+    const isActuallyApple = isApple || !!user?.appleId;
 
     const body = {
       idToken: user.idToken,
@@ -91,13 +97,15 @@ const LoginScreen = () => {
       address_lat: currentAddress?.lat,
       address_lng: currentAddress?.lng,
       designation: currentDesignation,
-
+      type: isActuallyApple ? 'apple' : 'google',
     };
-
+    if (isActuallyApple) {
+      body.apple_id = user.appleId;
+    }
     if (currentRole == 'Barber') {
       body.designation = currentDesignation;
     }
-
+    // return console.log("body", JSON.stringify(body, null, 2))
 
     if (Object.keys(currentAddress || {}).length == 0) {
       return Platform.OS == 'android'
@@ -126,14 +134,23 @@ const LoginScreen = () => {
     }
   };
 
-  const verifyUserExist = async (user) => {
-    // console.log(userInfo, 'userInfo');
+  const verifyUserExist = async (user, { isApple = false } = {}) => {
+    const isActuallyApple = isApple || !!user?.appleId;
+    // setIsAppleLogin(isActuallyApple);
+    // return console.log(user, 'userInfo');
+
+
     const body = {
+      type: isActuallyApple ? 'apple' : 'google',
       idToken: user.idToken,
       email: user.user.email,
     };
 
-    console.log(body, 'body');
+    if (isActuallyApple) {
+      body.apple_id = user.appleId;
+    }
+
+    console.log(JSON.stringify(body, null, 2), 'body');
     const url = 'email-check';
     setLoading(true);
     const response = await Post(url, body, apiHeader(token));
@@ -141,7 +158,7 @@ const LoginScreen = () => {
     if (response != undefined) {
       // return console.log(response?.data?.message, JSON.stringify(response?.data?.user_info, null, 2), 'message');
       // setIsVisible(false)
-      console.log("🚀 ~ userexust ~ response:", response?.data?.user_info)
+    // return  console.log("🚀 ~ userexust ~ response:", response?.data)
       if (response?.data?.message == 'User not found..!') {
         setUserInfo(user)
         setIsVisible(true)
@@ -155,12 +172,10 @@ const LoginScreen = () => {
         setAddress(addr)
         setDesignation(desig)
         setSelectedUserRole(role)
-        loginWithGoogle(user, addr, role, desig)
+        loginWithGoogle(user, addr, role, desig, { isApple: isActuallyApple })
       }
     }
   };
-
-
 
 
 
@@ -171,16 +186,22 @@ const LoginScreen = () => {
       showHeader={true}
       statusBarBackgroundColor={Color.black}
       statusBarContentStyle={'light-content'}>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         style={{
           zIndex: 1,
           // paddingBottom:moderateScale(50,.6)
         }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
+
+      <LinearGradient
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
+        colors={Color.themeGradient}
+        style={styles.container}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            // paddingBottom: windowHeight * 0.15,
+            paddingBottom: windowHeight * 0.15,
             // paddingTop : moderateScale(20,0.3),
             alignItems: 'center',
           }}
@@ -188,250 +209,278 @@ const LoginScreen = () => {
             width: windowWidth,
             zIndex: 1,
           }}>
-          <LinearGradient
-            start={{ x: 0.0, y: 0.25 }}
-            end={{ x: 0.5, y: 1.0 }}
-            colors={Color.themeGradient}
-            style={styles.container}>
-            <CustomText isBold style={styles.text1}>
-              Sign in
-            </CustomText>
-            <TextInputWithTitle
-              titleText={'Your Email'}
-              placeholder={'Enter Your Email'}
-              setText={setEmail}
-              value={email}
-              viewHeight={0.06}
-              viewWidth={0.75}
-              inputWidth={0.74}
-              // border={1}
-              // borderColor={'#1B5CFB45'}
-              backgroundColor={'#FFFFFF'}
-              marginTop={moderateScale(12, 0.3)}
-              color={Color.themeColor}
-              placeholderColor={Color.themeLightGray}
-              borderRadius={moderateScale(30, 0.4)}
-            />
-            <TextInputWithTitle
-              secureText
-              titleText={'Your Password'}
-              placeholder={'Enter Your Password'}
-              setText={setPassword}
-              value={password}
-              viewHeight={0.06}
-              viewWidth={0.75}
-              inputWidth={0.74}
-              // border={1}
-              // borderColor={'#1B5CFB45'}
-              backgroundColor={'#FFFFFF'}
-              marginTop={moderateScale(12, 0.3)}
-              color={Color.themeColor}
-              placeholderColor={Color.themeLightGray}
-              borderRadius={moderateScale(30, 0.4)}
-            />
+          <CustomText isBold style={styles.text1}>
+            Sign in
+          </CustomText>
+          <TextInputWithTitle
+            titleText={'Your Email'}
+            placeholder={'Enter Your Email'}
+            setText={setEmail}
+            value={email}
+            viewHeight={0.06}
+            viewWidth={0.75}
+            inputWidth={0.74}
+            // border={1}
+            // borderColor={'#1B5CFB45'}
+            backgroundColor={'#FFFFFF'}
+            marginTop={moderateScale(12, 0.3)}
+            color={Color.themeColor}
+            placeholderColor={Color.themeLightGray}
+            borderRadius={moderateScale(30, 0.4)}
+          />
+          <TextInputWithTitle
+            secureText
+            titleText={'Your Password'}
+            placeholder={'Enter Your Password'}
+            setText={setPassword}
+            value={password}
+            viewHeight={0.06}
+            viewWidth={0.75}
+            inputWidth={0.74}
+            // border={1}
+            // borderColor={'#1B5CFB45'}
+            backgroundColor={'#FFFFFF'}
+            marginTop={moderateScale(12, 0.3)}
+            color={Color.themeColor}
+            placeholderColor={Color.themeLightGray}
+            borderRadius={moderateScale(30, 0.4)}
+          />
 
-            <CustomButton
-              bgColor={Color.themePink}
-              borderColor={'white'}
-              borderWidth={1}
-              textColor={Color.black}
-              onPress={() => {
-                login();
-                // dispatch(setWalkThrough(false)); 
-                // console.log("Pressed")
+          <CustomButton
+            bgColor={Color.themePink}
+            borderColor={'white'}
+            borderWidth={1}
+            textColor={Color.black}
+            onPress={() => {
+              login();
+              // dispatch(setWalkThrough(false)); 
+              // console.log("Pressed")
 
-                // dispatch(setUserToken({token: 'skjfhkjhfdjjsdfjlkjlkfj;kdf;l'}));
-              }}
-              width={windowWidth * 0.75}
-              height={windowHeight * 0.06}
-              borderRadius={moderateScale(25, 0.6)}
-              text={
-                loading ? (
-                  <ActivityIndicator size={'small'} color={'black'} />
-                ) : (
-                  'Sign In'
-                )
-              }
-              fontSize={moderateScale(14, 0.3)}
-              textTransform={'uppercase'}
-              isGradient={true}
-              isBold
-              marginTop={moderateScale(30, 0.3)}
-            />
+              // dispatch(setUserToken({token: 'skjfhkjhfdjjsdfjlkjlkfj;kdf;l'}));
+            }}
+            width={windowWidth * 0.75}
+            height={windowHeight * 0.06}
+            borderRadius={moderateScale(25, 0.6)}
+            text={
+              loading ? (
+                <ActivityIndicator size={'small'} color={'black'} />
+              ) : (
+                'Sign In'
+              )
+            }
+            fontSize={moderateScale(14, 0.3)}
+            textTransform={'uppercase'}
+            isGradient={true}
+            isBold
+            marginTop={moderateScale(30, 0.3)}
+          />
 
-            <CustomText
-              isBold
-              onPress={() => {
-                navigationService.navigate('Signup');
-              }}
-              style={{
-                color: 'rgb(227,196,136)',
-                fontSize: moderateScale(13, 0.3),
-                textTransform: 'uppercase',
-                marginTop: moderateScale(10, 0.3),
-                zIndex: 1,
-              }}>
-              Sign Up
-            </CustomText>
-            <CustomText
-              onPress={() => {
-                navigationService.navigate('EnterPhone');
-              }}
-              isBold
-              style={{
-                zIndex: 1,
-                color: 'rgb(227,196,136)',
-                fontSize: moderateScale(10, 0.3),
-                textTransform: 'uppercase',
-                marginTop: moderateScale(5, 0.3),
-              }}>
-              forgot password?
-            </CustomText>
+          <CustomText
+            isBold
+            onPress={() => {
+              navigationService.navigate('Signup');
+            }}
+            style={{
+              color: 'rgb(227,196,136)',
+              fontSize: moderateScale(13, 0.3),
+              textTransform: 'uppercase',
+              marginTop: moderateScale(10, 0.3),
+              zIndex: 1,
+            }}>
+            Sign Up
+          </CustomText>
+          <CustomText
+            onPress={() => {
+              navigationService.navigate('EnterPhone');
+            }}
+            isBold
+            style={{
+              zIndex: 1,
+              color: 'rgb(227,196,136)',
+              fontSize: moderateScale(10, 0.3),
+              textTransform: 'uppercase',
+              marginTop: moderateScale(5, 0.3),
+            }}>
+            forgot password?
+          </CustomText>
 
-            <CustomButton
-              image={require('../Assets/Images/googleicon.png')}
-              imagestyle={{
-                width: windowWidth * 0.06,
-                height: windowWidth * 0.06,
-                marginHorizontal: moderateScale(10, 0.3),
-              }}
-              bgColor={'white'}
-              borderColor={'white'}
-              borderWidth={1}
-              textColor={Color.black}
-              onPress={() => {
-                //
-                GoogleSignin.configure({
+          <CustomButton
+            image={require('../Assets/Images/googleicon.png')}
+            imagestyle={{
+              width: windowWidth * 0.06,
+              height: windowWidth * 0.06,
+              marginHorizontal: moderateScale(10, 0.3),
+            }}
+            bgColor={'white'}
+            borderColor={'white'}
+            borderWidth={1}
+            textColor={Color.black}
+            onPress={() => {
+              GoogleSignin.hasPlayServices()
+                .then(hasPlayService => {
+                  if (hasPlayService) {
+                    GoogleSignin.signIn()
+                      .then(userInfo => {
+                        console.log(
+                          'Google Sign-In Success',
+                          JSON.stringify(userInfo?.data, null, 2),
+                        );
+                        console.log("🚀 ~ .then ~ userInfo?.data:", userInfo?.data)
+                        verifyUserExist(userInfo?.data)
 
-                  offlineAccess: false,
-                  webClientId: '585257783543-ic5itupoti0tl3v8dhs6lcj0qt2q1e1r.apps.googleusercontent.com',
-                  iosClientId: '585257783543-flg6arfbe23fvfh581g7ejeclfiusjrb.apps.googleusercontent.com',
-                  // androidClientId: '585257783543-l2c5uqmqgs5if8tkrkne2slf61suh9dr.apps.googleusercontent.com',
+
+                      })
+                      .catch(e => {
+                        console.log(
+                          'ERROR IS=============: ' + JSON.stringify(e.message),
+                        );
+                        Alert.alert('Login failed', e.message);
+                      });
+                  }
+                })
+                .catch(e => {
+                  console.log('ERROR IS: ' + JSON.stringify(e, null, 2));
+                  Alert.alert('Play services not available');
                 });
 
-                GoogleSignin.hasPlayServices()
-                  .then(hasPlayService => {
-                    if (hasPlayService) {
-                      GoogleSignin.signIn()
-                        .then(userInfo => {
-                          console.log(
-                            'Google Sign-In Success',
-                            JSON.stringify(userInfo?.data, null, 2),
-                          );
-                          verifyUserExist(userInfo?.data)
-
-
-                        })
-                        .catch(e => {
-                          console.log(
-                            'ERROR IS=============: ' + JSON.stringify(e.message),
-                          );
-                          Alert.alert('Login failed', e.message);
-                        });
-                    }
-                  })
-                  .catch(e => {
-                    console.log('ERROR IS: ' + JSON.stringify(e, null, 2));
-                    Alert.alert('Play services not available');
-                  });
-
-              }}
-              width={windowWidth * 0.75}
-              height={windowHeight * 0.06}
-              borderRadius={moderateScale(25, 0.6)}
-              text={
-                isloading ? (
-                  <ActivityIndicator size={'small'} color={'black'} />
-                ) : (
-                  'Sign In with google'
-                )
-              }
-              fontSize={moderateScale(14, 0.3)}
-              textTransform={'uppercase'}
-              isBold
-              marginTop={windowHeight * 0.05}
-            />
-
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                right: 0,
-                // backgroundColor: 'red',
-              }}>
-              <CustomImage
-                source={require('../Assets/Images/backgroundLogo.png')}
-                // resizeMode={'stretch'}
-                style={{}}
-              />
-            </View>
-          </LinearGradient>
-          <SelectUserRole
-            setIsVisible={setIsVisible}
-            isVisible={isVisible}
-            setSelectedUserRole={setSelectedUserRole}
-            selectedUserRole={selectedUserRole}
-            address={address}
-            setAddress={setAddress}
-            // contact={contact}
-            // setContact={setContact}
-            designation={designation}
-            setDesignation={setDesignation}
-            setselectLocationModal={setselectLocationModal}
-            onPress={
-              () => {
-                if (selectedUserRole == '') {
-                  Platform.OS == 'ios' ?
-                    Alert.alert('Please select user role') :
-                    ToastAndroid.show('Please select user role', ToastAndroid.SHORT);
-                  return;
-                }
-                else if (selectedUserRole == 'Barber') {
-                  if (address == '' || designation == '') {
-                    Platform.OS == 'ios' ?
-                      Alert.alert('Please fill all the fields') :
-                      ToastAndroid.show('Please fill all the fields', ToastAndroid.SHORT);
-                    return;
-                  }
-                  else {
-                    loginWithGoogle(userInfo)
-                  }
-
-                }
-                else if (selectedUserRole == 'Customer') {
-                  if (address == '') {
-                    Platform.OS == 'ios' ?
-                      Alert.alert('Please fill all the fields') :
-                      ToastAndroid.show('Please fill all the fields', ToastAndroid.SHORT);
-                    return;
-                  }
-                  else {
-                    loginWithGoogle(userInfo)
-                  }
-                }
-
-
-              }
-            }
-            loader={loading}
-          />
-
-          <SelectLocationModal
-            // setLocation={setAddress}
-            // address={address}
-            isVisible={selectLocationModal}
-            setIsVisibleModal={setselectLocationModal}
-            setLocation={setAddress}
-            onPress={() => {
-              setselectLocationModal(false);
-              setTimeout(() => {
-                setIsVisible(true)
-              }, 500);
             }}
+            width={windowWidth * 0.75}
+            height={windowHeight * 0.06}
+            borderRadius={moderateScale(25, 0.6)}
+            text={
+              isloading ? (
+                <ActivityIndicator size={'small'} color={'black'} />
+              ) : (
+                'Sign In with google'
+              )
+            }
+            fontSize={moderateScale(14, 0.3)}
+            textTransform={'uppercase'}
+            isBold
+            marginTop={windowHeight * 0.05}
           />
+          {/* <View
+              style={styles.ios_button_container}
+            // pointerEvents="none"
+            > */}
 
+          {Platform.OS == 'ios' && <AppleButton
+            style={styles.ios_button_container}
+
+            buttonStyle={AppleButton.Style.WHITE_OUTLINE}  // REQUIRED - defines appearance
+            buttonType={AppleButton.Type.SIGN_IN}
+            // cornerRadius={moderateScale(5, 0.6)}
+
+            onPress={() => {
+              // console.log("pressed")
+              // loginWithApple()
+              appleAuth.performRequest({
+                requestedOperation: appleAuth.Operation.LOGIN,
+                requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+              }).then((res) => {
+                // return console.log("res", JSON.stringify(res, null, 2))
+                // setIsAppleLogin(true);
+
+                const {
+                  user: appleId,
+                  email,
+                  fullName,
+                  identityToken,
+                  nonce,
+                  realUserStatus /* etc */,
+                } = res;
+
+                const user = {
+                  appleId: appleId,
+                  idToken: identityToken,
+                  user: {
+                    email: email,
+                    givenName: fullName?.givenName,
+                    familyName: fullName?.familyName,
+                    photo: appleId, // Using Apple user ID as photo placeholder
+                  },
+                };
+                verifyUserExist(user, { isApple: true });
+
+              }).catch((error) => {
+                console.log("error", error.code == appleAuth.Error.CANCELED)
+              })
+            }}
+          />}
+          {/* </View> */}
+
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              // backgroundColor: 'red',
+            }}>
+            <CustomImage
+              source={require('../Assets/Images/backgroundLogo.png')}
+              // resizeMode={'stretch'}
+              style={{}}
+            />
+          </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+
+      </LinearGradient>
+      <SelectUserRole
+        setIsVisible={setIsVisible}
+        isVisible={isVisible}
+        setSelectedUserRole={setSelectedUserRole}
+        selectedUserRole={selectedUserRole}
+        address={address}
+        setAddress={setAddress}
+        // contact={contact}
+        // setContact={setContact}
+        designation={designation}
+        setDesignation={setDesignation}
+        setselectLocationModal={setselectLocationModal}
+        onPress={() => {
+          if (selectedUserRole == '') {
+            Platform.OS == 'ios'
+              ? Alert.alert('Please select user role')
+              : ToastAndroid.show('Please select user role', ToastAndroid.SHORT);
+            return;
+          } else if (selectedUserRole == 'Barber') {
+            if (address == '' || designation == '') {
+              Platform.OS == 'ios'
+                ? Alert.alert('Please fill all the fields')
+                : ToastAndroid.show('Please fill all the fields', ToastAndroid.SHORT);
+              return;
+            } else {
+              loginWithGoogle(userInfo, null, null, null, { isApple: isAppleLogin });
+            }
+          } else if (selectedUserRole == 'Customer') {
+            if (address == '') {
+              Platform.OS == 'ios'
+                ? Alert.alert('Please fill all the fields')
+                : ToastAndroid.show('Please fill all the fields', ToastAndroid.SHORT);
+              return;
+            } else {
+              loginWithGoogle(userInfo, null, null, null, { isApple: isAppleLogin });
+            }
+          }
+        }}
+        loader={loading}
+      />
+
+      <SelectLocationModal
+        // setLocation={setAddress}
+        // address={address}
+        isVisible={selectLocationModal}
+        setIsVisibleModal={setselectLocationModal}
+        setLocation={setAddress}
+        onPress={() => {
+          setselectLocationModal(false);
+          setTimeout(() => {
+            setIsVisible(true)
+          }, 500);
+        }}
+      />
+
+      {/* </KeyboardAvoidingView> */}
     </ScreenBoiler>
   );
 };
@@ -444,7 +493,7 @@ const styles = ScaledSheet.create({
     // justifyContent: "center",
     height: windowHeight * 0.9,
     width: windowWidth,
-    alignItems: 'center',
+    // alignItems: 'center',
     // backgroundColor : Color.green
   },
   bottomImage: {
@@ -480,4 +529,18 @@ const styles = ScaledSheet.create({
     // marginTop : moderateScale(10,0.3),
     // lineHeight: moderateScale(32, 0.3),
   },
+  ios_button_container: {
+    width: windowWidth * 0.75,
+    height: windowHeight * 0.06,
+    marginTop: windowHeight * 0.04,
+    borderRadius: moderateScale(30, 0.2),
+    overflow: "hidden",
+
+  },
+  apple_button: {
+    width: "100%",
+    height: "100%"
+
+  }
+
 });

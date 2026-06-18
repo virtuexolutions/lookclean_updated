@@ -15,6 +15,9 @@ import AppNavigator from './SRC/appNavigation';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import RNCalendarEvents from 'react-native-calendar-events';
+import { configureGoogleSignIn } from './SRC/Config/googleSignIn';
+
+configureGoogleSignIn();
 
 const App = () => {
   // LogBox.ignoreLogs([

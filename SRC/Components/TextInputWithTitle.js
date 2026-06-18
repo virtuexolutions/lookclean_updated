@@ -204,7 +204,6 @@ const TextInputWithTitle = props => {
               },
 
             ]}
-
             onChangeText={text => props.setText(text)}
             value={props.value}
             placeholder={`${props.placeholder}`}
